@@ -20,6 +20,9 @@ Rules checked (source: references/cards.md, references/copywriting.md, SKILL.md)
        （human_check.py 通用词表 + references/persona.md 的禁忌词），本文件不再自抄一份
     7. 封面带主题装饰层，且在 manifest 里声明了这本书的 motifs（默认每本都加，见 cards.md）
     8. 装饰层**不是别篇那一版**——两个 post 的装饰路径重合度过高就判红（"不是都加一样的"）
+    9. 正文没编故事——第一人称的他人故事（"我朋友…"）、编出来的对话、亲身经历（"上个月我…"）。
+       具体必须是真的：书里写的、公开可查的、或读者的处境。要写真的第一人称素材，
+       在 manifest.json 里写一句 real_material 说明来路；见 references/persona.md 第 3 节第 1 条
 
 Not machine-checkable here, only warned about: 封面"是不是这本书真实存在的封面"——那需要
 一条声明字段，见 manifest.json 的 cover.source；以及 cover.hypothesis——封面点击率是本号
@@ -47,6 +50,26 @@ DECO_SEL_RE = re.compile(r'<svg[^>]*class="deco"[^>]*>.*?</svg>', re.S)
 D_ATTR_RE = re.compile(r'\sd="([^"]+)"')
 DECO_MIN_PATHS = 40        # 整版构图 200 上下、最轻的一版 75；低于 40 多半是只粘了一块
 DECO_REUSE_JACCARD = 0.5   # 两篇装饰的路径重合到一半，就是"把上一版拿过来用了"
+
+# 「编故事」的判据（references/persona.md 第 3 节第 1 条、references/copywriting.md「常见错」）。
+# 开口要具体，但具体必须是真的——书里写的、公开可查的、读者的处境。编人物／编对话／编经历是
+# 这个号最容易犯的假：读者一眼看得出来，看出来那一刻整篇的信任就没了。
+# 只用高精度模式（宁可漏，不要误伤书里的人物与引文）；真写了第一人称的真实素材，
+# 在 manifest.json 里写 real_material 说明来路即可放行。
+FABRICATION_PATTERNS = [
+    (re.compile(r"我(?:们)?(?:的)?(?:一个|一位|一位老|个|位)?"
+                r"(?:朋友|同事|同学|邻居|亲戚|客户|下属|领导|老板|发小|老友|"
+                r"太太|妻子|老公|爱人|儿子|女儿|表弟|表妹|表哥|堂哥|姐)"), "第一人称的他人故事"),
+    (re.compile(r"我(?:认识|见过|遇到)(?:一个|一位|个|位)(?![的个])"), "第一人称的他人故事"),
+    (re.compile(r"(?:一个|一位|有位)(?:朋友|同事|同学|邻居|亲戚|读者|老人|年轻人)"
+                r"(?:上个月|上周|去年|前几天|前些天|跟我|对我说|和我说|告诉我|问我)"), "编出来的对话"),
+    # 段首端出一个第三人称人物来讲故事——读书笔记里这么开头的，基本都是编的
+    (re.compile(r"(?:^|[。！？\n])\s*(?:有)?(?:一个|一位)(?:朋友|同事|同学|邻居|亲戚|读者)"
+                r"(?=[，,：:]|\s*(?:上个月|上周|去年|前几天))"), "编出来的开场人物"),
+    (re.compile(r"我(?:上个月|上月|上周|上星期|前几天|前些天|昨天|去年|前年|小时候|那次)"),
+     "第一人称的亲身经历"),
+    (re.compile(r"(?:上个月|上月|上周|前几天|前些天|昨天|去年|前年)我"), "第一人称的亲身经历"),
+]
 
 # AI 味词表只有一个来源：human-writing/scripts/human_check.py（通用词表）
 # + references/persona.md 的「禁忌词」行（本号特有）。这里 import 它，
@@ -298,6 +321,40 @@ def scan_deco_reuse(post: Path) -> tuple[bool, str]:
     return True, ""
 
 
+def scan_fabrication(post: Path, manifest: dict) -> tuple[bool, str]:
+    """正文（和卡片）里有没有编出来的故事。
+
+    判不了"这一段是不是真的"——能判的是那些一眼假的形状：第一人称拖一个朋友／同事出来、
+    编一段对话、摆一段亲身经历。真写了第一人称的真实素材，就在 manifest.json 里写
+    `real_material` 说明来路（谁给的、什么时候），检查放行并把来路打进结论。
+    """
+    declared = ""
+    if isinstance(manifest, dict):
+        declared = str(manifest.get("real_material") or "").strip()
+    targets = [post / "body.txt"]
+    build = post / "build"
+    if build.is_dir():
+        targets += sorted(build.glob("*.html"))
+    hits = []
+    for f in targets:
+        if not f.is_file():
+            continue
+        txt = read(f)
+        for i, line in enumerate(txt.splitlines(), 1):
+            for rx, kind in FABRICATION_PATTERNS:
+                m = rx.search(line)
+                if m:
+                    hits.append(f"{f.name}:{i} 「{m.group(0)}」（{kind}）")
+    if not hits:
+        return True, "没有编出来的第一人称故事"
+    if declared:
+        return True, "第一人称素材已声明来路：%s" % declared
+    shown = "；".join(list(dict.fromkeys(hits))[:3])
+    return False, ("正文里有编出来的故事：" + shown
+                   + "。具体必须是真的——书里写的、公开可查的、或读者的处境（用「你」直接说）；"
+                     "真要写第一人称的真实素材，在 manifest.json 里写一句 real_material 说明来路")
+
+
 def scan_persona(post: Path) -> tuple[bool, str]:
     """人设的反面清单 + 出处行在不在。
 
@@ -372,6 +429,7 @@ def main() -> int:
     add("封面装饰层按本书重画", *scan_deco(post, manifest))
     add("装饰层不是别篇那一版", *scan_deco_reuse(post))
     add("只有一个版本", *scan_versions(post))
+    add("正文没编故事", *scan_fabrication(post, manifest))
     add("人设：无 AI 味（词＋结构）", *scan_persona(post))
 
     passed = all(c["ok"] for c in checks)

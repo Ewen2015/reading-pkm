@@ -59,6 +59,12 @@ metadata:
 > 匀称到没有起伏——以及先读人设、抽声音指纹、写完出声念）。本 skill 只在其上加平台约束：
 > 标题 ≤ 20 字、正文 ≤ 1000 字、重音只能用 emoji／断行／符号、末行单独放 `#标签`。
 
+**不许编故事。** 开头不编"一个朋友跟我说……""上个月我……"这种桥段——具体必须是真的：
+书里写的（例子／数字／引文，能落页码）、公开可查的事实、或者读者的处境（用「你」直接说）。
+读者自己的处境本来就是本号收藏率最高的一档（见 `references/copywriting.md` 的实测表），
+不用绕一个朋友进来。真写了第一人称的真实素材，在 `manifest.json` 里写一句 `real_material`
+说来路；`check_content.py` 会查这一条。
+
 **按人设写。** 语气、重音手法（emoji／断行／符号，正文不能加粗）、"每条观点接一句怎么用"、
 结尾回到读者身上、单独一行的出处行——都在
 [`references/persona.md`](references/persona.md) 的第 3 节里，每条附了成品里的证据。
@@ -132,7 +138,7 @@ python3 <skill>/scripts/check_content.py <post-dir>
 ```
 
 它查的是 `render_cards.py` 看不见的"意思"——半成品标记、正文加粗、强调色 `#FD6408`、
-封面素材是否可用、有没有并存的第二版本文案。规则写在
+封面素材是否可用、有没有并存的第二版本文案、**正文有没有编出来的故事**、封面装饰层。规则写在
 [`references/copywriting.md`](references/copywriting.md) 和
 [`references/cards.md`](references/cards.md) 里，但**判据落在脚本里**，
 不靠每次重读 SKILL.md 去记。两个脚本都退出码 0 才算这一步过。
