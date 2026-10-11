@@ -2508,6 +2508,42 @@ R61 那段回退分支一并撤掉（少一个机制）。
 
 ---
 
+## R73 · 书源"不可用"里有一半是解释器造成的假阴性
+
+状态：open
+记录：2026-10-11
+维度：工程（S1 取得书）· 回流
+
+**证据（本轮现场，都是可复现的命令输出）**：
+
+- 系统 `python3` 是 3.9.6 + **LibreSSL 2.8.3**，`urllib3` 一启动就报
+  `urllib3 v2 only supports OpenSSL 1.1.1+`。用它访问 `https://annas-archive.gl/`
+  直接 `ssl.SSLError: TLSV1_ALERT_PROTOCOL_VERSION` ——**是对面拒了我们的协议版本，不是网络不通**。
+- 同一台机器、同一条命令，换内置的 Python 3.12.14（OpenSSL 3.5.8）：
+  `annas-archive.gl` → **200**，`z-library.sk` → 307 自跳。也就是说适配器报的
+  `NO_SOURCES_AVAILABLE` 里，**至少有一半是解释器造成的假阴性**。
+- 换 3.12 之后剩下的那一半才是真墙：Anna's 的 `/search` 回 **403 + DDoS-Guard 的 JS 挑战页**；
+  `libgen.li` 503、`libgen.gs`/`libgen.vg` TLS EOF；`z-library.sk`/`1lib.sk` 307 自跳，
+  且被 runner 判 `registry_unconfirmed`（不许用）。
+- `zlib-skill` 自己的 `domains` 探针与 `doctor` 都跑在**系统 python3** 建出来的 py39 venv 里，
+  所以探针给出的 `failed` 带着同一个偏差——**探针与它要诊断的对象共用了坏环境**。
+  它建议的恢复路径（`ZLIBRARY_DOMAIN` / `HTTPS_PROXY`）也就指不到病根。
+
+**假设**：把"用哪个解释器跑适配器"显式化，能去掉这批假阴性；剩下 DDoS-Guard 那一层只能走
+浏览器路径（借用户已登录的 Chrome / cookies）——那是另一个决定，得先讲清用途与边界，不在本条里做。
+
+**最小试验**：`book-fetch` 加一条自检（可挂在 `doctor` 上）：打源可用性的同时打
+`python -c "import ssl; print(ssl.OPENSSL_VERSION)"`；config 加可选字段 `"python": "auto"|<路径>`，
+`auto` 时优先挑 OpenSSL ≥ 3 的解释器。**先只加自检，不改默认行为**——
+一次只动一条。
+
+**验收（可证伪）**：同一台机器上"换解释器前后源可用性不同"时，自检必须把这件事标出来，
+而不是只丢一句 `NO_SOURCES_AVAILABLE`。2026-10-11 这次就是它的第一个用例。
+
+**成本**：小（自检一条）；**真正的书源修复（浏览器路径）另开条目**。
+
+---
+
 ---
 
 ---
