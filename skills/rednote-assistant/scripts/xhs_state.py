@@ -273,7 +273,13 @@ def scan_tab(page, tab: str,
     tabs = jload(page.evaluate(TABS_JS)) or []
     res = page.evaluate(CLICK_TAB_JS % json.dumps(tab))
     if res == "not-found":
-        return [], True, False, tabs
+        # 「没找到这个 tab」不等于「这个 tab 是空的」。这里以前报 exhausted=True / partial=False，
+        # 也就是把"什么都没读到"写成了"读完了、这一段是空的"。2026-10-10 23:46 那次的
+        # state.json 就是它的产物：tabs 与 scheduled 都是空数组、cards_scanned 0，却报 partial: false，
+        # 下游据此算出的"空档"正是已被《黑客与画家》占用的 10-11 12:30。挡住它的只有
+        # plan.py ready 的「占用清单可用」那一条。读不到就是没读完——按 partial=True 报，
+        # 让 warn_incomplete 与 plan.py ready 拦下来。见 rsi-reading R72。
+        return [], False, True, tabs
     time.sleep(5)
     items, exhausted, partial = scroll_and_collect(page, limit)
     return items, exhausted, partial, tabs
