@@ -2448,6 +2448,10 @@ R61 那段回退分支一并撤掉（少一个机制）。
 
 **成本**：低（一行声明 + 每次只改一个属性）
 
+**观测 2026-10-11**：《社会学的想象力》按这条纪律走了一遍——封面属性与上一版**保持一致**
+（书封约占 1/2、暖晕、标题块两行），只换了装饰层的 motifs，并把赌注写进 `manifest.json` 的
+`cover.hypothesis`（"一次只动装饰层这一个属性"）。样本 1/6，还不出结论。
+
 ---
 
 ## R71 · 数据快照不会自己更新——它会像 `state.json` 一样腐烂
@@ -2469,6 +2473,40 @@ R61 那段回退分支一并撤掉（少一个机制）。
 **验收**：连跑一周，`state/analytics/` 里没有超过 3 天的空缺。
 
 **成本**：小（`plan.py` 里一条检查 + 一次调用）
+
+## R72 · 扫描读不到 tab 时，报的是「读完了」
+
+状态：trialing（补丁已落地，一次性验过；等下一次真撞上时复核）
+记录：2026-10-11
+维度：工程 · 回流
+
+**证据（本轮现场）**：`state/state.json` 里 2026-10-10T23:46 那份扫描是这样落盘的——
+`queue.tabs: []`、`queue.scheduled: []`、`cards_scanned: 0`，但 `partial: false`、
+`scroll_exhausted: true`。也就是「一条都没读到」被写成了「读完了，这一段是空的」。
+顺着它算出来的最近空档是 **2026-10-11 12:30**——那一档正被《黑客与画家》占着
+（noteId `6aca489f000000001b02238e`）。
+
+读数走的是 `xhs_state.py` 的 `scan_tab()`：`CLICK_TAB_JS` 回 `"not-found"` 时它
+`return [], True, False, tabs`——`exhausted=True, partial=False`。而 `warn_incomplete()`
+只在 `partial` 为真时出声，所以整条链一路静默。真正挡住这次误发的不是扫描，是
+`plan.py ready` 的「占用清单可用」（一条已定时档位都没读到就判不过），加上那份人工维护的
+`state/scheduled-verified.json`。**兜底有效，但坏数据在源头是隐形的。**
+
+**假设**：把这一支的返回值改成「没读完」，坏扫描就会在源头显形——stderr 出警告、
+`plan.py ready` 判不过——而不是只靠下游那一条兜底。
+
+**最小试验（已落地）**：`scan_tab()` 的 not-found 分支改为 `return [], False, True, tabs`。
+仓库没有测试框架，所以用一次性的 AST 抽函数跑（只取 `TABS_JS / CLICK_TAB_JS / jload / scan_tab`
+四个节点，避开模块级的 `reexec_in_venv()`）：`NoTabPage` 下返回 `partial=True / exhausted=False`，
+正常路径（能读到 tab）不受影响。
+
+**验收（可证伪）**：下一次真出现「读不到 tab」时，`xhs_state.py queue` 的 stderr 打出
+`⚠️ queue 扫描不完整，不能据此判断排期是否有关档`，且 `plan.py ready` 的
+「占用清单可用」判不过——而不是像这次一样静默通过。
+
+**成本**：极小（一行 + 注释）
+
+---
 
 ---
 
