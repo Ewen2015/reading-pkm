@@ -296,7 +296,7 @@ python3 <skill>/scripts/cover_deco.py --preset garland > /tmp/deco.svg
 
 内容区就从 [`assets/card.css`](../assets/card.css) 里这几个块里挑，别自己另起一套：
 `.rows`（带编号的条目，每条=主张+例子+出处）、`.list`（紧凑条目，带一句「所以怎么用」）、
-`.orig`（**原句对照**：出处 → 原文 → 译文，见下）、`.quote`（整段引文）、`.box`（一块提醒/折扣）。
+`.orig`（**原句对照**：出处 → 原文 → 译文，见下）、`.quote`（整段引文）、`.box`（一块提醒／「退一步看这本书」）。
 `.orig .src` 是元信息（出处标签），卡片的 `metadata_selectors` 里要带上它，
 否则渲染器会把它按正文的下限来量。
 
