@@ -62,29 +62,29 @@ reflection-and-history · knowing-and-being
 把平时不当回事的东西硬拽到焦点上，判断会被破坏。
 prisoners-of-our-thoughts · knowing-and-being
 
-## 自治与被计划（8 本）
+## 自治与被计划（9 本）
 谁在定目标——被安排的活和自己的主动性，产出机制不同。
-discourse-on-method · sociological-imagination · beautiful-risk-of-education · hackers-and-painters · …另有 4 本，用 --dim 自治与被计划 取
+discourse-on-method · dare-to-lead · sociological-imagination · beautiful-risk-of-education · …另有 5 本，用 --dim 自治与被计划 取
 
-## 意义自赋（3 本）
+## 意义自赋（4 本）
 意义不是被赐予的，是人自己保管的，所以责任更重而不是更轻。
-socratic-apology · pale-blue-dot · prisoners-of-our-thoughts
+dare-to-lead · socratic-apology · pale-blue-dot · prisoners-of-our-thoughts
 
 ## 欲望与缺憾（6 本）
 不得到就不快乐，是一份可以撤掉的约定。
 discourse-on-method · the-beauty-of-the-husband · tiny-habits · smart-mans-training · …另有 2 本，用 --dim 欲望与缺憾 取
 
-## 自我怀疑与作品（6 本）
+## 自我怀疑与作品（7 本）
 怀疑该放在哪里——既不轻易怀疑自己，也不把"我以为我知道"当成知道。
-discourse-on-method · sociological-imagination · tiny-habits · socratic-apology · …另有 2 本，用 --dim 自我怀疑与作品 取
+discourse-on-method · dare-to-lead · sociological-imagination · tiny-habits · …另有 3 本，用 --dim 自我怀疑与作品 取
 
 ## 地图与疆域（10 本）
 报表、职级、简历都是地图，不是现实本身。
 analysis-and-thinking · sociological-imagination · beautiful-risk-of-education · the-beauty-of-the-husband · …另有 6 本，用 --dim 地图与疆域 取
 
-## 自尊与自我修正（5 本）
+## 自尊与自我修正（6 本）
 挡住改主意的往往不是无知，是自尊。
-beginning-of-infinity · the-book-of-elon · cost-and-choice · prisoners-of-our-thoughts · …另有 1 本，用 --dim 自尊与自我修正 取
+dare-to-lead · beginning-of-infinity · the-book-of-elon · cost-and-choice · …另有 2 本，用 --dim 自尊与自我修正 取
 
 ## 概率与随机（2 本）
 分清运气和本事，别把均值回归当成趋势。
@@ -105,6 +105,10 @@ hackers-and-painters · the-creative-act
 ## 边界与不可还原（3 本）
 整体不等于零件之和，拆开就看不见了。
 sociological-imagination · beautiful-risk-of-education · knowing-and-being
+
+## 盔甲与敞开（1 本）
+把真的情绪、不懂和做错了露出来，是失分还是得分——这一层往往决定一个团队能不能真干活。
+dare-to-lead
 
 ## 传统与共识（12 本）
 共识怎么形成，又怎么被合理地推翻。
