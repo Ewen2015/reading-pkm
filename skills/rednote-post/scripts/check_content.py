@@ -22,7 +22,9 @@ Rules checked (source: references/cards.md, references/copywriting.md, SKILL.md)
     8. 装饰层**不是别篇那一版**——两个 post 的装饰路径重合度过高就判红（"不是都加一样的"）
 
 Not machine-checkable here, only warned about: 封面"是不是这本书真实存在的封面"——那需要
-一条声明字段，见 manifest.json 的 cover.source。
+一条声明字段，见 manifest.json 的 cover.source；以及 cover.hypothesis——封面点击率是本号
+唯一被平台判"有待提升"的一环（references/cards.md 的「本账号实测」），但**封面的哪个属性**
+在起作用还没结论，所以现在只要求把这一版赌的哪一条写下来，攒样本。
 """
 
 from __future__ import annotations
@@ -193,26 +195,29 @@ def image_probe(path: Path) -> tuple[int | None, str | None]:
         return None, None
 
 
-def scan_cover(post: Path, manifest: dict) -> tuple[bool, str, str | None]:
+def scan_cover(post: Path, manifest: dict) -> tuple[bool, str, list[str]]:
     assets = post / "assets"
     cands = [assets / "cover-src.png", assets / "subject.png",
              assets / "cover.png", assets / "cover.jpg"]
     src = next((c for c in cands if c.is_file()), None)
     if src is None:
-        return False, "assets/ 里没有封面素材（cover-src.png / subject.png）", None
+        return False, "assets/ 里没有封面素材（cover-src.png / subject.png）", []
     w, mode = image_probe(src)
     if w is None:
-        return False, f"{src.name} 读不出尺寸或格式不认", None
+        return False, f"{src.name} 读不出尺寸或格式不认", []
     m = (mode or "").upper()
     if m and (m in ("RGBA", "LA", "PA", "CMYK", "P", "PALETTE") or "ALPHA" in m):
-        return False, f"{src.name} 是 {mode}，封面要 RGB（不要 alpha／CMYK）", None
+        return False, f"{src.name} 是 {mode}，封面要 RGB（不要 alpha／CMYK）", []
     if w < COVER_FLOOR:
-        return False, f"{src.name} 宽 {w}px，低于交付画布下限 {COVER_FLOOR}px", None
-    note = None
+        return False, f"{src.name} 宽 {w}px，低于交付画布下限 {COVER_FLOOR}px", []
+    notes: list[str] = []
     cov = manifest.get("cover") if isinstance(manifest, dict) else None
     if not (isinstance(cov, dict) and str(cov.get("source") or "").strip()):
-        note = 'manifest.json 没有 cover.source——封面"是不是真封面"没法自动判，补一条声明'
-    return True, f"{src.name} {w}px {mode}", note
+        notes.append('manifest.json 没有 cover.source——封面"是不是真封面"没法自动判，补一条声明')
+    if not (isinstance(cov, dict) and str(cov.get("hypothesis") or "").strip()):
+        notes.append("manifest.json 没有 cover.hypothesis——这一版封面在赌哪个属性？"
+                     "写一句，攒到 6 篇才能看出封面点击率的规律（cards.md「本账号实测」）")
+    return True, f"{src.name} {w}px {mode}", notes
 
 
 def deco_paths(html: str) -> set[str]:
@@ -361,10 +366,9 @@ def main() -> int:
     add("成品无半成品标记", *scan_tokens(post))
     add("正文无 Markdown 加粗", *scan_bold(post))
     add("强调色是 #FD6408", *scan_accent(post))
-    ok, detail, note = scan_cover(post, manifest)
+    ok, detail, notes = scan_cover(post, manifest)
     add("封面素材可用（RGB／宽度）", ok, detail)
-    if note:
-        warns.append(note)
+    warns.extend(notes)
     add("封面装饰层按本书重画", *scan_deco(post, manifest))
     add("装饰层不是别篇那一版", *scan_deco_reuse(post))
     add("只有一个版本", *scan_versions(post))

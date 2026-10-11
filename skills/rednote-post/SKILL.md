@@ -46,6 +46,11 @@ metadata:
 选题时挑**对读者直接有用**的点——读者点赞收藏的是"这跟我有关"，不是"这个内容很好"。
 文案结构与体量见 [`references/copywriting.md`](references/copywriting.md)。
 
+**定角度时写两句话**（数据支持，见
+[`references/copywriting.md`](references/copywriting.md#本账号实测角度决定收藏2026-10-11)）：
+① 读者此刻在经历的具体毛病是什么；② 书里给它命名的机制是什么。
+两句都写不出来就别写文案——那是收藏率最低的一类选题。
+
 ### 2. 写标题与正文
 
 > **先调 [`human-writing`](../human-writing/SKILL.md)，把
@@ -90,6 +95,11 @@ metadata:
 **实体书照片**，或**电子封面图**（出版社设计的那张封面本身）；
 **不行的是自己拿书名排出来的合成图和星空／剪影这类意象图**，读者认不出这是哪本书。
 判据只有一句：缩到巴掌大时，读者认不认得出这本书。
+
+封面同时也是本号**唯一被平台数据判"不及格"的一环**（同类诊断里封面点击率 3/3 低于中位数，
+而内容丰富度是同类前 1%）——所以每版封面要在 `manifest.json` 写一行 `cover.hypothesis`，
+说明这一版赌哪个属性，**攒到 6 篇再下结论**。见
+[`references/cards.md`](references/cards.md#本账号实测封面是唯一被平台判有待提升的一环2026-10-11)。
 
 手边有实物就自己拍（自带"我真读过"的证据，最不像广告）；没有实物就用电子封面，
 但要靠版式做"软"——铺在暖纸底上、压一点饱和、加一层柔和阴影，别做成电商白底商品图；
@@ -261,5 +271,7 @@ python3 <skill>/scripts/xhs.py status
 - [`references/cards.md`](references/cards.md)——1080×1440 卡片系统、字号下限、素材处理
 - [`references/publishing.md`](references/publishing.md)——桥接环境、选择器、故障排查、发布后核验
 - [`scripts/prep_cover.py`](scripts/prep_cover.py)——把手机拍的实体书封面摊平成卡片可用图（`grid` / `flat`）
+- [`scripts/analytics.py`](scripts/analytics.py)——读平台数据看板：`fetch` 落快照、`report` 出表
+  （曝光／封面点击率／收藏率／同类诊断／观看来源）。定角度和做封面前先看一眼最新快照
 - [`../human-writing/SKILL.md`](../human-writing/SKILL.md)——**写这一步调它**：去 AI 味 +
   贴人设（声音指纹、人设文件合约、可以直接跑的 `human_check.py`）
