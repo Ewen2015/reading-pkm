@@ -10,9 +10,9 @@
 - 用法：读这张表 → 挑 2–4 个维度 → `python3 scripts/brain.py recall --dim <维度>` 取书
   → 只读那 1–2 张卡。
 
-## 尺度（5 本）
+## 尺度（6 本）
 把问题放到更大的坐标里再看，判断会变。
-analysis-and-thinking · beginning-of-infinity · historical-regimes · reflection-and-history · …另有 1 本，用 --dim 尺度 取
+analysis-and-thinking · sociological-imagination · beginning-of-infinity · historical-regimes · …另有 2 本，用 --dim 尺度 取
 
 ## 假两难（3 本）
 先问这是不是真取舍，还是被自己设成了二选一。
@@ -22,9 +22,9 @@ blue-ocean-strategy · pale-blue-dot · yujun-product-methodology
 结果背后的结果，不假装连锁反应不存在——运行久了，机制会自己挑人。
 analysis-and-thinking · tiny-habits · road-to-serfdom · the-book-of-elon · …另有 2 本，用 --dim 二阶效应 取
 
-## 最弱环节（4 本）
+## 最弱环节（5 本）
 乘法系统里，一项归零会把其余全部吃掉。
-analysis-and-thinking · tiny-habits · the-book-of-elon · thinking-in-models
+analysis-and-thinking · sociological-imagination · tiny-habits · the-book-of-elon · …另有 1 本，用 --dim 最弱环节 取
 
 ## 安全边际（1 本）
 为不可逆的事留容错空间。
@@ -62,9 +62,9 @@ reflection-and-history · knowing-and-being
 把平时不当回事的东西硬拽到焦点上，判断会被破坏。
 prisoners-of-our-thoughts · knowing-and-being
 
-## 自治与被计划（7 本）
+## 自治与被计划（8 本）
 谁在定目标——被安排的活和自己的主动性，产出机制不同。
-discourse-on-method · beautiful-risk-of-education · hackers-and-painters · road-to-serfdom · …另有 3 本，用 --dim 自治与被计划 取
+discourse-on-method · sociological-imagination · beautiful-risk-of-education · hackers-and-painters · …另有 4 本，用 --dim 自治与被计划 取
 
 ## 意义自赋（3 本）
 意义不是被赐予的，是人自己保管的，所以责任更重而不是更轻。
@@ -74,13 +74,13 @@ socratic-apology · pale-blue-dot · prisoners-of-our-thoughts
 不得到就不快乐，是一份可以撤掉的约定。
 discourse-on-method · the-beauty-of-the-husband · tiny-habits · smart-mans-training · …另有 2 本，用 --dim 欲望与缺憾 取
 
-## 自我怀疑与作品（5 本）
+## 自我怀疑与作品（6 本）
 怀疑该放在哪里——既不轻易怀疑自己，也不把"我以为我知道"当成知道。
-discourse-on-method · tiny-habits · socratic-apology · smart-mans-training · …另有 1 本，用 --dim 自我怀疑与作品 取
+discourse-on-method · sociological-imagination · tiny-habits · socratic-apology · …另有 2 本，用 --dim 自我怀疑与作品 取
 
-## 地图与疆域（9 本）
+## 地图与疆域（10 本）
 报表、职级、简历都是地图，不是现实本身。
-analysis-and-thinking · beautiful-risk-of-education · the-beauty-of-the-husband · beginning-of-infinity · …另有 5 本，用 --dim 地图与疆域 取
+analysis-and-thinking · sociological-imagination · beautiful-risk-of-education · the-beauty-of-the-husband · …另有 6 本，用 --dim 地图与疆域 取
 
 ## 自尊与自我修正（5 本）
 挡住改主意的往往不是无知，是自尊。
@@ -102,9 +102,9 @@ the-beauty-of-the-husband · road-to-serfdom · socratic-apology · historical-r
 什么时候算做完，以及发出去要付的代价。
 hackers-and-painters · the-creative-act
 
-## 边界与不可还原（2 本）
+## 边界与不可还原（3 本）
 整体不等于零件之和，拆开就看不见了。
-beautiful-risk-of-education · knowing-and-being
+sociological-imagination · beautiful-risk-of-education · knowing-and-being
 
 ## 传统与共识（12 本）
 共识怎么形成，又怎么被合理地推翻。
