@@ -57,12 +57,22 @@
 | 渠道 | 能拿到的信号 | 现在 |
 | --- | --- | --- |
 | 公开社交：小红书 | reads / likes / collects / shares | ✅ `state/state.json` 的 `history.published`（18 条带这四个字段；扫描是 partial，须与 `scheduled-verified.json` 互相印证）。**这份数据在样本 #8–#9 一直是空的**（R52 修完才回来），`#10` 之后每次 `queue` 扫描都不再抹掉它——**样本 #11 是修完之后的第一次实战，`history` 确实留住了** |
+| 公开社交：小红书（**数据看板**，2026-10-11 起） | 曝光 · 封面点击率 · 收藏 · 涨粉 · 分享 · 人均观看时长 · **同类分位** · 观看来源 · 观众画像 | ✅ `state/analytics/analytics-YYYY-MM-DD.json`，由 `skills/rednote-post/scripts/analytics.py fetch` 落、`report` 出表。比 `state.json` 那一路厚得多，且**分位是同类归一化的**（原始比率在几十观看量下是噪声，分位不是）。**目前要手动 fetch → R71** |
 | 私域（朋友、群） | 回复、追问 | ❌ 无记录 |
 | 自用（笔记、日记） | 是否回看 | ❌ 无记录 |
 | 对话式（second-brain 回答） | recall 命中与采纳 | ❌ 未埋点 → R2 |
 | 单页 / 打印版 | 是否读完、是否被再引用 | ❌ 无记录 |
 
 小红书这一个渠道的指标（下面这些，只有它算得出来）：
+
+| 指标 | 定义 | 怎么算 | 状态 |
+| --- | --- | --- | --- |
+| 曝光 / 观看 | 平台给的量与人真的点进来的量 | `state/analytics/` 的 `imp_count` / `read_count` | ✅ |
+| **封面点击率 + 同类分位** | 封面把曝光换成点击的效率；分位 = 超过多少同类作者 | 同上 `coverClickRate`；分位取 `base.<id>.analyse_infos[quota=clickRate].scale` | ✅ |
+| **收藏率** | 收藏 ÷ 观看 | 同上。**本号的小红书支线目标**——收藏最接近北极星（"以后用得上"） | ✅ |
+| 同类内容分位 | 内容丰富度／内容深度／互动表现 的分位 | `analyse_infos` 的 `contentRich` / `viewTimeAvg` / `noteEngage` | ✅（平台约一天后出） |
+| 观看来源 | 首页推荐／搜索／视频推荐… 的占比 | `source.<id>.source[]` | ✅（观看 ≥100 才有） |
+| 观众画像 | 性别／年龄／城市／兴趣 | `source` 明细接口 | ✅（观看 ≥100 才有） |
 
 | 指标 | 定义 | 怎么算 | 状态 |
 | --- | --- | --- | --- |
