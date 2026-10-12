@@ -394,6 +394,17 @@ def chip_texts(page) -> list[str]:
     return json.loads(got) if got else []
 
 
+def chip_names(page) -> list[str]:
+    """Chip texts with the `#…[话题]#` wrapper stripped, e.g. ['读书笔记', ...]."""
+    out = []
+    for t in chip_texts(page):
+        n = t.strip().lstrip("#")
+        if n.endswith("[话题]#"):
+            n = n[: -len("[话题]#")]
+        out.append(n.strip())
+    return out
+
+
 def commit_tag(page, tag: str, timeout: float = 4.0) -> bool:
     """Turn the in-progress `#tag` into a real topic chip.
 
@@ -928,6 +939,17 @@ def cmd_verify(args) -> int:
             problems.append(
                 f"话题标签没全部生效：页面 {got.get('topics', 0)} 个 vs 本地 {len(want_tags)} 个"
                 f"（{ '、'.join(want_tags) }）")
+        elif want_tags:
+            # 数对了不代表对：话题词平台没有时，真点击会落到下拉里已有的那条上，
+            # 于是多出一个**重复**的话题、少掉你要的那个——个数仍然是对的。
+            # 所以再比一次文本（多重集比较，顺序不管）。
+            want = [t.lstrip("#") for t in want_tags]
+            chips = chip_names(page)
+            if sorted(chips) != sorted(want):
+                problems.append(
+                    f"话题文本对不上：页面 {chips} vs 本地 {want}"
+                    "（多半是某个话题词平台没有、点击落到了别的项上；"
+                    "加 XHS_NEW_TOPIC=1 重填）")
     if args.collection and args.collection not in got["collection"]:
         problems.append(f"合集不是「{args.collection}」：{got['collection'].strip()[:60]}")
 

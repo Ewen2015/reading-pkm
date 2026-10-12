@@ -212,6 +212,36 @@ CDP 真点击也确实发出去了，但**点了不生效**——话题数不变
 **这时不要发布。** 先 `xhs.py reset` 重新导航（必要时重启 Chrome 或换个时间再试），
 再走一遍 `fill`。哪怕真上不去，`verify` 也会用话题数把问题挡在发布前。
 
+### 平台没有这个词时，不点「新建话题」会**静默顶掉一个已有话题**
+
+`#诺贝尔文学奖` 这种"平台确实没有"的话题词，下拉里只有一项 `#诺贝尔文学奖新建话题`。
+`xhs.py` **默认不点它**（建一个空话题页多半不是作者的意思），只有显式给
+`XHS_NEW_TOPIC=1` 才点。
+
+不点的时候有个很难发现的坏结果：**真点击落在了下拉里已有的那一条上**，
+于是页面上多出一个**跟前面某个话题一模一样**的话题。
+2026-10-12 那次就是 `#读书笔记` 出现了两次、`#诺贝尔文学奖` 不见了。
+真正的坏处不是丢一个标签，是**`verify` 照样报"回读一致"**——它比的是话题**个数**
+（页面 8 个 vs 本地 8 个），个数对了就过了。
+
+所以：**核对话题不是数个数，是把话题文本列出来跟本地那行比。**
+
+```bash
+# 页面上的话题 chip 列表（跟 body.txt 末行逐项对）
+python3 - <<'EOF'
+import json, importlib.util, sys
+sys.path.insert(0, "/tmp/xhs-skills-repo")
+spec = importlib.util.spec_from_file_location("xhs_skill",
+    "<skill>/scripts/xhs.py")
+m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+page, _ = m.bridge()
+print(json.dumps(m.chip_texts(page), ensure_ascii=False))
+EOF
+```
+
+修法：`reset` → `fill`（加 `XHS_NEW_TOPIC=1` 让缺的话题词走新建）→ 再列一遍话题文本。
+只重跑 `tags` 不够——重跑时旧的那个重复 chip 还在。
+
 ### 「更多设置」的三个坑（2026-10 实测）
 
 **1. 开关要用真点击，标签是唯一稳定锚点。** 「定时发布」「原创声明」都是
@@ -245,10 +275,17 @@ class 上同时挂着 `portal-fade-enter-from` 和 `portal-fade-leave-active`，
 | 标题 | `document.querySelector('div.d-input input').value` |
 | 正文 | `document.querySelector('[role=textbox]').innerText.length` |
 | 图片 | `document.querySelectorAll('.img-preview-area .pr').length` |
-| **话题** | `document.querySelectorAll('[role=textbox] .tiptap-topic').length` |
+| **话题** | `document.querySelectorAll('[role=textbox] .tiptap-topic').length`，**并且把每个 chip 的文本列出来**（见下） |
 | 合集 | `.collection-plugin-wrapper` 的 innerText 里是否出现合集名 |
 
 `scripts/xhs.py verify` 做的就是这些。
+
+**话题这一项只数个数是不够的。** 2026-10-12 那次页面上是 8 个话题、本地也是 8 个，
+`verify` 报"回读一致"，但文本对不上：`#读书笔记` 出现了两次、`#诺贝尔文学奖` 没了
+（缺的那个话题词点击落到了下拉里已有的项上）。所以 `verify` 现在会**再比一次话题文本**
+（多重集比较，顺序不管），对不上就报「话题文本对不上」。
+自己核对时用 `xhs.py` 的 `chip_names(page)`；机制与修法见
+[「平台没有这个词时……」](#平台没有这个词时不点新建话题会静默顶掉一个已有话题)。
 
 ## 发布后的模糊结果
 
@@ -320,6 +357,18 @@ python3 scripts/xhs.py verify-scheduled --title "<标题片段>" --expect "2026-
 
 > 2026-10-05 记过一次同类现象（排 15 天后，卡片回显提交时刻），当时标的是"未复核"。
 > 现在机制、上限和回读方式都清楚了。
+
+### 定时时间在窗口内也可能没提交上——**卡片回读是唯一判据**（2026-10-12 又验一次）
+
+2026-10-07 那次的教训是"超窗时平台静默退回默认值"。2026-10-12 发现同样症状
+**不超窗也会出现**：设 `2026-10-15 12:30`（今天 + 3 天，远在窗口内），
+`xhs.py schedule` 回读"已开启、时间正确"，提交后卡片上却是
+**`2026-10-12 22:35` = 提交时刻 + 1 小时、向上取 5 分钟**——就是那个默认值。
+那一次是日期组件这一次没把键入提交进它自己的模型（页面上的 input 值一直是对的）。
+
+处置：**同一档重设一次**（不用改成品），再回读卡片。这次重设就成了。
+所以 `verify-scheduled` 不是只给"超窗"用的，**每次提交后都跑**；
+对不上先重设一次，还不对才按"超窗/换档"处理。
 
 ## 给用户看截图（macOS）
 
