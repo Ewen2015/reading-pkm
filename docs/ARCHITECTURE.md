@@ -96,12 +96,12 @@ plugin；`openai-docs` 给 plugin 的定义也正是"an installable bundle of sk
 
 **一次问答进上下文的东西，与书库规模无关。**
 
-这条决定了后面所有的取舍。书从现在的 22 本涨到 1000 本：
+这条决定了后面所有的取舍。书库涨到上千本时：
 
-| 进上下文的东西 | 现在（22 本） | 1000 本时 |
+| 进上下文的东西 | 现在 | 1000 本时 |
 | --- | --- | --- |
 | `library/index.md`（唯一常读的文件） | ≈1.9K tokens | ≈2K——只随**维度数**变 |
-| `library/index.json`（机器层，**从不进上下文**） | 206 KB | 线性增长，无所谓 |
+| `library/index.json`（机器层，**从不进上下文**） | ≈0.2 MB | 线性增长，无所谓 |
 | `books/<slug>.md` 单张卡 | 1.4–3K tokens | 不变 |
 | 一次问答真正读进去 | 1–2 张卡 | 1–2 张卡 |
 
@@ -168,7 +168,7 @@ flowchart TB
 | --- | --- | --- | --- |
 | 路由层 | `skills/second-brain/references/dimensions.md` | 改词表时 | **人为固定 25 维** |
 | 指路牌 | `library/index.md`（生成物） | 每次挑维度时全读 | 维度数 |
-| 机器层 | `library/index.json`（生成物） | **从不** | 书数（22 本 ≈206 KB） |
+| 机器层 | `library/index.json`（生成物） | **从不** | 随书数线性增长 |
 | 内容层 | `library/books/<slug>.md` | 只读选中的 1–2 张 | 单张 1.4–3K tokens |
 | 深度层 | `library/notes/<slug>.md` | 只在深读／核对出处时 | 单本 3–12K tokens |
 
@@ -184,7 +184,7 @@ SKILL.md ≈3.4K + index.md ≈1.9K + 2 张卡 ≈4K ≈ 9K tokens（不含对�
 
 `index.md` 可以不读（拿不准时直接 `recall`），卡也不是必读两张。SKILL.md 里写的
 "一次问答 ≈4–6K" 是省着用的算法；上面这个数是不省的上限。**两个数都远小于"把书库读一遍"**——
-22 本的卡片全读是 ≈47K tokens，而且它随书数线性涨。
+把全库卡片读一遍就是几万 tokens 起，而且它随书数线性涨。
 
 ## 4. 七个关键决策
 
