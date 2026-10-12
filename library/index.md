@@ -70,17 +70,17 @@ discourse-on-method · dare-to-lead · sociological-imagination · beautiful-ris
 意义不是被赐予的，是人自己保管的，所以责任更重而不是更轻。
 dare-to-lead · socratic-apology · pale-blue-dot · prisoners-of-our-thoughts
 
-## 欲望与缺憾（6 本）
+## 欲望与缺憾（7 本）
 不得到就不快乐，是一份可以撤掉的约定。
-discourse-on-method · the-beauty-of-the-husband · tiny-habits · smart-mans-training · …另有 2 本，用 --dim 欲望与缺憾 取
+discourse-on-method · autobiography-of-red · the-beauty-of-the-husband · tiny-habits · …另有 3 本，用 --dim 欲望与缺憾 取
 
 ## 自我怀疑与作品（7 本）
 怀疑该放在哪里——既不轻易怀疑自己，也不把"我以为我知道"当成知道。
 discourse-on-method · dare-to-lead · sociological-imagination · tiny-habits · …另有 3 本，用 --dim 自我怀疑与作品 取
 
-## 地图与疆域（10 本）
+## 地图与疆域（11 本）
 报表、职级、简历都是地图，不是现实本身。
-analysis-and-thinking · sociological-imagination · beautiful-risk-of-education · the-beauty-of-the-husband · …另有 6 本，用 --dim 地图与疆域 取
+analysis-and-thinking · autobiography-of-red · sociological-imagination · beautiful-risk-of-education · …另有 7 本，用 --dim 地图与疆域 取
 
 ## 自尊与自我修正（6 本）
 挡住改主意的往往不是无知，是自尊。
@@ -94,9 +94,9 @@ blue-ocean-strategy · thinking-in-models
 选它放弃了什么——不做的代价要算，留着的代价也要算。
 analysis-and-thinking · hackers-and-painters · the-beauty-of-the-husband · beginning-of-infinity · …另有 6 本，用 --dim 代价与机会成本 取
 
-## 身份与角色（7 本）
+## 身份与角色（8 本）
 这个选择在回答"我是谁"。
-the-beauty-of-the-husband · road-to-serfdom · socratic-apology · historical-regimes · …另有 3 本，用 --dim 身份与角色 取
+autobiography-of-red · the-beauty-of-the-husband · road-to-serfdom · socratic-apology · …另有 4 本，用 --dim 身份与角色 取
 
 ## 完成与发布（2 本）
 什么时候算做完，以及发出去要付的代价。
@@ -110,6 +110,6 @@ sociological-imagination · beautiful-risk-of-education · knowing-and-being
 把真的情绪、不懂和做错了露出来，是失分还是得分——这一层往往决定一个团队能不能真干活。
 dare-to-lead
 
-## 传统与共识（12 本）
+## 传统与共识（13 本）
 共识怎么形成，又怎么被合理地推翻。
-discourse-on-method · analysis-and-thinking · hackers-and-painters · the-beauty-of-the-husband · …另有 8 本，用 --dim 传统与共识 取
+discourse-on-method · analysis-and-thinking · autobiography-of-red · hackers-and-painters · …另有 9 本，用 --dim 传统与共识 取

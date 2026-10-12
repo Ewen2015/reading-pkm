@@ -1,6 +1,6 @@
 {
  "version": 2,
- "count": 24,
+ "count": 25,
  "dimensions": {
   "尺度": [
    "analysis-and-thinking",
@@ -83,6 +83,7 @@
    "socratic-apology"
   ],
   "欲望与缺憾": [
+   "autobiography-of-red",
    "discourse-on-method",
    "naval-almanack",
    "prisoners-of-our-thoughts",
@@ -101,6 +102,7 @@
   ],
   "地图与疆域": [
    "analysis-and-thinking",
+   "autobiography-of-red",
    "beautiful-risk-of-education",
    "beginning-of-infinity",
    "blue-ocean-strategy",
@@ -136,6 +138,7 @@
    "yujun-product-methodology"
   ],
   "身份与角色": [
+   "autobiography-of-red",
    "historical-regimes",
    "reflection-and-history",
    "road-to-serfdom",
@@ -158,6 +161,7 @@
   ],
   "传统与共识": [
    "analysis-and-thinking",
+   "autobiography-of-red",
    "beginning-of-infinity",
    "blue-ocean-strategy",
    "discourse-on-method",
@@ -263,6 +267,128 @@
     "判断": ""
    },
    "relations": []
+  },
+  "autobiography-of-red": {
+   "title": "红色自传",
+   "original_title": "Autobiography of Red: A Novel in Verse",
+   "author": "安妮·卡森",
+   "editor": [],
+   "lens": "你身上那个词，是谁起的？如果它其实只是别人随手挂上的一句形容——你要不要自己另立一本记录；而如果要把“里面”拿出来给人看，你愿意吗？",
+   "thesis": "一个被神话判成怪物的人，把只发生在“里面”的部分攒成一本自传；后来他不再开口，改用照片记录，最后收在一口火山口的火上——那口火既是他的来处，也是他唯一不必解释的东西。",
+   "dimensions": [
+    "身份与角色",
+    "欲望与缺憾",
+    "传统与共识",
+    "地图与疆域"
+   ],
+   "triggers": [
+    "我是不是有问题",
+    "我哪里不对",
+    "是不是我有毛病",
+    "我不正常",
+    "我是不是怪物",
+    "被叫怪胎",
+    "别人都这么说我",
+    "被贴标签",
+    "标签",
+    "格格不入",
+    "我和别人不一样",
+    "融不进去",
+    "被孤立",
+    "被排挤",
+    "异类",
+    "怪物",
+    "从小听到的说法",
+    "官方说法",
+    "从小相信的",
+    "换个说法",
+    "改个名字",
+    "说不出口的事",
+    "不敢让人知道",
+    "家里的事不敢说",
+    "羞耻",
+    "自卑",
+    "初恋",
+    "十四岁",
+    "青春期的伤",
+    "自传",
+    "我自己写了一本",
+    "照片记录",
+    "我不想说话"
+   ],
+   "domains": [
+    "文学",
+    "诗歌",
+    "古典学",
+    "神话与原型",
+    "身份与自我"
+   ],
+   "aliases": [
+    "Autobiography of Red",
+    "红色自传",
+    "红自传",
+    "安妮·卡森",
+    "Anne Carson",
+    "革律翁",
+    "Geryon",
+    "怪物自传",
+    "斯忒西科罗斯",
+    "诗体小说"
+   ],
+   "source_type": "一手（作者本人著作，诗体小说）",
+   "source_warning": "前置篇与 Appendix A/B/C 是**模仿考据体例的创作**，不是学术论文：Appendix A 并列的三位古代作者（Suidas、Isokrates、Plato）说法互不一致，卡森是并排放着，不是采信某一家；祖母独白里那些\"真实细节\"（1936 年冬奥、Grushenk、卖出照片）书里不交代真假。另：这个 EPUB **没有印刷页码**，引用只能落到节号（正文 I–XLVII）。",
+   "confidence": "中高——文本证据充分（引文与节号可逐条回查，书目与题记取自电子版自身）；但\"里面／外面\"的界限书里不给判据，成书背景只核到二手（维基百科与其引用）。",
+   "read_at": "2026-10-12",
+   "notes": "notes/autobiography-of-red.md",
+   "card": "autobiography-of-red.md",
+   "weight": 0,
+   "card_tokens_est": 3161,
+   "sections": {
+    "想起": "- 在**身上贴着一个不是你起的名字**的时候（怪物、怪胎、\"有问题\"、\"不正常\"）——它不劝你别在意，它去查这个名字是谁起的、按什么规则贴上去的。\n- 在**\"别人说的那套\"和\"我自己知道的\"对不上**的时候——全书的分界线是\"只写里面的事\"，前半本书都在示范这条线怎么划。\n- 在**放不下一个人、而且知道那件事已经过了**的时候（X. SEX QUESTION 交代他十四岁；XXV. TUNNEL 那一段是全书最重的失恋文字）。\n- 在**说不出来**的时候——他已经放弃了说话（VIII. CLICK），后来改用照片（第 XIX 节给出这条转型）。**说不出口的东西，换个媒介留下来**，这是它给的具体动作。\n- 在**发现自己一直在用别人的版本讲自己的故事**的时候——谁在写、谁有主权，是这本书的形式本身。",
+    "边界": "- **要\"我到底是不是怪物\"的裁决时。** 书明确不给裁决：Appendix C 用二十一步推演把这个问题推回起点，最后一句是\"If Stesichoros was a blind man either we will lie or if not not.\"（他瞎的话我们要么撒谎要么不撒；他没瞎的话不撒。）指望它给结论会落空。\n- **要心理处方时。** 它是诗体小说，不是自助书。它给的是\"把这件事说出来的方式\"，不是解决办法。\n- **要神话/古典学的事实核对时。** 前置篇与附录是**创作**，Appendix A 引的三位古代作者互相矛盾，祖母独白里的史实不交代真假。**当\"史料依据\"引它是用错了场合。**\n- **当\"受害者叙事\"用时。** 全书唯一一次由第三方提出的、正当的\"我想看你\"（XLV：Ancash 的 \"Want to see you use those wings.\"）被躲开了——革律翁的回应是录音 + 飞走（XLVI）。只把它读成一封控诉信，会漏掉作者自己回避的那一块。\n- **当自传读时。** 书名里的 Autobiography 是**革律翁的**，不是卡森的。把书里的家庭直接等同于卡森的家庭，是越界。",
+    "命题": "1. **\"怪物\"不是事实，是一个被挂上去的形容词。** 依据：序篇把形容词定义成\"小而进口的机关，负责把世上每样东西锁进它的特殊性里\"——\"the latches of being\"，而斯忒西科罗斯的功绩就是\"把这些闩扣解开\"（\"Stesichoros released being.\"）。\n2. **\"里面\"是可以自己划定的疆界，划定它本身就等于拿回主权。** 依据：\"Inside is mine, he thought.\"（II. EACH）；\"he began his autobiography. In this work Geryon set down all inside things ... He coolly omitted all outside things.\"（II. EACH）——**只写里面，外面一概不写**。\n3. **写不出来的时候，不是停止记录，是换媒介。** 依据：\"He had recently relinquished speech.\"（VIII. CLICK）→ \"The autobiography, which Geryon worked on from the age of five to the age of forty-four, had recently taken the form of a photographic essay.\"（XIX）→ 正文四十七节的标题全是照片名。\n4. **把\"我怎么会那样\"从\"判断失误\"改判成\"习俗\"，人才走得动。** 依据：\"…upcast to that custom, the human custom of wrong love.\"（XXIV. FREEDOM）——**不是我不对，是一个习俗**。\n5. **\"记录\"只能保存，不能解决。** 依据：结尾三人并排站在 Jucu 的面包房外看那口火——\"immortality on their faces, / night at their back.\"（XLVII）；题记 Dickinson 那句 \"The only secret people keep / Is Immortality\" 被原样收进 XLVI 的标题与句子里。",
+    "原句": "- \"I like the feeling of words doing / as they want to do and as they have to do.\"（序篇题记，Gertrude Stein）\n- \"Inside is mine, he thought.\"（II. EACH）\n- \"He coolly omitted all outside things.\"（II. EACH）\n- \"On the cover Geryon wrote Autobiography. Inside he set down the facts. / Total Facts Known About Geryon.\"（VI. IDEAS）\n- \"He had recently relinquished speech.\"（VIII. CLICK）\n- \"…upcast to that custom, the human custom of wrong love.\"（XXIV. FREEDOM）\n- \"The only secret people keep / Is Immortality.\"（Emily Dickinson, No. 1748＝正文题记；亦为 XLVI 的标题与末句）\n- \"We are amazing beings, / We are neighbors of fire.\"（XLVII）\n- \"Volcano in a wall.\"（XLVII）\n- \"I: Which brings us to Helen / S: There is no Helen.\"（Interview）",
+    "其他书": "- **同体例（同一作者 · 最近的一本）**：卡森《丈夫之美》（`the-beauty-of-the-husband`）——同一套\"把古典拆开重拼进当代私生活\"的手法：那一本拆的是济慈的\"美即是真\"与一场婚姻，这一本拆的是斯忒西科罗斯的《Geryoneis》与一场少年恋爱。**两本可以连着读**：这一本把\"别人给你的名字\"当敌人，那一本把\"美\"当一股不由你选的力。\n- **上游（书里自己点的名）**：Stesichoros《Geryoneis》（含帕利诺德残篇 192 PMG）与 Homer 的固定修饰语系统；Gertrude Stein（序篇题记与\"词按它想做的去做\"这套语言观）；Emily Dickinson, No. 1748（正文题记与 XLVI 的标题）。\n- **同题对照（我的对照，需自行核对）**：把古典神话搬进当代婚姻/家庭的诗集，最常被并提的是 Louise Glück 的《Meadowlands》（1996，借《奥德赛》写一场当代婚姻）——**两本都在做\"神话当代化\"，但 Glück 保留夫妻二人称，卡森只给被命名的一方发声。**\n- **对撞**：《敢于领导》（`dare-to-lead`）——两本都在讲\"把里面的东西拿出来给别人看\"。布朗说的是**敞开是领导力的技术**，有一套可练的动作（SFD、marble jar）；卡森说的是**敞开可能会被躲开**——XLV 里 Ancash 提了要求，革律翁录音然后飞走。**一本教你怎么开口，一本告诉你开口之后也可能没有人接。**",
+    "判断": "把它当**一首关于\"被命名的人怎么自己记录\"的长诗**读，它几乎无可挑剔：四十七节以照片命名，把\"叙述者\"从\"我\"换成\"相纸\"，于是\"只写里面\"有了可执行的形态。作为它自称的\"自传\"，它有一处**结构性的回避**：对\"被命名\"处理得很完整，对\"被看见\"——Ancash 那句 \"Want to see you use those wings.\"——只给了录音和飞走，没有给回应。**这是它的诚实（它承认里面的事不一定拿得出来），也是它的缺口。**（本节是我的推论，不是书里的话。）"
+   },
+   "relations": [
+    {
+     "type": "同体例",
+     "ref": "丈夫之美",
+     "slug": "the-beauty-of-the-husband",
+     "why": "卡森《丈夫之美》（`the-beauty-of-the-husband`）——同一套\"把古典拆开重拼进当代私生活\"的手法：那一本拆的是济慈的\"美即是真\"与一场婚姻，这一本拆的是斯忒西科罗斯的《Geryoneis》与一场少年恋爱。**两本可以"
+    },
+    {
+     "type": "同体例",
+     "ref": "Geryoneis",
+     "slug": null,
+     "why": "卡森《丈夫之美》（`the-beauty-of-the-husband`）——同一套\"把古典拆开重拼进当代私生活\"的手法：那一本拆的是济慈的\"美即是真\"与一场婚姻，这一本拆的是斯忒西科罗斯的《Geryoneis》与一场少年恋爱。**两本可以"
+    },
+    {
+     "type": "上游",
+     "ref": "Geryoneis",
+     "slug": null,
+     "why": "Stesichoros《Geryoneis》（含帕利诺德残篇 192 PMG）与 Homer 的固定修饰语系统；Gertrude Stein（序篇题记与\"词按它想做的去做\"这套语言观）；Emily Dickinson, No. 1748（正"
+    },
+    {
+     "type": "相关",
+     "ref": "Meadowlands",
+     "slug": null,
+     "why": "把古典神话搬进当代婚姻/家庭的诗集，最常被并提的是 Louise Glück 的《Meadowlands》（1996，借《奥德赛》写一场当代婚姻）——**两本都在做\"神话当代化\"，但 Glück 保留夫妻二人称，卡森只给被命名的一方发声。*"
+    },
+    {
+     "type": "相关",
+     "ref": "奥德赛",
+     "slug": null,
+     "why": "把古典神话搬进当代婚姻/家庭的诗集，最常被并提的是 Louise Glück 的《Meadowlands》（1996，借《奥德赛》写一场当代婚姻）——**两本都在做\"神话当代化\"，但 Glück 保留夫妻二人称，卡森只给被命名的一方发声。*"
+    },
+    {
+     "type": "对撞",
+     "ref": "敢于领导",
+     "slug": "dare-to-lead",
+     "why": "《敢于领导》（`dare-to-lead`）——两本都在讲\"把里面的东西拿出来给别人看\"。布朗说的是**敞开是领导力的技术**，有一套可练的动作（SFD、marble jar）；卡森说的是**敞开可能会被躲开**——XLV 里 Ancash"
+    }
+   ]
   },
   "beautiful-risk-of-education": {
    "title": "教育的美丽风险",
@@ -872,13 +998,13 @@
    "notes": "notes/dare-to-lead.md",
    "card": "dare-to-lead.md",
    "weight": 0,
-   "card_tokens_est": 2961,
+   "card_tokens_est": 3128,
    "sections": {
     "想起": "- 出现**\"我明明看见了问题，就是不敢说\"**的症状时：它不说你怂，它说你穿着盔甲，\n  而且那副盔甲当年真的保护过你——难的是现在不合身了。它给的动作很具体：先说\n  「我脑子里现在编的故事是……」，再核对。\n- **靠表现证明自己、停不下来**时：把疲惫当勋章、把产出当自我价值，是它的第十六种盔甲之一；\n  它的对案不是\"放松点\"，是\"先弄清你的价值到底在哪\"。\n- 要**给人反馈、或要接别人的反馈**时：它给了一份\"我准备好了才开口\"的十条清单，\n  以及一句自我对话——「我够勇敢，可以听。」（receiving feedback）\n- 团队里**信任出了问题，但一说\"信任\"就炸**时：它把\"信任\"拆成七个可指的行为\n  （BRAVING：边界／可靠／担责／守密／正直／不评判／善意），**不说大词，只点行为**。\n- 自己或团队**刚搞砸了一件事**时：它给的不是\"想开点\"，是三步——先承认\"我被钩住了\"，\n  再跟\"我编的故事\"摊牌，最后写下新结尾（the reckoning / the rumble / the revolution）。",
     "边界": "- **当处境本身不安全时。** 这套技能的前提是\"示弱不会被惩罚\"。在一个示弱真的会被穿小鞋、\n  被优化掉的团队里，它最该读的一句话是它自己的：**systemic vulnerability ≠ relational\n  vulnerability**——然后的问题是\"该换环境\"，不是\"我该更会敞开\"。\n- **当你要的是因果证据时。** 它是扎根理论：访谈长出范畴，不是对照实验；\n  组织层面的\"变好了\"多是参与者自述。想论证\"练了这些就会提升业绩\"，它的证据撑不住。\n- **当要动的是制度时。** 绩效、薪酬、裁员、权力分配这一层，她写得薄；\n  她自己也承认过 \"shame is systemic\"，但接下来说的是\"要有对话\"，不是\"要改制度\"。\n  拿它解决制度问题，会把结构病开成个人药。\n- **当权力或文化不对等时。** 在权力差、跨文化、雇佣关系里，\"敞开\"的成本是不对等的\n  （她自己在全球团队那一节举了香港同事的例子，但没往下做）。别把这本书当对所有人\n  都一样的处方。\n- **当你要的是她自造的语汇时。** rumble／armor／marble jar 翻成中文就散，\n  引用请带原词。",
     "命题": "- **勇气是可练的技能，不是人格。** 四套技能＝与脆弱共处（地基）／活出价值／敢信任／学会爬起来，\n  每套都拆成了可观察的行为（Introduction 给总纲；Part One–Four 各讲一套）。\n  可反驳点：把人当\"技能组合\"能装的那部分之外，还剩多少是气质、处境和运气，她没交代。\n- **脆弱的六条迷思，第一条是\"脆弱＝软弱\"。** 她拆它只用一句提问：给我一个**不需要经历脆弱**\n  的勇气的例子——几百人问下来，没有（S1 The Moment and the Myths）。可反驳点：这是修辞性举证，\n  不是数据。\n- **羞耻从\"说不出口\"里取力量，解药是共情，不是自责。** 定义：「Shame is the intensely painful\n  feeling or experience of believing that we are flawed and therefore unworthy of love,\n  belonging, and connection.」（S4）；四件事要分开——**guilt = I did something bad；\n  shame = I am bad**；humiliation 是\"我不该受这个\"（S4）。\n- **信任是小事的累积，而且能拆成七个动作。** marble jar（女儿 Ellen 的故事）：信任不是英雄行为\n  堆出来的，是「paying attention, listening, and gestures of genuine care and connection」\n  （Part III）。可反驳点：七要素是好用，但它是一张清单，不是一份因果模型。\n- **领导者要么花合理的时间照顾恐惧和情绪，要么花不合理的时间收拾坏行为。** 全书最被引的一句\n  （S2 提出，S3 再引）——机制是：情绪不处理，会以无效行为的形式连本带利回来。",
     "原句": "- 「Clear is kind. Unclear is unkind.」（S2；她说这句是二十年前在戒酒会上听来的）\n- 「Leaders must either invest a reasonable amount of time attending to fears and feelings, or\n  squander an unreasonable amount of time trying to manage ineffective and unproductive\n  behavior.」（S2／S3）\n- 「The story I'm telling myself…」（Part One 起手句／Part Four 的 SFD 工具）\n- 「Talk to yourself the way you'd talk to someone you love.」（S4 自我关怀，引 Kristin Neff 三要素后）\n- 「We need to trust to be vulnerable, and we need to be vulnerable in order to build trust.」（Part III）\n- 「…who at the worst, if he fails, at least fails while daring greatly.」（S3 引罗斯福 1910 年\n  「The Man in the Arena」演说——书名出处）",
-    "其他书": "- **对撞 · 《社会学的想象力》**：米尔斯说\"你的憋闷多半是公共议题，该改的是结构\"；\n  布朗说\"能改的是你的技能、你的边界、你和身边人的关系\"。**这本最强的一击是**：\n  同样面对一个坏处境，米尔斯给你一副眼镜、布朗给你当天的动作——但反过来，布朗缺的正是\n  米尔斯那一层：**制度问题不能靠练敞开解决**。\n- **对撞 · 《思维的囚徒》**：弗兰克尔那条线主张**把注意力从自己身上挪开**（减反省法、\n  自我超越），布朗主张**先钉回自己身上**——\"你现在被什么钩住了？身体在说什么？\"。\n  一个说别盯着自己，一个说不盯自己就完了。分界在处境：**改不动的处境**该松手，\n  **还能谈的处境**该摊牌。\n- **对撞 · 《聪明人的训练》**：基尔施纳说\"考虑别人就是被操纵、连爱人也可能是对手\"；\n  布朗的 Living BIG 说**善意要靠边界撑**——两人都主张立边界，但一个用边界把人隔开、\n  一个用边界才敢对人好。区分的判据不是\"要不要边界\"，是\"边界之后你要做什么\"。",
+    "其他书": "- **对撞 · 《社会学的想象力》**：米尔斯说\"你的憋闷多半是公共议题，该改的是结构\"；\n  布朗说\"能改的是你的技能、你的边界、你和身边人的关系\"。**这本最强的一击是**：\n  同样面对一个坏处境，米尔斯给你一副眼镜、布朗给你当天的动作——但反过来，布朗缺的正是\n  米尔斯那一层：**制度问题不能靠练敞开解决**。\n- **对撞 · 《思维的囚徒》**：弗兰克尔那条线主张**把注意力从自己身上挪开**（减反省法、\n  自我超越），布朗主张**先钉回自己身上**——\"你现在被什么钩住了？身体在说什么？\"。\n  一个说别盯着自己，一个说不盯自己就完了。分界在处境：**改不动的处境**该松手，\n  **还能谈的处境**该摊牌。\n- **对撞 · 《聪明人的训练》**：基尔施纳说\"考虑别人就是被操纵、连爱人也可能是对手\"；\n  布朗的 Living BIG 说**善意要靠边界撑**——两人都主张立边界，但一个用边界把人隔开、\n  一个用边界才敢对人好。区分的判据不是\"要不要边界\"，是\"边界之后你要做什么\"。\n\n- **对撞 · 《红色自传》**：两本都在讲\"把里面的东西拿出来给人看\"。布朗给的是**技术**——\n  盔甲、SFD、marble jar，一套可练、可验收的动作，假定\"说出来就有用\"；卡森给的是**这一招失灵的样子**：\n  Ancash 提了全书唯一一次正当的\"我想看你\"（\"Want to see you use those wings.\"），\n  革律翁录了一盘带给他的话、然后飞走。**分界在对方接不接**：布朗管的是你说的那一端，\n  卡森管的是说出去之后没有人接的那一端——**开口之前先分一句：这个人会接吗？**",
     "判断": "**当成动作手册用，不要当成领导力理论用。** 它最值钱的地方是把情绪翻成了可观察的行为——\n\"信任\"拆成七个动作、\"情绪失控\"拆成\"先觉出自己被钩住\"。它最容易翻车的地方也在这：\n一套非常有效的**个人层**工具，被用在**制度层**的问题上，就变成了让人适应坏环境的劝退话术。\n用之前先分一句：这件事该练技能，还是该换环境？"
    },
    "relations": [
@@ -899,6 +1025,12 @@
      "ref": "聪明人的训练",
      "slug": "smart-mans-training",
      "why": "基尔施纳说\"考虑别人就是被操纵、连爱人也可能是对手\"；"
+    },
+    {
+     "type": "对撞",
+     "ref": "红色自传",
+     "slug": "autobiography-of-red",
+     "why": "两本都在讲\"把里面的东西拿出来给人看\"。布朗给的是**技术**——"
     }
    ]
   },
@@ -2515,7 +2647,7 @@
     {
      "type": "同体例",
      "ref": "红色自传",
-     "slug": null,
+     "slug": "autobiography-of-red",
      "why": "卡森自己的《红色自传》（Autobiography of Red, 1998，诗体小说）——同一套\"把古典拆开重拼进当代私生活\"的手法。"
     },
     {
