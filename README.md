@@ -2,7 +2,7 @@
 
 > 把读过的书，变成下次思考时**会被调用**的视角。
 
-一条个人阅读的知识管理流水线：**八个 [Codex](https://developers.openai.com/codex/) skill 打成一个
+一条个人阅读的知识管理流水线：**九个 [Codex](https://developers.openai.com/codex/) skill 打成一个
 Codex plugin**（`.codex-plugin/plugin.json`），装一次全部就位，也可以只把某一个 skill 拷走用。
 它把 Harold Jarche 的 **Seek › Sense › Share** 模型落成能跑的东西：能被自动化的交给机器，
 不能被自动化的——判断与品味——留在人这里。
@@ -73,6 +73,7 @@ Jarche 提醒 share 要讲分寸：**知道什么时候、对谁分享**，才�
 | --- | --- | --- |
 | [`rednote-post`](./skills/rednote-post) | 把一份素材做成小红书图文笔记并发到自己的账号：写标题与正文、生成 1080×1440 卡片图、**实测**排版（字号下限／溢出／压页脚／孤字换行）、经用户确认后用浏览器桥接发布并回读核验。含卡片模板、渲染校验脚本与发布 CLI。 | <img src="docs/skills/rednote-post.png" width="220" alt="小红书图文的封面与两张内页卡片：你不是不够聪明，是手里的模型太少"> |
 | [`rednote-assistant`](./skills/rednote-assistant) | 小红书发布排期助理：定更新频率与发布时段、看平台上有没有未来定时发布的笔记、盘草稿箱、算现有成品能撑几周、指出排期缺口、按账号自己的历史数据挑最佳发布时间。**只排期，不写不发**——文案与发布走 `rednote-post`。 | <img src="docs/skills/rednote-assistant.png" width="220" alt="排期体检报告：每周 2 篇的计划下，未来 3 周排期表标出 5 个空档与已定时的笔记，并给出素材积累量目标与提醒建议"> |
+| [`rednote-reply`](./skills/rednote-reply) | 互动：读私信（聊天）会话，按账号人设拟一句回话，**经用户逐条确认后再发**并回读核验。默认只读，`send` 不加 `--yes` 只 dry-run。人设单独一份（`references/soul.md`），聊天口径与写笔记那份分开。评论入口尚未打通。 | — |
 | [`human-writing`](./skills/human-writing) | 写作层：把稿子改写成"人话"——去掉 AI 味（连接词／行话／排比三连／每段一句金句／匀称到没有起伏），再落到一份**给定的人设**上（先读人设、抽声音指纹、写完出声念）。**不绑定账号**：调用方传自己的人设文件，`rednote-post` 是第一个调用方。含可直接跑的 AI 味机判脚本（`rednote-post` 的 `check_content.py` 直接复用它，不再自抄词表）。 | — |
 
 ### 之上的一层
@@ -167,13 +168,14 @@ flowchart LR
 书库也能整体搬到仓库外（换机器、挂网盘），而不用改任何代码。
 
 ```
-skills/               代码面：八个 skill，各自独立，单个拷出去也能跑
+skills/               代码面：九个 skill，各自独立，单个拷出去也能跑
   read-a-book/        阅读方法论：检视 / 分析 / 主题阅读
   book-fetch/         SEEK：取得书
   second-brain/       第二大脑：写法、路由表（25 维）、工具（brain.py）
   scandinavian-style/ 版式系统：16:9 网格、one-pager、图表规则
   rednote-post/       SHARE：渲染成卡片并发布
   rednote-assistant/  SHARE：排期与节奏
+  rednote-reply/      SHARE：私信只读巡检 + 按人设拟稿
   human-writing/      写作层：去 AI 味 + 贴人设（被 rednote-post 调用）
   rsi-reading/        站在上面那层：度量整条环，一次只改一处
 library/              数据面：22 本书的卡片与笔记、评测集、索引——真相在这里
@@ -182,7 +184,7 @@ library/              数据面：22 本书的卡片与笔记、评测集、索�
   evals/              31 题固定题集 + 基线
   index.md index.json 生成物，删了能重建
 docs/                 README 用图与其生成脚本；ARCHITECTURE.md 架构说明
-.codex-plugin/        plugin.json：把八个 skill 一次装进 Codex
+.codex-plugin/        plugin.json：把九个 skill 一次装进 Codex
 ```
 
 `brain.py` 找书库的顺序是 `$SECOND_BRAIN_HOME` → 仓库里的 `library/` → `~/.local/share/second-brain`，
@@ -192,14 +194,14 @@ docs/                 README 用图与其生成脚本；ARCHITECTURE.md 架构�
 
 **这个仓库就是一个 Codex plugin。** 清单 `.codex-plugin/plugin.json` 里只声明了一件事——
 `"skills": "./skills/"`（plugin 还能声明 `apps`／`mcpServers`／`hooks`，本仓一个都不需要）。
-把仓库当本地 plugin 装进 Codex，八个 skill 一起就位，名字带 plugin 前缀
+把仓库当本地 plugin 装进 Codex，九个 skill 一起就位，名字带 plugin 前缀
 （`reading-pkm:second-brain`、`reading-pkm:book-fetch`…）。
 
 不想用 plugin 就手工复制（装出来的是不带前缀的同名 skill）：
 
 ```bash
 for s in book-fetch read-a-book second-brain scandinavian-style \
-         rednote-post rednote-assistant human-writing rsi-reading; do
+         rednote-post rednote-assistant rednote-reply human-writing rsi-reading; do
   cp -R "skills/$s" "${CODEX_HOME:-$HOME/.codex}/skills/"
 done
 ```
@@ -220,7 +222,7 @@ export SECOND_BRAIN_HOME="$HOME/Documents/GitHub/reading-pkm/library"
 
 ```bash
 for s in book-fetch read-a-book second-brain scandinavian-style \
-         rednote-post rednote-assistant human-writing rsi-reading; do
+         rednote-post rednote-assistant rednote-reply human-writing rsi-reading; do
   ln -sfn "$PWD/skills/$s" "${CODEX_HOME:-$HOME/.codex}/skills/$s"
 done
 ```

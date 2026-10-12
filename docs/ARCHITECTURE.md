@@ -14,20 +14,21 @@
 
 ```
 reading-pkm/
-|-- skills/                 代码面：八个 skill，各自独立，单个拷贝出去也能跑
+|-- skills/                 代码面：九个 skill，各自独立，单个拷贝出去也能跑
 |   |-- second-brain/       第二大脑（唯一"有内部架构"的 skill，见第 3 节）
 |   |-- read-a-book/        阅读方法论：检视 / 分析 / 主题
 |   |-- book-fetch/         SEEK：取得书
 |   |-- scandinavian-style/ 版式系统
 |   |-- rednote-post/       SHARE：渲染与发布
 |   |-- rednote-assistant/  SHARE：排期与节奏
+|   |-- rednote-reply/      SHARE：私信回复（默认只读）
 |   |-- human-writing/      写作层：去 AI 味 + 贴人设
 |   `-- rsi-reading/        闭环度量
 |-- library/                数据面：卡片、原笔记、题集、索引——真相在这里
 |   |-- books/  每本一张卡       notes/  原笔记
 |   |-- evals/  固定题集与基线    index.md / index.json  生成物
 |-- docs/                   这份说明 + README 的配图与生成脚本
-|-- .codex-plugin/          plugin.json：把八个 skill 一次装进 Codex
+|-- .codex-plugin/          plugin.json：把九个 skill 一次装进 Codex
 `-- README.md
 ```
 
@@ -70,8 +71,8 @@ skill 旁边了，得显式 `export SECOND_BRAIN_HOME=<书库>`；空书库时�
 改一个字查找就会失败，所以和代码保持一致）；**散文与文档里的路径是"给人看的"，按仓库根写**
 （如 `skills/human-writing/scripts/human_check.py`）。两套写法指向同一个文件，但谁都不是废话。
 
-**打包形态：一个 plugin，八个 skill。** 仓库根放一份 plugin 清单
-（`.codex-plugin/plugin.json`），只声明 `"skills": "./skills/"`——Codex 按目录把八个 skill
+**打包形态：一个 plugin，九个 skill。** 仓库根放一份 plugin 清单
+（`.codex-plugin/plugin.json`），只声明 `"skills": "./skills/"`——Codex 按目录把九个 skill
 一起装上（名字带 plugin 前缀，`reading-pkm:second-brain`），不用手写 `cp` 循环。
 清单里没有 `apps`、没有 `mcpServers`、没有 `hooks`，`interface` 也只有一个标题：
 和"无服务、文件即大脑"是同一条纪律——**这个 plugin 里除了 skill，什么都没有**。
@@ -112,11 +113,12 @@ plugin；`openai-docs` 给 plugin 的定义也正是"an installable bundle of sk
 
 ```mermaid
 flowchart TB
-    subgraph Skills["Skill 面：skills/ 下八个目录，各自独立，靠 SKILL.md 描述何时被调用"]
+    subgraph Skills["Skill 面：skills/ 下九个目录，各自独立，靠 SKILL.md 描述何时被调用"]
         BF["book-fetch"] --> RAB["read-a-book"] --> SB["second-brain"]
         RAB --> STY["scandinavian-style"] --> RP["rednote-post"]
         RP --> HW["human-writing"]
         RA["rednote-assistant"] -.排期.-> RP
+        RP -.词表.-> RR["rednote-reply"]
         RSI["rsi-reading"] -.只读观测.-> Skills
     end
 
@@ -150,7 +152,7 @@ flowchart TB
 
 | 面 | 由谁负责 | 什么时候进上下文 | 谁能改它 |
 | --- | --- | --- | --- |
-| Skill 面 | 八个 `SKILL.md` | 命中 skill 时加载 | 人 |
+| Skill 面 | 九个 `SKILL.md` | 命中 skill 时加载 | 人 |
 | 数据面 | `library/books/` `library/notes/` `library/evals/` | 按需：卡片 1–2 张；题集从不 | 人（模型只在被问到时提议） |
 | 路由面 | `skills/second-brain/references/dimensions.md` | 改词表时 | 人——**这是唯一的调参旋钮** |
 | 引擎面 | `skills/second-brain/scripts/brain.py` | **从不**（只吐命令输出） | 代码评审 |
