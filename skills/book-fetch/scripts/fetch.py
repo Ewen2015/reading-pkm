@@ -577,6 +577,10 @@ def cmd_download(args) -> int:
             f.rename(clean)
             f = clean
     print(f"已下载：{f}（{f.stat().st_size/1024/1024:.2f} MB）")
+    ok, detail = validate_ebook(f)
+    print(f"校验：{'✓' if ok else '✗'} {detail}")
+    if not ok:
+        die("下载的文件没通过校验；删掉后重下，不要把坏文件交给 read-a-book。")
     if f.suffix.lower() == ".pdf":
         print("提醒：pdf 需要检测文字层；若是扫描件，先确认要不要走 OCR 再决定是否用它做笔记。")
     if args.queue:
@@ -926,6 +930,67 @@ def _epub_metadata(path: Path) -> dict:
     return out
 
 
+def validate_ebook(p: Path) -> tuple[bool, str]:
+    """下载/收编后的最小结构校验：坏文件不要进 read-a-book。
+
+    只看能一击命中"下载截断"的信号：zip 能不能打开、container/opf 在不在、
+    spine 有没有条目；PDF 看头尾。文字层质量不在这里判（read-a-book 会抽）。
+    """
+    try:
+        size = p.stat().st_size
+    except OSError as e:
+        return False, f"读不到文件大小：{e}"
+    if size < 1024:
+        return False, f"文件只有 {size} 字节，像空文件/占位符"
+
+    suffix = p.suffix.lower()
+    if suffix == ".epub":
+        try:
+            with zipfile.ZipFile(p) as z:
+                names = set(z.namelist())
+                if "META-INF/container.xml" not in names:
+                    return False, "EPUB 缺 META-INF/container.xml"
+                opf = None
+                for rf in ET.fromstring(z.read("META-INF/container.xml")).iter():
+                    if rf.tag.endswith("rootfile") and rf.get("full-path"):
+                        opf = rf.get("full-path")
+                        break
+                if not opf:
+                    return False, "EPUB 的 container.xml 里没有 rootfile"
+                if opf not in names:
+                    return False, f"EPUB 的 OPF 不在包里：{opf}"
+                spine = sum(1 for el in ET.fromstring(z.read(opf)).iter()
+                            if el.tag.endswith("itemref"))
+                if spine == 0:
+                    return False, "EPUB spine 是 0 项，正文没进包（下载截断）"
+                if spine < 5:
+                    return True, f"EPUB zip 完整，spine 只有 {spine} 项（偏少，确认不是节本）"
+                return True, f"EPUB zip 完整，spine {spine} 项"
+        except (zipfile.BadZipFile, ET.ParseError, KeyError, OSError) as e:
+            return False, f"EPUB 读不开（{type(e).__name__}: {e}），多半下载截断"
+    if suffix == ".pdf":
+        try:
+            with open(p, "rb") as f:
+                head = f.read(5)
+                f.seek(max(0, size - 8192))
+                tail = f.read()
+            if head != b"%PDF-":
+                return False, "PDF 头不是 %PDF-"
+            if b"%%EOF" not in tail:
+                return False, "PDF 末尾没有 %%EOF，像下载截断"
+            return True, "PDF 头尾完整（文字层未检测）"
+        except OSError as e:
+            return False, f"PDF 读不开：{e}"
+    return True, f"{suffix or '无后缀'} 不做结构校验（只查了非空）"
+
+
+def cmd_validate(args) -> int:
+    p = Path(os.path.expanduser(args.path))
+    ok, detail = validate_ebook(p)
+    print(f"{'✓' if ok else '✗'} {p.name}：{detail}")
+    return 0 if ok else 1
+
+
 _PLACEHOLDER_STEMS = {"未命名", "book", "untitled"}
 
 
@@ -959,6 +1024,10 @@ def cmd_adopt(args) -> int:
     if rc != 0:
         print("\n→ 先把上面的问题解决，再重新 adopt。（这一步没有任何写入）")
         return rc
+    ok, detail = validate_ebook(src)
+    print(f"校验：{'✓' if ok else '✗'} {detail}")
+    if not ok:
+        die("交来的文件没通过校验；换一个完整文件再 adopt。")
 
     outdir = Path(os.path.expanduser(args.into)).expanduser()
     outdir.mkdir(parents=True, exist_ok=True)
@@ -1010,6 +1079,10 @@ def main() -> int:
     p = sub.add_parser("search", help="调用外部适配器找候选")
     p.add_argument("query")
     p.set_defaults(fn=cmd_search)
+
+    p = sub.add_parser("validate", help="校验下载/收编的电子书是不是完整可用")
+    p.add_argument("--path", required=True)
+    p.set_defaults(fn=cmd_validate)
 
     p = sub.add_parser("check-source", help="交书入口的前置检查：这个路径读得到吗（只报告）")
     p.add_argument("--path", required=True, help="用户交来的 epub/pdf 路径")

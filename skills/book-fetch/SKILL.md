@@ -129,7 +129,9 @@ python3 <skill>/scripts/fetch.py download --pick <序号> --output ~/Documents/b
 ```
 
 下载后会**把文件名洗干净**（去掉形如 `(xxx.sk, yyy.sk)` 的来源后缀），
-再登记到 `~/Documents/reading-queue.md`。
+自动跑一次 `validate`，再登记到 `~/Documents/reading-queue.md`。
+校验不通过（打不开、spine 为空、PDF 没有头尾）就**停下，不登记队列**——
+别把坏文件交给 `read-a-book` 去消耗一轮阅读时间。
 
 ## 失败与止损（时间盒）
 
@@ -138,7 +140,7 @@ python3 <skill>/scripts/fetch.py download --pick <序号> --output ~/Documents/b
 - **先看本地，再搜。** `~/Documents/books`、`~/Documents/reading-queue.md`、iCloud Drive / Books 容器里已有文件，先 `check-source` → `adopt`。本地有就不要重新搜。
 - **一次任务 15–20 分钟。** 从第一次 `search` 算起，到拿到一个能通过验证的文件为止；到点还没拿到，停止换源，按下面的格式报告，不要用“再试一个源”拖下去。
 - **失败一次就换层级，不在同一个反爬页上重试。** 遇到 Cloudflare / DDoS-Guard / CAPTCHA / 403 / 429：记为“此源不可用”，最多再试一个**不同层级**的来源（换语言版本、换本地文件、请用户提供），不要用 Playwright/代理反复绕同一个页面。
-- **下载完立刻验证，坏文件不进下一步。** 文件 > 0 字节、`unzip -t` 通过、EPUB 有 `META-INF/container.xml`、spine ≥ 5、抽出的正文 ≥ 1 万字。截断、只有封面、0 字节 = 下载失败，删掉重来；不要把坏文件交给 `read-a-book`。
+- **下载完立刻验证，坏文件不进下一步。** 先跑 `fetch.py validate --path <文件>`：它查大小、EPUB zip 完整性、`META-INF/container.xml` / OPF、spine（0 项 = 截断；少于 5 项会提醒确认是不是节本），PDF 查头尾。再用 `read-a-book` 抽一次正文，确认 ≥1 万字。截断、只有封面、0 字节 = 下载失败，删掉重来；不要把坏文件交给 `read-a-book`。
 - **语言版本一次定。** 中文笔记/小红书优先中文版；用户没指定原版时，拿到可靠中文版就继续，不要为了“原版更权威”再开一轮搜索。版本信息写进笔记和 manifest。
 - **报告格式（找不到时）**：① 试过哪些源；② 各自卡在哪（0 候选 / 反爬 / 截断 / 无文字层）；③ 下一步需要用户做什么（给文件 / 换版本 / 接受 OCR）。不要只回“找不到”。
 
