@@ -10,17 +10,17 @@
 - 用法：读这张表 → 挑 2–4 个维度 → `python3 scripts/brain.py recall --dim <维度>` 取书
   → 只读那 1–2 张卡。
 
-## 尺度（6 本）
+## 尺度（7 本）
 把问题放到更大的坐标里再看，判断会变。
-analysis-and-thinking · sociological-imagination · beginning-of-infinity · historical-regimes · …另有 2 本，用 --dim 尺度 取
+cybernetics-and-scientific-method · analysis-and-thinking · sociological-imagination · beginning-of-infinity · …另有 3 本，用 --dim 尺度 取
 
 ## 假两难（3 本）
 先问这是不是真取舍，还是被自己设成了二选一。
 blue-ocean-strategy · pale-blue-dot · yujun-product-methodology
 
-## 二阶效应（6 本）
+## 二阶效应（8 本）
 结果背后的结果，不假装连锁反应不存在——运行久了，机制会自己挑人。
-analysis-and-thinking · tiny-habits · road-to-serfdom · the-book-of-elon · …另有 2 本，用 --dim 二阶效应 取
+culture-of-growth-mokyr · creative-destruction-aghion · analysis-and-thinking · tiny-habits · …另有 4 本，用 --dim 二阶效应 取
 
 ## 最弱环节（5 本）
 乘法系统里，一项归零会把其余全部吃掉。
@@ -38,9 +38,9 @@ cost-and-choice · pale-blue-dot
 什么会随时间累积，什么会随时间折旧。
 discourse-on-method · historical-regimes · naval-almanack
 
-## 清零与重启（1 本）
+## 清零与重启（3 本）
 经验是双刃，初心与"不知道"有独立价值。
-the-creative-act
+the-hero-with-a-thousand-faces · forgetting-scott-small · the-creative-act
 
 ## 财富金钱地位（1 本）
 先分清在玩哪种游戏——地位是零和，财富是正和。
@@ -50,9 +50,9 @@ naval-almanack
 什么能放大你的产出，且不需要别人点头。
 blue-ocean-strategy · naval-almanack
 
-## 专长与替代（3 本）
+## 专长与替代（4 本）
 这份本事能不能被培训出来——能被培训，就能被取代。
-hackers-and-painters · naval-almanack · yujun-product-methodology
+creative-destruction-aghion · hackers-and-painters · naval-almanack · yujun-product-methodology
 
 ## 意会与不可言说（2 本）
 有些判断说不清但确实知道，写成条目反而失真。
@@ -62,25 +62,25 @@ reflection-and-history · knowing-and-being
 把平时不当回事的东西硬拽到焦点上，判断会被破坏。
 prisoners-of-our-thoughts · knowing-and-being
 
-## 自治与被计划（9 本）
+## 自治与被计划（10 本）
 谁在定目标——被安排的活和自己的主动性，产出机制不同。
-discourse-on-method · dare-to-lead · sociological-imagination · beautiful-risk-of-education · …另有 5 本，用 --dim 自治与被计划 取
+culture-of-growth-mokyr · discourse-on-method · dare-to-lead · sociological-imagination · …另有 6 本，用 --dim 自治与被计划 取
 
 ## 意义自赋（4 本）
 意义不是被赐予的，是人自己保管的，所以责任更重而不是更轻。
 dare-to-lead · socratic-apology · pale-blue-dot · prisoners-of-our-thoughts
 
-## 欲望与缺憾（7 本）
+## 欲望与缺憾（8 本）
 不得到就不快乐，是一份可以撤掉的约定。
-discourse-on-method · autobiography-of-red · the-beauty-of-the-husband · tiny-habits · …另有 3 本，用 --dim 欲望与缺憾 取
+discourse-on-method · forgetting-scott-small · autobiography-of-red · the-beauty-of-the-husband · …另有 4 本，用 --dim 欲望与缺憾 取
 
-## 自我怀疑与作品（7 本）
+## 自我怀疑与作品（9 本）
 怀疑该放在哪里——既不轻易怀疑自己，也不把"我以为我知道"当成知道。
-discourse-on-method · dare-to-lead · sociological-imagination · tiny-habits · …另有 3 本，用 --dim 自我怀疑与作品 取
+language-in-thought-and-action · discourse-on-method · forgetting-scott-small · dare-to-lead · …另有 5 本，用 --dim 自我怀疑与作品 取
 
-## 地图与疆域（11 本）
+## 地图与疆域（15 本）
 报表、职级、简历都是地图，不是现实本身。
-analysis-and-thinking · autobiography-of-red · sociological-imagination · beautiful-risk-of-education · …另有 7 本，用 --dim 地图与疆域 取
+magic-words-tim-david · the-hero-with-a-thousand-faces · cybernetics-and-scientific-method · language-in-thought-and-action · …另有 11 本，用 --dim 地图与疆域 取
 
 ## 自尊与自我修正（6 本）
 挡住改主意的往往不是无知，是自尊。
@@ -90,26 +90,26 @@ dare-to-lead · beginning-of-infinity · the-book-of-elon · cost-and-choice · 
 分清运气和本事，别把均值回归当成趋势。
 blue-ocean-strategy · thinking-in-models
 
-## 代价与机会成本（10 本）
+## 代价与机会成本（11 本）
 选它放弃了什么——不做的代价要算，留着的代价也要算。
-analysis-and-thinking · hackers-and-painters · the-beauty-of-the-husband · beginning-of-infinity · …另有 6 本，用 --dim 代价与机会成本 取
+creative-destruction-aghion · analysis-and-thinking · hackers-and-painters · the-beauty-of-the-husband · …另有 7 本，用 --dim 代价与机会成本 取
 
-## 身份与角色（8 本）
+## 身份与角色（10 本）
 这个选择在回答"我是谁"。
-autobiography-of-red · the-beauty-of-the-husband · road-to-serfdom · socratic-apology · …另有 4 本，用 --dim 身份与角色 取
+magic-words-tim-david · the-hero-with-a-thousand-faces · autobiography-of-red · the-beauty-of-the-husband · …另有 6 本，用 --dim 身份与角色 取
 
-## 完成与发布（2 本）
+## 完成与发布（4 本）
 什么时候算做完，以及发出去要付的代价。
-hackers-and-painters · the-creative-act
+the-hero-with-a-thousand-faces · forgetting-scott-small · hackers-and-painters · the-creative-act
 
-## 边界与不可还原（3 本）
+## 边界与不可还原（4 本）
 整体不等于零件之和，拆开就看不见了。
-sociological-imagination · beautiful-risk-of-education · knowing-and-being
+cybernetics-and-scientific-method · sociological-imagination · beautiful-risk-of-education · knowing-and-being
 
-## 盔甲与敞开（1 本）
+## 盔甲与敞开（3 本）
 把真的情绪、不懂和做错了露出来，是失分还是得分——这一层往往决定一个团队能不能真干活。
-dare-to-lead
+magic-words-tim-david · forgetting-scott-small · dare-to-lead
 
-## 传统与共识（13 本）
+## 传统与共识（18 本）
 共识怎么形成，又怎么被合理地推翻。
-discourse-on-method · analysis-and-thinking · autobiography-of-red · hackers-and-painters · …另有 9 本，用 --dim 传统与共识 取
+culture-of-growth-mokyr · creative-destruction-aghion · magic-words-tim-david · the-hero-with-a-thousand-faces · …另有 14 本，用 --dim 传统与共识 取
