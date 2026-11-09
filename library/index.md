@@ -34,9 +34,9 @@ thinking-in-models
 善意的干预会把一种风险换成另一种，先说清换成了哪种。
 cost-and-choice · pale-blue-dot
 
-## 时间与复利（3 本）
+## 时间与复利（4 本）
 什么会随时间累积，什么会随时间折旧。
-discourse-on-method · historical-regimes · naval-almanack
+discourse-on-method · dear-papa · historical-regimes · naval-almanack
 
 ## 清零与重启（3 本）
 经验是双刃，初心与"不知道"有独立价值。
@@ -94,9 +94,9 @@ blue-ocean-strategy · thinking-in-models
 选它放弃了什么——不做的代价要算，留着的代价也要算。
 creative-destruction-aghion · analysis-and-thinking · hackers-and-painters · the-beauty-of-the-husband · …另有 7 本，用 --dim 代价与机会成本 取
 
-## 身份与角色（10 本）
+## 身份与角色（11 本）
 这个选择在回答"我是谁"。
-magic-words-tim-david · the-hero-with-a-thousand-faces · autobiography-of-red · the-beauty-of-the-husband · …另有 6 本，用 --dim 身份与角色 取
+magic-words-tim-david · the-hero-with-a-thousand-faces · dear-papa · autobiography-of-red · …另有 7 本，用 --dim 身份与角色 取
 
 ## 完成与发布（4 本）
 什么时候算做完，以及发出去要付的代价。
@@ -106,9 +106,9 @@ the-hero-with-a-thousand-faces · forgetting-scott-small · hackers-and-painters
 整体不等于零件之和，拆开就看不见了。
 cybernetics-and-scientific-method · sociological-imagination · beautiful-risk-of-education · knowing-and-being
 
-## 盔甲与敞开（3 本）
+## 盔甲与敞开（4 本）
 把真的情绪、不懂和做错了露出来，是失分还是得分——这一层往往决定一个团队能不能真干活。
-magic-words-tim-david · forgetting-scott-small · dare-to-lead
+magic-words-tim-david · dear-papa · forgetting-scott-small · dare-to-lead
 
 ## 传统与共识（18 本）
 共识怎么形成，又怎么被合理地推翻。
