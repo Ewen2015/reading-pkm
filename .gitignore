@@ -12,3 +12,7 @@ docs/profile-raw.png
 library/.recall-log.jsonl
 # 数据面搬家前的老路径（README 里说明过沿革），留着防手滑把日志提交进去
 second-brain/.recall-log.jsonl
+
+# 第三方 skill 的本地安装（diagram-design）：与本仓九个 skill 的 plugin 无关，不入库
+.agents/skills/
+skills-lock.json
