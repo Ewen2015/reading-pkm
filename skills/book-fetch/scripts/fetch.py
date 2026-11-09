@@ -38,8 +38,13 @@ STATE = HOME / ".local/share/book-fetch"
 QUEUE_JSON = STATE / "queue.json"
 QUEUE_MD = HOME / "Documents/reading-queue.md"
 BOOKS_DIR = HOME / "Documents/books"
+SKILLS_DIR = Path(__file__).resolve().parents[2]
+OCR_TOOL = SKILLS_DIR / "read-a-book/scripts/ocr_scanned_pdf.py"
 
 UA = "book-fetch/0.1 (personal reading pipeline)"
+
+PDF_PROBE_PAGES = 12
+PDF_MIN_CHARS_PER_PAGE = 50
 
 # ---------- 配置 ----------
 
@@ -667,6 +672,76 @@ def _protection_scope(path: Path) -> str | None:
     return None
 
 
+def probe_pdf_text(path: Path) -> dict | None:
+    """抽样判断 PDF 有没有可用的文字层；探测不了就如实返回 None。
+
+    入口检查过去只看 PDF 头，于是纯扫描件也会报「内容可读 ✓」。这里只回答
+    「需不需要 OCR」这一个问题，不评价文字层的 OCR 质量（R47 的另一半仍开放）。
+    """
+    try:
+        import fitz
+    except ImportError:
+        exe = shutil.which("pdftotext")
+        info = shutil.which("pdfinfo")
+        if not exe or not info:
+            return None
+        try:
+            pages = int(subprocess.run(
+                [info, str(path)], capture_output=True, text=True, check=True
+            ).stdout.split("Pages:", 1)[1].splitlines()[0])
+        except (subprocess.CalledProcessError, IndexError, ValueError):
+            return None
+        sampled = min(PDF_PROBE_PAGES, pages)
+        indexes = _pdf_sample_indexes(pages, sampled)
+        counts: list[int] = []
+        for i in indexes:
+            out = subprocess.run(
+                [exe, "-f", str(i + 1), "-l", str(i + 1), str(path), "-"],
+                capture_output=True, text=True,
+            )
+            if out.returncode != 0:
+                return None
+            counts.append(len(out.stdout.strip()))
+        return {"pages": pages, "sampled": len(indexes),
+                "chars_per_page": statistics.median(counts) if counts else 0.0,
+                "method": "pdftotext"}
+
+    try:
+        with fitz.open(path) as doc:
+            pages = doc.page_count
+            sampled = min(PDF_PROBE_PAGES, pages)
+            # 均匀抽样，避开「只扫了空白扉页」造成的假警报。
+            indexes = _pdf_sample_indexes(pages, sampled)
+            counts = [len(doc[i].get_text().strip()) for i in indexes]
+    except Exception:
+        return None
+    return {"pages": pages, "sampled": len(indexes),
+            "chars_per_page": statistics.median(counts) if counts else 0.0,
+            "method": "PyMuPDF"}
+
+
+def _pdf_sample_indexes(pages: int, sampled: int) -> list[int]:
+    """按整本书均匀取页，避免前几页的空白扉页代表整本书。"""
+    if sampled <= 1:
+        return [0]
+    return sorted({round(i * (pages - 1) / (sampled - 1)) for i in range(sampled)})
+
+
+def report_pdf_text(path: Path) -> None:
+    probe = probe_pdf_text(path)
+    if probe is None:
+        print("文字层：未探测（缺 PyMuPDF / poppler；不要据此判断可直接阅读）")
+        return
+    cpp = probe["chars_per_page"]
+    detail = (f"{probe['pages']} 页，均匀抽样 {probe['sampled']} 页，"
+              f"中位 {cpp:.0f} 字/页")
+    if cpp < PDF_MIN_CHARS_PER_PAGE:
+        print(f"文字层 ✗ {detail}——疑似扫描件，不能直接抽取")
+        print(f"  → 先走 OCR：python3 '{OCR_TOOL}' '{path}'")
+    else:
+        print(f"文字层 ✓ {detail}（只证明有字，不证明 OCR 质量可用）")
+
+
 EPUB_MIMETYPE = b"application/epub+zip"
 
 
@@ -806,6 +881,8 @@ def cmd_check_source(args) -> int:
     else:
         kind = f"既不是 zip 也不是 pdf（magic={head!r}）——确认一下格式"
     print(f"内容可读 ✓  {kind}")
+    if p.suffix.lower() == ".pdf":
+        report_pdf_text(p)
     if scope:
         print(f"注意：它在受保护子树 ~/ {scope} 下。现在读得到，换个进程/换台机器可能就读不到；"
               "建议挪到 ~/Documents/books 再进流程。")
