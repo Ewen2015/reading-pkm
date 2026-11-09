@@ -29,6 +29,7 @@ reading-pkm/
 |   |-- evals/  固定题集与基线    index.md / index.json  生成物
 |-- docs/                   这份说明 + README 的配图与生成脚本
 |-- .codex-plugin/          plugin.json：把九个 skill 一次装进 Codex
+|-- .agents/plugins/        marketplace.json：一插件的市场清单（两条命令装完）
 `-- README.md
 ```
 
@@ -51,9 +52,10 @@ reading-pkm/
 
 所以仓库可以整个改名、挪位置，代码不用动；也可以把某个 skill 单独拷出去、数据放别处。
 **"从哪个 cwd 跑"与"仓库在哪"都不是运行时前提**——这是把路径解析写进代码而不是写进
-文档的原因。**代价要认**：按 plugin 装（skill 落在 plugin 目录下）时 `library/` 就不在
-skill 旁边了，得显式 `export SECOND_BRAIN_HOME=<书库>`；空书库时命令会把这个路径印出来，
-不让人对着"没有卡片"干猜。
+文档的原因。**代价要认**：`codex plugin add` 是**复制**整份插件目录（含 `library/`）进缓存，
+不是引用——缓存里的书库停在安装那一刻，`git pull` 和新读的书都进不去。所以日常用软链
+（`~/.codex/skills/<name>` 指回仓库），plugin 只用于分发；真要用 plugin 装，就把
+`SECOND_BRAIN_HOME` 指回活的仓库。空书库时命令会把这个路径印出来，不让人对着"没有卡片"干猜。
 
 **跨 skill 找文件：按 skills 根找，不按仓库相对路径找。** 例：`rednote-post` 的
 `check_content.py` 要用 `human-writing` 的 `human_check.py`。装完之后这两个 skill 是
@@ -85,12 +87,12 @@ skill 旁边了，得显式 `export SECOND_BRAIN_HOME=<书库>`；空书库时�
 plugin；`openai-docs` 给 plugin 的定义也正是"an installable bundle of skills, tools, …"，
 即 bundle 是**装什么**的泛指，plugin 才是**打包单位**。
 
-**要不要再拆成 marketplace？** 一个市场用 `<root>/.agents/plugins/marketplace.json` 列插件，
+**一个 marketplace，仍然只有一个 plugin。** 市场清单是 `<root>/.agents/plugins/marketplace.json`，
 `source` 可以是 `local`（本地目录）、`url`（一个 git 仓库）或 `git-subdir`（仓库里的某个子目录）。
-也就是说：想让人**只装其中一个 skill**，或者想从 GitHub 直接分发，就得再加这份清单，把
-`skills/` 拆成多个 plugin 目录。本仓现在**有意不拆**——这条流水线本来就是一套的东西
-（缺了 `second-brain`，`read-a-book` 的产物没处沉淀），整体装、整体用，清单也就少一份要维护的。
-哪天要单独发某一个 skill，再加不迟。
+本仓只列一个 plugin（`path: "."`），不把 `skills/` 拆开卖——这条流水线本来就是一套的东西
+（缺了 `second-brain`，`read-a-book` 的产物没处沉淀），整体装、整体用。这份清单的唯一作用，
+是让 `codex plugin marketplace add` + `codex plugin add` 两条命令能装完；哪天要单独发某个
+skill，再拆成多个 plugin 不迟。
 
 ## 1. 一条不变量
 
@@ -166,7 +168,7 @@ flowchart TB
 
 | 层 | 文件 | 进上下文吗 | 规模随什么变 |
 | --- | --- | --- | --- |
-| 路由层 | `skills/second-brain/references/dimensions.md` | 改词表时 | **人为固定 25 维** |
+| 路由层 | `skills/second-brain/references/dimensions.md` | 改词表时 | **人为固定 26 维** |
 | 指路牌 | `library/index.md`（生成物） | 每次挑维度时全读 | 维度数 |
 | 机器层 | `library/index.json`（生成物） | **从不** | 随书数线性增长 |
 | 内容层 | `library/books/<slug>.md` | 只读选中的 1–2 张 | 单张 1.4–3K tokens |
@@ -194,7 +196,7 @@ SKILL.md ≈3.4K + index.md ≈1.9K + 2 张卡 ≈4K ≈ 9K tokens（不含对�
 不做增量索引；`index.json` 的 `INDEX_VERSION` 一改就整份作废重算，宁可慢也不吃旧格式的暗亏。
 
 **D2 · 维度表是路由层，不是书单。**
-25 个思考维度人为固定，问法写**用户会说的话**（`辞职`／`单干`／`用时间换钱`），
+26 个思考维度人为固定，问法写**用户会说的话**（`辞职`／`单干`／`用时间换钱`），
 不写章节标题。判据是"哪个视野能给这题加一维"，不是"哪本书谈过这个话题"。
 代价：加维度要克制（加一个 `index.md` 多三行），且词表要长期维护——换种说法搜不到就补问法。
 
@@ -255,7 +257,7 @@ python3 skills/second-brain/scripts/brain.py eval --check   # 回归：与 basel
 | 检索 | 混合检索（向量 + BM25 + 图）+ 交叉编码器复排 | 四路 RRF（维度／字面／小节／关系边），零嵌入 |
 | 关系 | 实体图：人／公司／项目／投资 | 书与书的关系边：对撞／上游／下游／同体例 |
 | 部署形态 | 常驻 MCP 服务 + 定时任务群 | 无服务：命令 + 文件，随用随跑 |
-| 知识单位 | 页面／实体／事实／主张 | 一本书的**视野**，挂在 25 个思考维度上 |
+| 知识单位 | 页面／实体／事实／主张 | 一本书的**视野**，挂在 26 个思考维度上 |
 | 质量闸门 | 大规模 eval + 校准曲线 | 31 题固定集 + 基线闸门 + 口径声明 |
 | 共享 | 多 brain／团队挂载／细粒度权限 | 单机单库；`library/notes/` 与 `library/books/` 一起入库 |
 
@@ -278,7 +280,7 @@ python3 skills/second-brain/scripts/brain.py eval --check   # 回归：与 basel
 - **回流断着**：各渠道的反馈没有回到选题与呈现（回流 A）；`second-brain` 的取用记录
   没有回到书库取舍（回流 B）。两条都标在 loop-map 里，`rsi.py` 只在埋了点的地方报数。
 - **有一类问题没有维度**：像"想不出来、认命了"这种"问题本身可不可解"的题，
-  25 维里没有落点，只能靠字面路命中（如 q28）。
+  26 维里没有落点，只能靠字面路命中（如 q28）。
 - **关系边写得不齐**：16 组「对撞」只写了单边；`analysis-and-thinking`、`historical-regimes`
   是孤立卡（没有库内关系边）且缺「常被引用的原句」。这些是卡片改进 backlog，不影响可用。
 - **只量候选不量答案**：见第 5 节。

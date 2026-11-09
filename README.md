@@ -115,7 +115,7 @@ Share 段目前只有一条渠道跑通：小红书，账号 **司马读书**（
 
 ![个人主页](docs/profile.png)
 
-其中 15 篇是这条流水线的成品——每本书先做分析阅读，压成卡片，再渲染成 5 张 1080×1440 的图文。
+其中有一批是这条流水线的成品——每本书先做分析阅读，压成卡片，再渲染成 5 张 1080×1440 的图文。
 同一批模板跑出来的封面，题材不同、版式不变：
 
 ![六个不同选题的封面](docs/covers.png)
@@ -133,7 +133,7 @@ flowchart LR
     ARMS --> RRF["RRF 名次融合<br/>不手调权重"]
     RRF --> C["候选 6 本<br/>命中 · 置信 · 边界 · 可当反方"]
     C --> ANS["只读 1–2 张卡<br/>给出带出处的意见"]
-    DIMS["dimensions.md<br/>25 维，人为固定"] -.-> ARMS
+    DIMS["dimensions.md<br/>26 维，人为固定"] -.-> ARMS
     IDX["index.json<br/>随书数涨，不进上下文"] -.-> ARMS
     EV["evals：31 题 + 基线"] -.闸门.-> R
     ANS --> SB["library/books/ 卡片 + library/notes/ 原笔记"]
@@ -172,7 +172,7 @@ flowchart LR
 skills/               代码面：九个 skill，各自独立，单个拷出去也能跑
   read-a-book/        阅读方法论：检视 / 分析 / 主题阅读
   book-fetch/         SEEK：取得书
-  second-brain/       第二大脑：写法、路由表（25 维）、工具（brain.py）
+  second-brain/       第二大脑：写法、路由表（26 维）、工具（brain.py）
   scandinavian-style/ 版式系统：16:9 网格、one-pager、图表规则
   rednote-post/       SHARE：渲染成卡片并发布
   rednote-assistant/  SHARE：排期与节奏
@@ -186,6 +186,7 @@ library/              数据面：卡片与笔记、评测集、索引——真�
   index.md index.json 生成物，删了能重建
 docs/                 README 用图与其生成脚本；ARCHITECTURE.md 架构说明
 .codex-plugin/        plugin.json：把九个 skill 一次装进 Codex
+.agents/plugins/      marketplace.json：一插件的市场清单（两条命令装完）
 ```
 
 `brain.py` 找书库的顺序是 `$SECOND_BRAIN_HOME` → 仓库里的 `library/` → `~/.local/share/second-brain`，
@@ -193,33 +194,8 @@ docs/                 README 用图与其生成脚本；ARCHITECTURE.md 架构�
 
 ## 安装
 
-**这个仓库就是一个 Codex plugin。** 清单 `.codex-plugin/plugin.json` 里只声明了一件事——
-`"skills": "./skills/"`（plugin 还能声明 `apps`／`mcpServers`／`hooks`，本仓一个都不需要）。
-把仓库当本地 plugin 装进 Codex，九个 skill 一起就位，名字带 plugin 前缀
-（`reading-pkm:second-brain`、`reading-pkm:book-fetch`…）。
-
-不想用 plugin 就手工复制（装出来的是不带前缀的同名 skill）：
-
-```bash
-for s in book-fetch read-a-book second-brain scandinavian-style \
-         rednote-post rednote-assistant rednote-reply human-writing rsi-reading; do
-  cp -R "skills/$s" "${CODEX_HOME:-$HOME/.codex}/skills/"
-done
-```
-
-**装完记得让 `brain.py` 找得到书库。** 它按 `$SECOND_BRAIN_HOME` → 兄弟目录 `library/` →
-`~/.local/share/second-brain` 找。直接从仓库跑、或上面那种软链装法，`library/` 就在 skill 旁边，
-什么都不用设；skill 被拷到别处（plugin 装法会把插件放进 Codex 自己的目录）时它就不在旁边了——
-这时指一下，一个环境变量的事：
-
-```bash
-export SECOND_BRAIN_HOME="$HOME/Documents/GitHub/reading-pkm/library"
-```
-
-书库放错地方时命令不会闷着——`brain.py index`／`check`／`recall` 会把解析出来的路径印出来。
-
-开发时直接软链，改仓库即生效（软链的路径指向 `skills/` 里的目录）——本机眼下就是这一种：
-应用侧看到的名字是 `reading-pkm:*`，指过去仍是仓库里的这份文件。
+**日常用法只有一步：把九个 skill 软链进 Codex。** 指向的是仓库里的这份代码，改完立即生效；
+书库留在原处，`brain.py` 从 skill 的兄弟目录自己找得到：
 
 ```bash
 for s in book-fetch read-a-book second-brain scandinavian-style \
@@ -227,6 +203,30 @@ for s in book-fetch read-a-book second-brain scandinavian-style \
   ln -sfn "$PWD/skills/$s" "${CODEX_HOME:-$HOME/.codex}/skills/$s"
 done
 ```
+
+不能软链（比如 Windows）就把循环里的 `ln -sfn` 换成 `cp -R`，代价是改仓库后要重跑一遍。
+
+**书库不在仓库里了才需要设环境变量。** 查找顺序是 `$SECOND_BRAIN_HOME` → 兄弟目录
+`library/` → `~/.local/share/second-brain`；书库搬出去时指一下：
+
+```bash
+export SECOND_BRAIN_HOME="$HOME/Documents/GitHub/reading-pkm/library"
+```
+
+书库放错地方时命令不会闷着——`brain.py index`／`check`／`recall` 会把解析出来的路径印出来。
+
+**分发给别人：仓库本身就是一个 Codex plugin。** 清单只声明 `"skills": "./skills/"`，
+仓库根的 `.agents/plugins/marketplace.json` 只列这一个 plugin，对方两条命令装完，
+装出来的 skill 带 `reading-pkm:` 前缀：
+
+```bash
+codex plugin marketplace add /path/to/reading-pkm
+codex plugin add reading-pkm@reading-pkm
+```
+
+但 **plugin 装法是复制，不是引用**：它会把插件目录（含 `library/`）复制进 Codex 的缓存，
+之后读到的是安装那一刻的快照。日常用上面的软链；用 plugin 装，就把 `SECOND_BRAIN_HOME`
+指回活的仓库。
 
 两个 skill 需要额外配置，配置都在仓库外——**仓库里不含任何凭据或书源信息**：
 
