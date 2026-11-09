@@ -2,8 +2,9 @@
 
 > 把读过的书，变成下次思考时**会被调用**的视角。
 
-一条个人阅读的知识管理流水线：**九个 [Codex](https://developers.openai.com/codex/) skill 打成一个
-Codex plugin**（`.codex-plugin/plugin.json`），装一次全部就位，也可以只把某一个 skill 拷走用。
+一条个人阅读的知识管理流水线：**九个 skill 打成一个 Codex plugin**
+（`.codex-plugin/plugin.json`），装一次全部就位；skill 目录本身不绑定 Codex，
+也可以只把某一个拷到别的 agent 里用。
 它把 Harold Jarche 的 **Seek › Sense › Share** 模型落成能跑的东西：能被自动化的交给机器，
 不能被自动化的——判断与品味——留在人这里。
 
@@ -184,9 +185,9 @@ library/              数据面：卡片与笔记、评测集、索引——真�
   notes/              原笔记（深度层）
   evals/              31 题固定题集 + 基线
   index.md index.json 生成物，删了能重建
-docs/                 README 用图与其生成脚本；ARCHITECTURE.md 架构说明
+docs/                 INSTALL.md 安装说明；ARCHITECTURE.md 架构说明；README 用图与生成脚本
 .codex-plugin/        plugin.json：把九个 skill 一次装进 Codex
-.agents/plugins/      marketplace.json：一插件的市场清单（两条命令装完）
+.agents/plugins/      marketplace.json：一插件的市场清单（分发用）
 ```
 
 `brain.py` 找书库的顺序是 `$SECOND_BRAIN_HOME` → 仓库里的 `library/` → `~/.local/share/second-brain`，
@@ -194,44 +195,13 @@ docs/                 README 用图与其生成脚本；ARCHITECTURE.md 架构�
 
 ## 安装
 
-**日常用法只有一步：把九个 skill 软链进 Codex。** 指向的是仓库里的这份代码，改完立即生效；
-书库留在原处，`brain.py` 从 skill 的兄弟目录自己找得到：
+把下面这句话复制给任何能跑命令的 agent：
 
-```bash
-for s in book-fetch read-a-book second-brain scandinavian-style \
-         rednote-post rednote-assistant rednote-reply human-writing rsi-reading; do
-  ln -sfn "$PWD/skills/$s" "${CODEX_HOME:-$HOME/.codex}/skills/$s"
-done
-```
+> 克隆 `https://github.com/Ewen2015/reading-pkm`（如果还没有），然后按仓库里的
+> `docs/INSTALL.md` 把九个 skill 装好。
 
-不能软链（比如 Windows）就把循环里的 `ln -sfn` 换成 `cp -R`，代价是改仓库后要重跑一遍。
-
-**书库不在仓库里了才需要设环境变量。** 查找顺序是 `$SECOND_BRAIN_HOME` → 兄弟目录
-`library/` → `~/.local/share/second-brain`；书库搬出去时指一下：
-
-```bash
-export SECOND_BRAIN_HOME="$HOME/Documents/GitHub/reading-pkm/library"
-```
-
-书库放错地方时命令不会闷着——`brain.py index`／`check`／`recall` 会把解析出来的路径印出来。
-
-**分发给别人：仓库本身就是一个 Codex plugin。** 清单只声明 `"skills": "./skills/"`，
-仓库根的 `.agents/plugins/marketplace.json` 只列这一个 plugin，对方两条命令装完，
-装出来的 skill 带 `reading-pkm:` 前缀：
-
-```bash
-codex plugin marketplace add /path/to/reading-pkm
-codex plugin add reading-pkm@reading-pkm
-```
-
-但 **plugin 装法是复制，不是引用**：它会把插件目录（含 `library/`）复制进 Codex 的缓存，
-之后读到的是安装那一刻的快照。日常用上面的软链；用 plugin 装，就把 `SECOND_BRAIN_HOME`
-指回活的仓库。
-
-两个 skill 需要额外配置，配置都在仓库外——**仓库里不含任何凭据或书源信息**：
-
-- `book-fetch`：书源适配器，见 [`skills/book-fetch/SKILL.md`](./skills/book-fetch/SKILL.md)
-- `rednote-post`：浏览器桥接与扩展，见 [`skills/rednote-post/references/publishing.md`](./skills/rednote-post/references/publishing.md)
+软链到哪个 skills 根、怎么验证、书库放哪、哪两个 skill 要额外配置，都在
+[`docs/INSTALL.md`](./docs/INSTALL.md) 里。
 
 ---
 

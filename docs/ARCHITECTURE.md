@@ -27,7 +27,7 @@ reading-pkm/
 |-- library/                数据面：卡片、原笔记、题集、索引——真相在这里
 |   |-- books/  每本一张卡       notes/  原笔记
 |   |-- evals/  固定题集与基线    index.md / index.json  生成物
-|-- docs/                   这份说明 + README 的配图与生成脚本
+|-- docs/                   INSTALL.md + 这份说明 + README 的配图与生成脚本
 |-- .codex-plugin/          plugin.json：把九个 skill 一次装进 Codex
 |-- .agents/plugins/        marketplace.json：一插件的市场清单（两条命令装完）
 `-- README.md
@@ -35,8 +35,9 @@ reading-pkm/
 
 **为什么代码和数据分家。** 三条理由，一条比一条实际：
 
-1. **skill 要能单独装。** `skills/<name>/` 拷进 `~/.codex/skills/` 就能跑，不带书库也行——
-   `brain.py` 找不到库就在 `~/.local/share/second-brain` 建一个空的。
+1. **skill 要能单独装。** `skills/<name>/` 拷进所用 agent 的 skills 根就能跑
+   （Codex 是 `~/.codex/skills/`，其他 agent 按各自约定，常见的是 `~/.agents/skills/`），
+   不带书库也行——`brain.py` 找不到库就在 `~/.local/share/second-brain` 建一个空的。
 2. **数据要能整体搬。** 书库换机器、换位置（本机／网盘／共享盘）只改一个环境变量，
    不动任何 skill 代码。
 3. **`git` 要能分得清。** "改工具"和"加一本书"的 diff 不再混在一起；将来想只公开 skill、
@@ -76,6 +77,9 @@ reading-pkm/
 **打包形态：一个 plugin，九个 skill。** 仓库根放一份 plugin 清单
 （`.codex-plugin/plugin.json`），只声明 `"skills": "./skills/"`——Codex 按目录把九个 skill
 一起装上（名字带 plugin 前缀，`reading-pkm:second-brain`），不用手写 `cp` 循环。
+skill 目录本身是纯 markdown + 标准库脚本，别的 agent 按自己的 skills 根装同一批目录即可，
+不依赖 plugin 形态。
+
 清单里没有 `apps`、没有 `mcpServers`、没有 `hooks`，`interface` 也只有一个标题：
 和"无服务、文件即大脑"是同一条纪律——**这个 plugin 里除了 skill，什么都没有**。
 
@@ -288,6 +292,7 @@ python3 skills/second-brain/scripts/brain.py eval --check   # 回归：与 basel
 
 ## 相关文档
 
+- [`./INSTALL.md`](./INSTALL.md)——怎么装：软链到哪个 skills 根、验证、plugin 分发
 - [`../.codex-plugin/plugin.json`](../.codex-plugin/plugin.json)——plugin 清单（skill 装在哪）
 - [`../skills/second-brain/SKILL.md`](../skills/second-brain/SKILL.md)——第二大脑的四步与铁律
 - [`../skills/second-brain/references/retrieval.md`](../skills/second-brain/references/retrieval.md)——四路召回怎么读、词表怎么改
