@@ -137,7 +137,8 @@ skills/second-brain/              ← 代码面，可单独拷走
 
 ## 检索质量怎么守
 
-词表是这套检索唯一的可调项，凭手感改会越改越坏。改完 `dimensions.md` 或卡片后跑一次：
+词表是这套检索唯一的可调项，凭手感改会越改越坏。改完 `dimensions.md` 或卡片后跑一次
+（相对路径以本 skill 目录为基准；从仓库根目录跑时用 `python3 skills/second-brain/scripts/brain.py`）：
 
 ```bash
 python3 scripts/brain.py eval            # P@k / R@k / MRR / 维度命中率 +「未调参」那一行
@@ -149,6 +150,9 @@ python3 scripts/brain.py eval --baseline # 确认是净改善后，重新记基�
   词表补对了，不证明泛化。
 - 这个数只回答"候选里有没有该出现的书"，**不回答答案好不好**；题少，一道值好几个百分点，
   只看同一套题改前改后有没有变好。
+- **`eval --check` 失败先看基线新旧。** 如果这一轮没有改词表/触发器，先看
+  `library/evals/baseline.json` 是不是上一批 `add` 之后没更新；旧基线造成的回退不是新卡的问题。
+  不要静默重记基线，先把「基线未更新」写进报告。
 - 用户换个说法就搜不到 → 把那个说法补进对应维度的「问法」；这是最主要的修法。
   详见 [`references/retrieval.md`](references/retrieval.md)。
 

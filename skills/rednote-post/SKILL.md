@@ -24,6 +24,8 @@ metadata:
 下面命令里的 `<skill>` 指本文件所在目录
 （通常是 `${CODEX_HOME:-$HOME/.codex}/skills/rednote-post`）。
 按字面写 `scripts/xhs.py` 会找不到——当前工作目录通常是用户的项目，不是 skill 目录。
+**`plan.py` 不在本 skill 的 `scripts/` 下**，在 `rednote-assistant/scripts/plan.py`；
+从仓库根目录跑用 `python3 skills/rednote-assistant/scripts/plan.py ready ...`。
 
 ## 三条铁律
 

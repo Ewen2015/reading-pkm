@@ -290,7 +290,7 @@ def _kill_port_owner() -> bool:
 
 
 def _wait_extension(page, timeout: float = 25.0) -> bool:
-    """等扩展重新连上刚换过的 server（扩展侧是 3s 一次重连）。"""
+    """等扩展连上刚启动/换过的 server（扩展侧是 3s 一次重连）。"""
     deadline = time.time() + timeout
     while time.time() < deadline:
         if page.is_extension_connected():
@@ -309,13 +309,17 @@ def _spawn_server(python: str, server, timeout: float) -> None:
 
 def ensure_server(required_timeout: float = DEFAULT_CMD_TIMEOUT) -> None:
     page, _ = bridge()
-    restarted = False
     if page.is_server_running():
         live = page.server_cmd_timeout()
         if live is None or live >= required_timeout:
+            # server 在跑不等于扩展连着：Chrome 刚重启时扩展要几秒才重连。
+            # 直接返回会让下一条命令撞「Extension 未连接」，先等一轮。
+            if not page.is_extension_connected() and not _wait_extension(page, timeout=8.0):
+                die("bridge server 在跑，但浏览器扩展 8s 内没连上；"
+                    "先确认 Chrome 开着、XHS Bridge 扩展启用，再重跑")
             return
         # 端口上是一个用更小上限起着的常驻进程：CLI 侧调大没用，必须换掉。
-        restarted = _kill_port_owner()
+        _kill_port_owner()
     server = SKILLS_DIR / "scripts" / "bridge_server.py"
     if not server.exists():
         die(f"找不到 {server}；先跑 scripts/setup_bridge.sh")
@@ -329,11 +333,11 @@ def ensure_server(required_timeout: float = DEFAULT_CMD_TIMEOUT) -> None:
             break
     else:
         die("bridge server 起不来，见 /tmp/xhs-bridge.log")
-    if restarted and not _wait_extension(page):
-        # 换过 server 之后扩展要重连，不等它就会在第一条命令上撞
-        # 「Extension 未连接」——这正是换 server 自带的新故障。
-        die("换了 bridge server，但浏览器扩展 25s 内没重连上；"
-            "看看 Chrome 里 XHS Bridge 扩展是否还开着")
+    # 新起的 server 和换过的 server 一样，扩展都要 3–5s 才重连上；
+    # 不等它，第一条 navigate/fill 就会撞「Extension 未连接」。
+    if not _wait_extension(page):
+        die("bridge server 已启动，但浏览器扩展 25s 内没连上；"
+            "先确认 Chrome 开着、XHS Bridge 扩展启用，再重跑")
 
 
 def cli(*args: str) -> subprocess.CompletedProcess:

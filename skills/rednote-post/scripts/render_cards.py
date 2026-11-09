@@ -237,6 +237,8 @@ def judge(rep: dict, min_font: float) -> tuple[list[str], list[str]]:
             fails.append(f"内容压到页脚，越界 {-gap}px")
         elif gap < 40:
             warns.append(f"内容距页脚仅 {gap}px，偏挤")
+        elif gap > 320:
+            warns.append(f"内容距页脚 {gap}px（>320），版面偏空——补一条内容或加大区块间距，别留三分之一空白")
 
     mf = rep.get("min_font")
     if mf is not None:
