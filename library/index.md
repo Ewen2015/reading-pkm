@@ -38,9 +38,9 @@ cost-and-choice · pale-blue-dot
 什么会随时间累积，什么会随时间折旧。
 discourse-on-method · dear-papa · historical-regimes · naval-almanack
 
-## 清零与重启（3 本）
+## 清零与重启（4 本）
 经验是双刃，初心与"不知道"有独立价值。
-the-hero-with-a-thousand-faces · forgetting-scott-small · the-creative-act
+the-structure-of-scientific-revolutions · the-hero-with-a-thousand-faces · forgetting-scott-small · the-creative-act
 
 ## 财富金钱地位（1 本）
 先分清在玩哪种游戏——地位是零和，财富是正和。
@@ -54,9 +54,9 @@ blue-ocean-strategy · naval-almanack
 这份本事能不能被培训出来——能被培训，就能被取代。
 creative-destruction-aghion · hackers-and-painters · naval-almanack · yujun-product-methodology
 
-## 意会与不可言说（2 本）
+## 意会与不可言说（3 本）
 有些判断说不清但确实知道，写成条目反而失真。
-reflection-and-history · knowing-and-being
+the-structure-of-scientific-revolutions · reflection-and-history · knowing-and-being
 
 ## 焦点与附带（2 本）
 把平时不当回事的东西硬拽到焦点上，判断会被破坏。
@@ -78,9 +78,9 @@ discourse-on-method · forgetting-scott-small · autobiography-of-red · the-bea
 怀疑该放在哪里——既不轻易怀疑自己，也不把"我以为我知道"当成知道。
 language-in-thought-and-action · discourse-on-method · forgetting-scott-small · dare-to-lead · …另有 5 本，用 --dim 自我怀疑与作品 取
 
-## 地图与疆域（15 本）
+## 地图与疆域（16 本）
 报表、职级、简历都是地图，不是现实本身。
-magic-words-tim-david · the-hero-with-a-thousand-faces · cybernetics-and-scientific-method · language-in-thought-and-action · …另有 11 本，用 --dim 地图与疆域 取
+the-structure-of-scientific-revolutions · magic-words-tim-david · the-hero-with-a-thousand-faces · cybernetics-and-scientific-method · …另有 12 本，用 --dim 地图与疆域 取
 
 ## 自尊与自我修正（6 本）
 挡住改主意的往往不是无知，是自尊。
@@ -102,14 +102,14 @@ magic-words-tim-david · the-hero-with-a-thousand-faces · dear-papa · autobiog
 什么时候算做完，以及发出去要付的代价。
 the-hero-with-a-thousand-faces · forgetting-scott-small · hackers-and-painters · the-creative-act
 
-## 边界与不可还原（4 本）
+## 边界与不可还原（5 本）
 整体不等于零件之和，拆开就看不见了。
-cybernetics-and-scientific-method · sociological-imagination · beautiful-risk-of-education · knowing-and-being
+the-structure-of-scientific-revolutions · cybernetics-and-scientific-method · sociological-imagination · beautiful-risk-of-education · …另有 1 本，用 --dim 边界与不可还原 取
 
 ## 盔甲与敞开（4 本）
 把真的情绪、不懂和做错了露出来，是失分还是得分——这一层往往决定一个团队能不能真干活。
 magic-words-tim-david · dear-papa · forgetting-scott-small · dare-to-lead
 
-## 传统与共识（18 本）
+## 传统与共识（19 本）
 共识怎么形成，又怎么被合理地推翻。
-culture-of-growth-mokyr · creative-destruction-aghion · magic-words-tim-david · the-hero-with-a-thousand-faces · …另有 14 本，用 --dim 传统与共识 取
+the-structure-of-scientific-revolutions · culture-of-growth-mokyr · creative-destruction-aghion · magic-words-tim-david · …另有 15 本，用 --dim 传统与共识 取
