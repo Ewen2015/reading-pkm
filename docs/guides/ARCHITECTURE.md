@@ -1,7 +1,7 @@
 # 架构
 
 这份文档回答**为什么这么切**。怎么用看各 skill 的 `SKILL.md`；流水线现在跑到哪一步、
-哪条回流是断的，看 [`skills/rsi-reading/references/loop-map.md`](../skills/rsi-reading/references/loop-map.md)，
+哪条回流是断的，看 [`skills/rsi-reading/references/loop-map.md`](../../skills/rsi-reading/references/loop-map.md)，
 本文不重复那张图。
 
 参考对象：[garrytan/gbrain](https://github.com/garrytan/gbrain)——同样是「把 markdown 变成
@@ -27,7 +27,7 @@ reading-pkm/
 |-- library/                数据面：卡片、原笔记、题集、索引——真相在这里
 |   |-- books/  每本一张卡       notes/  原笔记
 |   |-- evals/  固定题集与基线    index.md / index.json  生成物
-|-- docs/                   INSTALL.md + 这份说明 + README 的配图与生成脚本
+|-- docs/                   文档入口：guides（安装/架构）、presentation、assets、src
 |-- .codex-plugin/          plugin.json：把九个 skill 一次装进 Codex
 |-- .agents/plugins/        marketplace.json：一插件的市场清单（两条命令装完）
 `-- README.md
@@ -250,7 +250,7 @@ python3 skills/second-brain/scripts/brain.py eval --check   # 回归：与 basel
 - **能力边界**：这个数只量"候选里有没有该出现的书"，不量"答案好不好"。
   后者要人看——把 11 条铁律变成可判分的题是下一个待办。
 - **闭环度量**：`skills/rsi-reading/scripts/rsi.py` 量的是另一件事——这条流水线的闭环覆盖率、
-  断点数、端到端周期。口径在 [`skills/rsi-reading/references/metrics.md`](../skills/rsi-reading/references/metrics.md)，
+  断点数、端到端周期。口径在 [`skills/rsi-reading/references/metrics.md`](../../skills/rsi-reading/references/metrics.md)，
   没埋点的指标就明写"未埋点"，不假装有数。
 
 ## 6. 与 gbrain 的取舍对照
@@ -293,8 +293,8 @@ python3 skills/second-brain/scripts/brain.py eval --check   # 回归：与 basel
 ## 相关文档
 
 - [`./INSTALL.md`](./INSTALL.md)——怎么装：软链到哪个 skills 根、验证、plugin 分发
-- [`../.codex-plugin/plugin.json`](../.codex-plugin/plugin.json)——plugin 清单（skill 装在哪）
-- [`../skills/second-brain/SKILL.md`](../skills/second-brain/SKILL.md)——第二大脑的四步与铁律
-- [`../skills/second-brain/references/retrieval.md`](../skills/second-brain/references/retrieval.md)——四路召回怎么读、词表怎么改
-- [`../skills/second-brain/references/cards.md`](../skills/second-brain/references/cards.md)——卡片字段与关系边写法
-- [`../skills/rsi-reading/references/loop-map.md`](../skills/rsi-reading/references/loop-map.md)——流水线实测状态
+- [`../../.codex-plugin/plugin.json`](../../.codex-plugin/plugin.json)——plugin 清单（skill 装在哪）
+- [`../../skills/second-brain/SKILL.md`](../../skills/second-brain/SKILL.md)——第二大脑的四步与铁律
+- [`../../skills/second-brain/references/retrieval.md`](../../skills/second-brain/references/retrieval.md)——四路召回怎么读、词表怎么改
+- [`../../skills/second-brain/references/cards.md`](../../skills/second-brain/references/cards.md)——卡片字段与关系边写法
+- [`../../skills/rsi-reading/references/loop-map.md`](../../skills/rsi-reading/references/loop-map.md)——流水线实测状态

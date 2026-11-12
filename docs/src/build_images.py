@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Rebuild the README images in docs/ from their sources.
+"""Rebuild the README images in docs/assets/ from their sources.
 
-  profile.png    <- docs/profile-raw.png   (Chrome screenshot of the 小红书 profile,
+  profile.png    <- docs/assets/profile-raw.png   (Chrome screenshot of the 小红书 profile,
                                              left sidebar cropped away)
   case-post.png  <- ~/Documents/rednote/published/creative-act-2026-10-06/
   covers.png     <- 01-封面.png of six published posts
@@ -15,7 +15,7 @@ from pathlib import Path
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
-DOCS = ROOT / "docs"
+ASSETS = ROOT / "docs" / "assets"
 PUB = Path.home() / "Documents" / "rednote" / "published"
 PAPER = (243, 238, 229)
 
@@ -35,15 +35,15 @@ def strip(paths, card_w, gap, pad, out):
     for c in cards:
         canvas.paste(c, (x, pad))
         x += card_w + gap
-    canvas.save(DOCS / out, optimize=True)
+    canvas.save(ASSETS / out, optimize=True)
     print(f"{out}: {canvas.width}x{canvas.height}  "
           f"{len(cards)} cards from {[Path(p).parent.name for p in paths]}")
 
 
 # --- profile: drop the site's left navigation rail and menu ---------------
-raw = Image.open(DOCS / "profile-raw.png")
+raw = Image.open(ASSETS / "profile-raw.png")
 prof = fit(raw.crop((444, 0, raw.width, 1700)), 1800)
-prof.save(DOCS / "profile.png", optimize=True)
+prof.save(ASSETS / "profile.png", optimize=True)
 print(f"profile.png: {prof.width}x{prof.height}")
 
 # --- one post, all five cards ---------------------------------------------

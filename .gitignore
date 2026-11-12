@@ -5,8 +5,8 @@ __pycache__/
 # 本地跑 xhs_state.py 时别把平台快照写进这个仓库
 state/
 
-# README 的截图源：未裁剪的原始截图只留在本地，进仓库的是裁好的 docs/profile.png
-docs/profile-raw.png
+# README 的截图源：未裁剪的原始截图只留在本地，进仓库的是裁好的 docs/assets/profile.png
+docs/assets/profile-raw.png
 
 # 第二大脑的 recall 本地日志：只用来找"从没被取用的卡"，不入库
 library/.recall-log.jsonl
@@ -16,3 +16,6 @@ second-brain/.recall-log.jsonl
 # 第三方 skill 的本地安装（diagram-design）：与本仓九个 skill 的 plugin 无关，不入库
 .agents/skills/
 skills-lock.json
+
+# PPT 渲染的本地中间产物（预览图、校验器）；成品在 docs/presentation/
+.codex-build/

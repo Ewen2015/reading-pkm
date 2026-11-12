@@ -2,18 +2,20 @@
 
 > 把读过的书，变成下次思考时**会被调用**的视角。
 
-一条个人阅读的知识管理流水线：**九个 skill 打成一个 Codex plugin**
+一条个人阅读的 PKM 流水线：**九个 skill 打成一个 Codex plugin**
 （`.codex-plugin/plugin.json`），装一次全部就位；skill 目录本身不绑定 Codex，
 也可以只把某一个拷到别的 agent 里用。
 它把 Harold Jarche 的 **Seek › Sense › Share** 模型落成能跑的东西：能被自动化的交给机器，
 不能被自动化的——判断与品味——留在人这里。
 
-![Seek › Sense › Share 落到一条可执行的流水线上](docs/framework.png)
+![Seek › Sense › Share 落到一条可执行的流水线上](docs/assets/framework.png)
+
+四页项目介绍：[`docs/presentation/reading-pkm.pptx`](./docs/presentation/reading-pkm.pptx)（PPT，可编辑）· [`index.html`](./docs/presentation/index.html) · [PDF](./docs/presentation/reading-pkm.pdf)。
 
 ## 框架：Seek › Sense › Share
 
 Harold Jarche 在 2014 年的 [Sense-making and sharing](https://jarche.com/2014/07/sense-making-and-sharing/)
-里，把个人知识管理（PKM）压成三个动作：**seek**（持续找新知识、找不同的人）、**sense**（把它变成
+里，把 **personal knowledge mastery（PKM）** 压成三个动作：**seek**（持续找新知识、找不同的人）、**sense**（把它变成
 自己的）、**share**（还给网络）。他真正想说的不是这三个词，而是**失衡的代价**：
 
 | 只做其中一件 | 会怎样 |
@@ -59,9 +61,9 @@ AI 对这条链的冲击是不均匀的：
 
 | Skill | 做什么 | 示例 |
 | --- | --- | --- |
-| [`read-a-book`](./skills/read-a-book) | 用《如何阅读一本书》(Adler & Van Doren) 的方法执行真实阅读：检视 → 分析 → 主题，每本书都梳理来龙去脉（写作目的、所属思潮、影响它的与它影响的），产出结构化笔记；可按需压成**一页纸（one-pager）**。 | <img src="docs/skills/read-a-book.png" width="220" alt="《思考的框架》三册一页纸读书笔记：三栏分别放这本书在回答什么、三册结构与 48 个模型、上游与下游的隐身人"> |
+| [`read-a-book`](./skills/read-a-book) | 用《如何阅读一本书》(Adler & Van Doren) 的方法执行真实阅读：检视 → 分析 → 主题，每本书都梳理来龙去脉（写作目的、所属思潮、影响它的与它影响的），产出结构化笔记；可按需压成**一页纸（one-pager）**。 | <img src="docs/assets/skills/read-a-book.png" width="220" alt="《思考的框架》三册一页纸读书笔记：三栏分别放这本书在回答什么、三册结构与 48 个模型、上游与下游的隐身人"> |
 | [`second-brain`](./skills/second-brain) | 用已经读过的书回答一个具体问题：挑出真正相关的 1–2 本，用它们的思想视角参与思考，每个观点都带出处与作者。**交付的是意见，不是读书报告。** 书库按「index 当注册表、卡片按需加载」组织——一次问答约 3–5K tokens，而不是把整个书库塞进上下文。 | — |
-| [`scandinavian-style`](./skills/scandinavian-style) | 斯堪的纳维亚风格的设计系统：16:9 版式网格、字号层级、页脚规范、配色与图表规则，附可直接改的单页 HTML 模板，以及**密集单页（one-pager）**三栏模式与实测校验脚本。不带任何品牌资产。 | <img src="docs/skills/scandinavian-style.png" width="220" alt="16:9 单页模板渲染结果：章节标签、32pt 标题、正文与 5 节点时间线，右侧边栏列表，底部四元素页脚"> |
+| [`scandinavian-style`](./skills/scandinavian-style) | 斯堪的纳维亚风格的设计系统：16:9 版式网格、字号层级、页脚规范、配色与图表规则，附可直接改的单页 HTML 模板，以及**密集单页（one-pager）**三栏模式与实测校验脚本。不带任何品牌资产。 | <img src="docs/assets/skills/scandinavian-style.png" width="220" alt="16:9 单页模板渲染结果：章节标签、32pt 标题、正文与 5 节点时间线，右侧边栏列表，底部四元素页脚"> |
 
 书库里是每本书一张卡、一份原笔记，都是纯 markdown，随读随加。
 
@@ -72,8 +74,8 @@ Jarche 提醒 share 要讲分寸：**知道什么时候、对谁分享**，才�
 
 | Skill | 做什么 | 示例 |
 | --- | --- | --- |
-| [`rednote-post`](./skills/rednote-post) | 把一份素材做成小红书图文笔记并发到自己的账号：写标题与正文、生成 1080×1440 卡片图、**实测**排版（字号下限／溢出／压页脚／孤字换行）、经用户确认后用浏览器桥接发布并回读核验。含卡片模板、渲染校验脚本与发布 CLI。 | <img src="docs/skills/rednote-post.png" width="220" alt="小红书图文的封面与两张内页卡片：你不是不够聪明，是手里的模型太少"> |
-| [`rednote-assistant`](./skills/rednote-assistant) | 小红书发布排期助理：定更新频率与发布时段、看平台上有没有未来定时发布的笔记、盘草稿箱、算现有成品能撑几周、指出排期缺口、按账号自己的历史数据挑最佳发布时间。**只排期，不写不发**——文案与发布走 `rednote-post`。 | <img src="docs/skills/rednote-assistant.png" width="220" alt="排期体检报告：每周 2 篇的计划下，未来 3 周排期表标出 5 个空档与已定时的笔记，并给出素材积累量目标与提醒建议"> |
+| [`rednote-post`](./skills/rednote-post) | 把一份素材做成小红书图文笔记并发到自己的账号：写标题与正文、生成 1080×1440 卡片图、**实测**排版（字号下限／溢出／压页脚／孤字换行）、经用户确认后用浏览器桥接发布并回读核验。含卡片模板、渲染校验脚本与发布 CLI。 | <img src="docs/assets/skills/rednote-post.png" width="220" alt="小红书图文的封面与两张内页卡片：你不是不够聪明，是手里的模型太少"> |
+| [`rednote-assistant`](./skills/rednote-assistant) | 小红书发布排期助理：定更新频率与发布时段、看平台上有没有未来定时发布的笔记、盘草稿箱、算现有成品能撑几周、指出排期缺口、按账号自己的历史数据挑最佳发布时间。**只排期，不写不发**——文案与发布走 `rednote-post`。 | <img src="docs/assets/skills/rednote-assistant.png" width="220" alt="排期体检报告：每周 2 篇的计划下，未来 3 周排期表标出 5 个空档与已定时的笔记，并给出素材积累量目标与提醒建议"> |
 | [`rednote-reply`](./skills/rednote-reply) | 互动：读私信（聊天）会话，按账号人设拟一句回话，**经用户逐条确认后再发**并回读核验。默认只读，`send` 不加 `--yes` 只 dry-run。人设单独一份（`references/soul.md`），聊天口径与写笔记那份分开。评论入口尚未打通。 | — |
 | [`human-writing`](./skills/human-writing) | 写作层：把稿子改写成"人话"——去掉 AI 味（连接词／行话／排比三连／每段一句金句／匀称到没有起伏），再落到一份**给定的人设**上（先读人设、抽声音指纹、写完出声念）。**不绑定账号**：调用方传自己的人设文件，`rednote-post` 是第一个调用方。含可直接跑的 AI 味机判脚本（`rednote-post` 的 `check_content.py` 直接复用它，不再自抄词表）。 | — |
 
@@ -114,16 +116,16 @@ Adler 在《如何阅读一本书》里给过一个不含糊的比例：99% 的�
 Share 段目前只有一条渠道跑通：小红书，账号 **司马读书**（[主页](https://www.xiaohongshu.com/user/profile/61fabcd80000000010008da7)）。
 截至 2026-10-07，共 262 条笔记、2405 粉丝、2.2 万获赞与收藏。
 
-![个人主页](docs/profile.png)
+![个人主页](docs/assets/profile.png)
 
 其中有一批是这条流水线的成品——每本书先做分析阅读，压成卡片，再渲染成 5 张 1080×1440 的图文。
 同一批模板跑出来的封面，题材不同、版式不变：
 
-![六个不同选题的封面](docs/covers.png)
+![六个不同选题的封面](docs/assets/covers.png)
 
 一篇笔记的完整五张卡（Rick Rubin《The Creative Act》），从封面到"来处／去处"：
 
-![一篇笔记的五张卡片](docs/case-post.png)
+![一篇笔记的五张卡片](docs/assets/case-post.png)
 
 ## 架构
 
@@ -161,7 +163,7 @@ flowchart LR
 回退超 0.05 退出码 1），`eval` 的「未调参」那一行才是泛化口径。`rsi.py` 量的是另一件事——
 闭环覆盖率与断点，没埋点的指标就明写"未埋点"。
 
-深挖见 [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)：七个关键决策、与
+深挖见 [`docs/guides/ARCHITECTURE.md`](./docs/guides/ARCHITECTURE.md)：七个关键决策、与
 [gbrain](https://github.com/garrytan/gbrain) 的取舍对照、扩展点与已知缺口。
 
 ## 仓库结构
@@ -185,7 +187,11 @@ library/              数据面：卡片与笔记、评测集、索引——真�
   notes/              原笔记（深度层）
   evals/              31 题固定题集 + 基线
   index.md index.json 生成物，删了能重建
-docs/                 INSTALL.md 安装说明；ARCHITECTURE.md 架构说明；README 用图与生成脚本
+docs/                 文档入口与分层（见 docs/README.md）
+  guides/             安装说明、架构说明
+  presentation/       四页项目介绍（PPTX + HTML + PDF）
+  assets/             README 配图与 skill 截图
+  src/                框架图源文件与配图生成脚本
 .codex-plugin/        plugin.json：把九个 skill 一次装进 Codex
 .agents/plugins/      marketplace.json：一插件的市场清单（分发用）
 ```
@@ -198,10 +204,10 @@ docs/                 INSTALL.md 安装说明；ARCHITECTURE.md 架构说明；R
 把下面这句话复制给任何能跑命令的 agent：
 
 > 克隆 `https://github.com/Ewen2015/reading-pkm`（如果还没有），然后按仓库里的
-> `docs/INSTALL.md` 把九个 skill 装好。
+> `docs/guides/INSTALL.md` 把九个 skill 装好。
 
 软链到哪个 skills 根、怎么验证、书库放哪、哪两个 skill 要额外配置，都在
-[`docs/INSTALL.md`](./docs/INSTALL.md) 里。
+[`docs/guides/INSTALL.md`](./docs/guides/INSTALL.md) 里。
 
 ---
 

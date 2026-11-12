@@ -21,7 +21,7 @@
 | 内容配比 | 读书笔记 8 · 思维模型 2 | `plan.json` 的 `pillars` |
 | 笔记不限于读书 | 也有设计展、生活随拍（"过度反思，即浪费人生"是一条视频） | 主页 |
 
-主页快照存在 `docs/profile.png`（`docs/profile-raw.png` 是原图）。
+主页快照存在 `docs/assets/profile.png`（`docs/assets/profile-raw.png` 是原图）。
 
 ## 2. 他是什么人
 

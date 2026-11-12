@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI 时代，如何阅读 · reading-pkm</title>
+<style>
+:root{
+  --paper:#F0EEE6;
+  --card:#FAF9F5;
+  --ink:#141413;
+  --ink2:#3D3D3A;
+  --muted:#73726C;
+  --faint:#9C9A92;
+  --rule:#DEDCD1;
+  --accent:#D97757;
+  --accent-bright:#C6613F;
+  --accent2:#87867F;
+  --serif:"Songti SC","STSong","Source Han Serif SC","Noto Serif SC",serif;
+  --sans:"PingFang SC","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%}
+body{
+  background:#E7E1D6;
+  color:var(--ink);
+  font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow:hidden;
+}
+.stage{position:fixed;inset:0;display:grid;place-items:center;padding:24px}
+.slide{
+  display:none;
+  position:relative;
+  width:min(calc(100vw - 48px),calc((100vh - 48px) * 16 / 9));
+  aspect-ratio:16/9;
+  container-type:inline-size;
+  overflow:hidden;
+  padding:3.375cqw 4.5cqw 2.25cqw;
+  background:
+    radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.55),rgba(233,225,212,0) 60%),
+    var(--paper);
+  border:1px solid var(--rule);
+  box-shadow:0 18px 60px rgba(40,30,15,.12);
+}
+.slide.active{display:flex;flex-direction:column}
+
+/* header */
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  font-size:.78cqw;
+  line-height:1;
+  letter-spacing:.22em;
+  color:var(--faint);
+  text-transform:uppercase;
+}
+.rule{height:1px;background:var(--rule);margin-top:1.05cqw;flex:none}
+h1{
+  font-family:var(--serif);
+  font-size:3.65cqw;
+  font-weight:600;
+  line-height:1.2;
+  letter-spacing:.005em;
+  margin-top:1.35cqw;
+}
+h1 em{font-style:normal;color:var(--accent)}
+.sub{
+  font-size:1.1cqw;
+  line-height:1.6;
+  color:var(--muted);
+  margin-top:.65cqw;
+  max-width:88%;
+}
+
+/* diagram */
+.diagram{margin-top:1.4cqw;flex:none}
+.diagram svg{display:block;width:100%;height:auto}
+.note{
+  margin-top:.55cqw;
+  font-size:.84cqw;
+  line-height:1.5;
+  color:var(--faint);
+  letter-spacing:.02em;
+}
+.note b{font-weight:600;color:var(--ink2)}
+
+/* slide 1 — closing band */
+.s1-rule{position:absolute;left:4.531%;top:63.889%;width:90.938%;height:1px;background:var(--rule)}
+.s1-close{position:absolute;left:4.531%;top:70.833%;width:67.188%;font-family:var(--serif);font-size:2.109cqw;line-height:1.18;font-weight:600;color:var(--ink2);letter-spacing:.005em}
+.s1-note{position:absolute;left:4.531%;top:78.611%;width:67.188%;font-size:.977cqw;line-height:1.5;color:var(--faint)}
+.s1-photo{position:absolute;left:75%;top:65%;width:20.469%;height:23.056%;border:1px solid var(--rule);overflow:hidden;background:var(--card)}
+.s1-photo img{display:block;width:100%;height:100%;object-fit:cover}
+.s1-credit{position:absolute;left:75%;top:88.611%;width:20.469%;text-align:right;font-size:.625cqw;letter-spacing:.02em;color:var(--faint)}
+
+/* footer */
+.footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:2cqw;
+  margin-top:auto;
+  padding-top:1.05cqw;
+  border-top:1px solid var(--rule);
+  font-size:.72cqw;
+  line-height:1.2;
+  letter-spacing:.1em;
+  color:var(--faint);
+  flex:none;
+}
+.footer .center{letter-spacing:.08em}
+
+/* slide 2 */
+.s2-quote{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:2.4cqw;
+  margin-top:.85cqw;
+  padding-top:1.05cqw;
+  border-top:1px solid var(--rule);
+  flex:none;
+}
+.s2-quote .big{
+  font-family:var(--serif);
+  font-size:1.7cqw;
+  line-height:1.45;
+  white-space:nowrap;
+}
+.s2-quote .big em{font-style:normal;color:var(--accent)}
+.s2-quote .eq{
+  flex:none;
+  font-family:var(--serif);
+  font-size:1.1cqw;
+  line-height:1.4;
+  color:var(--muted);
+  white-space:nowrap;
+}
+.s2-quote .eq b{font-weight:600;color:var(--ink2)}
+
+/* slide 3 — 实现 */
+.s3-label{
+  margin-top:1.15cqw;
+  font-size:.78cqw;
+  letter-spacing:.06em;
+  color:var(--faint);
+}
+.s3-skills{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1.1cqw;
+  margin-top:.55cqw;
+}
+.s3-skill{
+  display:flex;
+  align-items:center;
+  gap:.6cqw;
+  padding:.62cqw .8cqw;
+  border:1px solid var(--rule);
+  background:var(--card);
+  font-size:.86cqw;
+  line-height:1.2;
+  color:var(--ink2);
+  white-space:nowrap;
+}
+.s3-skill b{font-weight:600}
+.s3-skill span{color:var(--faint)}
+.s3-note{
+  margin-top:1.35cqw;
+  text-align:center;
+  font-family:var(--serif);
+  font-size:1.15cqw;
+  color:var(--ink2);
+}
+
+/* slide 4 — 成果 */
+.s3-diagram{margin-top:1.1cqw}
+.facts{
+  display:flex;
+  gap:1.6cqw;
+  margin-top:.55cqw;
+  font-size:.82cqw;
+  line-height:1.5;
+  color:var(--muted);
+}
+.facts b{font-weight:600;color:var(--ink2)}
+.facts span::before{content:"·";margin-right:.55cqw;color:var(--faint)}
+.facts span:first-child::before{content:"";margin:0}
+.evidence{
+  display:grid;
+  grid-template-columns:1.35fr .95fr;
+  gap:2.4cqw;
+  margin-top:1.05cqw;
+  min-height:0;
+}
+.figure{display:flex;flex-direction:column;min-width:0}
+.figure img{display:block;width:100%;border:1px solid var(--rule)}
+.cap{
+  display:flex;
+  gap:.65cqw;
+  margin-top:.5cqw;
+  font-size:.82cqw;
+  line-height:1.55;
+  color:var(--muted);
+}
+.cap .fig-no{
+  flex:none;
+  font-size:.72cqw;
+  letter-spacing:.1em;
+  color:var(--accent2);
+  padding-top:.06cqw;
+}
+.cap b{font-weight:600;color:var(--ink2)}
+.stats{
+  display:flex;
+  gap:1.7cqw;
+  margin-top:.85cqw;
+  padding-top:.75cqw;
+  border-top:1px solid var(--rule);
+}
+.stat .n{
+  font-family:var(--serif);
+  font-size:1.7cqw;
+  font-weight:600;
+  line-height:1;
+}
+.stat .l{margin-top:.25cqw;font-size:.74cqw;letter-spacing:.05em;color:var(--muted)}
+.stat-note{margin-top:.65cqw;font-size:.74cqw;line-height:1.4;color:var(--faint)}
+.closing{
+  margin-top:.9cqw;
+  padding-top:.9cqw;
+  border-top:1px solid var(--rule);
+  font-family:var(--serif);
+  font-size:1.3cqw;
+  line-height:1.45;
+  color:var(--ink2);
+  flex:none;
+}
+.closing em{font-style:normal;color:var(--accent)}
+
+/* dark closing band */
+.dark-band{
+  position:relative;
+  margin:0 -4.5cqw -2.25cqw;
+  height:12.813cqw;
+  background:var(--ink);
+  flex:none;
+}
+#s4 .evidence{
+  flex:none;
+  align-content:start;
+  margin-top:2.4cqw;
+}
+#s4 .stats{margin-top:1.2cqw}
+#s4 .facts{
+  margin-top:auto;
+  padding-bottom:6.35cqw;
+}
+.dark-band .closing{
+  position:absolute;
+  left:4.5cqw;
+  right:4.5cqw;
+  top:3.1cqw;
+  margin:0;
+  padding:0;
+  border:0;
+  text-align:center;
+  color:#FAF9F5;
+  font-size:1.32cqw;
+  line-height:1.5;
+}
+.dark-band .closing em{color:var(--accent)}
+.dark-band .footer{
+  position:absolute;
+  left:4.5cqw;
+  right:4.5cqw;
+  bottom:2.2cqw;
+  padding-top:.75cqw;
+  border-top:1px solid #3D3D3A;
+  color:#87867F;
+}
+
+/* nav */
+.nav{
+  position:fixed;
+  left:50%;
+  bottom:18px;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:8px 12px;
+  background:rgba(251,248,243,.9);
+  border:1px solid var(--rule);
+  color:var(--muted);
+  font-size:12px;
+  letter-spacing:.12em;
+  backdrop-filter:blur(8px);
+  z-index:10;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .25s ease;
+}
+.nav.visible{opacity:1;pointer-events:auto}
+.nav button{
+  width:26px;
+  height:26px;
+  border:1px solid var(--rule);
+  background:transparent;
+  color:var(--ink2);
+  font-family:var(--sans);
+  font-size:14px;
+  line-height:1;
+  cursor:pointer;
+}
+.nav button:hover{background:var(--paper)}
+.nav .idea{font-size:11px;color:var(--faint);letter-spacing:.06em}
+
+/* print */
+@page{size:16in 9in;margin:0}
+@media print{
+  html,body{overflow:visible;background:var(--paper)}
+  .stage{position:static;display:block;padding:0}
+  .nav{display:none}
+  .slide{
+    display:flex!important;
+    flex-direction:column;
+    width:16in;
+    height:9in;
+    border:0;
+    box-shadow:none;
+    page-break-after:always;
+    break-after:page;
+  }
+  .slide:last-child{page-break-after:auto;break-after:auto}
+}
+</style>
+</head>
+<body>
+<main class="stage">
+
+  <!-- ================= 01 · 背景 ================= -->
+  <section class="slide active" data-slide="1" aria-label="背景：AI 时代如何阅读">
+    <div class="top">
+      <span>READING PKM · 01 / 背景</span>
+      <span>AI 时代如何阅读</span>
+    </div>
+    <div class="rule"></div>
+    <h1>AI 时代，<em>如何阅读</em></h1>
+    <p class="sub">阅读的第一性原理：经历他人的经历，借他人的视角理解世界。</p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 1400 340" role="img" aria-label="左边是读后遗忘的循环，右边是从书到下一次选择的第一性原理路径">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#9C9A92"/>
+          </marker>
+          <marker id="arrowAccent" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#D97757"/>
+          </marker>
+        </defs>
+
+        <!-- left: the loop -->
+        <text x="0" y="14" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="14" letter-spacing="3" fill="#87867F">失效路径 / THE LOOP</text>
+
+        <g font-family="'PingFang SC','Hiragino Sans GB',sans-serif" text-anchor="middle">
+          <rect x="0" y="52" width="130" height="96" rx="6" fill="#FAF9F5" stroke="#DEDCD1"/>
+          <text x="65" y="92" font-family="'Songti SC','STSong',serif" font-size="22" font-weight="600" fill="#141413">找下一本</text>
+          <text x="65" y="118" font-size="14" fill="#73726C">逃避现实</text>
+
+          <rect x="165" y="52" width="130" height="96" rx="6" fill="#FAF9F5" stroke="#DEDCD1"/>
+          <text x="230" y="92" font-family="'Songti SC','STSong',serif" font-size="22" font-weight="600" fill="#141413">读</text>
+          <text x="230" y="118" font-size="14" fill="#73726C">读过就算</text>
+
+          <rect x="330" y="52" width="130" height="96" rx="6" fill="#FAF9F5" stroke="#DEDCD1"/>
+          <text x="395" y="92" font-family="'Songti SC','STSong',serif" font-size="22" font-weight="600" fill="#141413">收藏</text>
+          <text x="395" y="118" font-size="14" fill="#73726C">替代思考</text>
+
+          <rect x="495" y="52" width="130" height="96" rx="6" fill="#FAF9F5" stroke="#DEDCD1"/>
+          <text x="560" y="92" font-family="'Songti SC','STSong',serif" font-size="22" font-weight="600" fill="#141413">遗忘</text>
+          <text x="560" y="118" font-size="14" fill="#73726C">读后遗忘</text>
+        </g>
+
+        <g stroke="#9C9A92" stroke-width="1.5" fill="none" marker-end="url(#arrow)">
+          <line x1="130" y1="100" x2="160" y2="100"/>
+          <line x1="295" y1="100" x2="325" y2="100"/>
+          <line x1="460" y1="100" x2="490" y2="100"/>
+        </g>
+        <path d="M 560 148 L 560 218 Q 560 235 543 235 L 82 235 Q 65 235 65 218 L 65 154" stroke="#9C9A92" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+        <text x="312" y="222" text-anchor="middle" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="14" fill="#9C9A92">再找下一本</text>
+
+        <text x="312" y="295" text-anchor="middle" font-family="'Songti SC','STSong',serif" font-size="28" font-weight="600" fill="#141413">读得越多，留下越少</text>
+        <text x="312" y="324" text-anchor="middle" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="15" fill="#73726C">循环空转，生活没有变化</text>
+
+        <!-- right: the path -->
+        <text x="750" y="14" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="14" letter-spacing="3" fill="#87867F">第一性原理 / THE PATH</text>
+
+        <g font-family="'PingFang SC','Hiragino Sans GB',sans-serif" text-anchor="middle">
+          <rect x="750" y="52" width="110" height="96" rx="6" fill="#FAF9F5" stroke="#DEDCD1"/>
+          <text x="805" y="92" font-family="'Songti SC','STSong',serif" font-size="20" font-weight="600" fill="#141413">书</text>
+          <text x="805" y="118" font-size="13" fill="#73726C">载体</text>
+
+          <rect x="880" y="52" width="110" height="96" rx="6" fill="#FAF9F5" stroke="#DEDCD1"/>
+          <text x="935" y="92" font-family="'Songti SC','STSong',serif" font-size="18" font-weight="600" fill="#141413">他人的经历</text>
+          <text x="935" y="118" font-size="13" fill="#73726C">借来的生活</text>
+
+          <rect x="1010" y="52" width="110" height="96" rx="6" fill="#FAF9F5" stroke="#DEDCD1"/>
+          <text x="1065" y="92" font-family="'Songti SC','STSong',serif" font-size="18" font-weight="600" fill="#141413">他人的视角</text>
+          <text x="1065" y="118" font-size="13" fill="#73726C">一副眼睛</text>
+
+          <rect x="1140" y="52" width="110" height="96" rx="6" fill="#FAF9F5" stroke="#DEDCD1"/>
+          <text x="1195" y="92" font-family="'Songti SC','STSong',serif" font-size="18" font-weight="600" fill="#141413">你的判断</text>
+          <text x="1195" y="118" font-size="13" fill="#73726C">站得住吗</text>
+
+          <rect x="1270" y="52" width="110" height="96" rx="6" fill="#FBF0EA" stroke="#D97757" stroke-width="1.5"/>
+          <text x="1325" y="92" font-family="'Songti SC','STSong',serif" font-size="18" font-weight="600" fill="#141413">下一次选择</text>
+          <text x="1325" y="118" font-size="13" fill="#D97757">被调用</text>
+        </g>
+
+        <g stroke="#9C9A92" stroke-width="1.5" fill="none" marker-end="url(#arrow)">
+          <line x1="860" y1="100" x2="875" y2="100"/>
+          <line x1="990" y1="100" x2="1005" y2="100"/>
+          <line x1="1120" y1="100" x2="1135" y2="100"/>
+          <line x1="1250" y1="100" x2="1265" y2="100"/>
+        </g>
+
+        <text x="1065" y="190" text-anchor="middle" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="16" fill="#73726C">书只是载体；真正带走的，是看世界的方式</text>
+
+        <text x="1065" y="295" text-anchor="middle" font-family="'Songti SC','STSong',serif" font-size="28" font-weight="600" fill="#141413">阅读，是借一双眼睛</text>
+        <text x="1065" y="324" text-anchor="middle" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="15" fill="#73726C">再带着它，回到自己的生活</text>
+
+      </svg>
+    </div>
+
+    <div class="s1-rule"></div>
+    <p class="s1-close">读完之后，你有没有多出一副看世界的眼睛？</p>
+    <p class="s1-note">读书不是收藏信息，是让另一个人的经验，进入你的判断</p>
+    <figure class="s1-photo">
+      <img src="../assets/cozy-reading-card.jpg" alt="Cozy reading time — 打开的书、眼镜与一杯咖啡">
+    </figure>
+    <p class="s1-credit">Cozy reading time · StockCake</p>
+
+    <footer class="footer">
+      <span>ewen / reading-pkm</span>
+      <span class="center">AI 时代如何阅读 · 背景 / 哲学 / 实现 / 成果</span>
+      <span>01 / 04</span>
+    </footer>
+  </section>
+
+  <!-- ================= 02 · 哲学 ================= -->
+  <section class="slide" data-slide="2" aria-label="哲学：机器整理，人下判断">
+    <div class="top">
+      <span>READING PKM · 02 / 哲学</span>
+      <span>PKM / PERSONAL KNOWLEDGE MASTERY</span>
+    </div>
+    <div class="rule"></div>
+    <h1>机器整理，<em>人下判断</em></h1>
+    <p class="sub">PKM 的 M 是 mastery：不是管理资料，是练出自己能调用的判断。</p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 1400 430" role="img" aria-label="Harold Jarche 的 PKM 蝴蝶结：SEEK 收窄，SENSE 化用，SHARE 放开，并标注 AI 在每一段能替人走多远">
+        <text x="880" y="12" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="14" fill="#9C9A92">AI 能替你走多远</text>
+
+        <!-- SEEK -->
+        <path d="M 80 34 L 440 34 L 350 144 L 170 144 Z" fill="#141413"/>
+        <text x="260" y="100" text-anchor="middle" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="36" font-weight="700" fill="#F7F2E9">SEEK</text>
+        <text x="260" y="127" text-anchor="middle" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="16" fill="#B9AF9E">寻求</text>
+
+        <!-- SENSE -->
+        <rect x="170" y="144" width="180" height="110" fill="#FAF9F5" stroke="#3D3D3A" stroke-width="1.5"/>
+        <text x="260" y="200" text-anchor="middle" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="24" font-weight="700" fill="#141413">SENSE</text>
+        <text x="260" y="227" text-anchor="middle" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="15" fill="#73726C">化用</text>
+
+        <!-- SHARE -->
+        <path d="M 170 254 L 350 254 L 440 364 L 80 364 Z" fill="#141413"/>
+        <text x="260" y="320" text-anchor="middle" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="30" font-weight="700" fill="#F7F2E9">SHARE</text>
+        <text x="260" y="347" text-anchor="middle" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="16" fill="#B9AF9E">分享</text>
+
+        <text x="260" y="392" text-anchor="middle" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="13" fill="#9C9A92">据 Harold Jarche · Networked Learning Model 重绘</text>
+
+        <!-- meanings -->
+        <text x="500" y="97" font-family="'Songti SC','STSong',serif" font-size="22" font-weight="600" fill="#141413">保持更新</text>
+        <text x="500" y="121" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="15" fill="#73726C">决定读什么，不读什么</text>
+        <text x="500" y="207" font-family="'Songti SC','STSong',serif" font-size="22" font-weight="600" fill="#141413">反思与实践</text>
+        <text x="500" y="231" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="15" fill="#73726C">读到了什么，站不站得住</text>
+        <text x="500" y="317" font-family="'Songti SC','STSong',serif" font-size="22" font-weight="600" fill="#141413">与网络对话</text>
+        <text x="500" y="341" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="15" fill="#73726C">讲出去，才知道懂没懂</text>
+
+        <!-- AI verdicts -->
+        <rect x="880" y="76" width="76" height="26" fill="none" stroke="#D97757" rx="2"/>
+        <text x="918" y="94" text-anchor="middle" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="14" fill="#D97757">不能</text>
+        <text x="976" y="94" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="16" fill="#141413">读什么，只能自己定</text>
+
+        <rect x="880" y="186" width="76" height="26" fill="none" stroke="#DEDCD1" rx="2"/>
+        <text x="918" y="204" text-anchor="middle" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="14" fill="#73726C">大半能</text>
+        <text x="976" y="204" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="16" fill="#73726C">摘要、对照、追线索</text>
+
+        <rect x="880" y="296" width="76" height="26" fill="none" stroke="#DEDCD1" rx="2"/>
+        <text x="918" y="314" text-anchor="middle" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="14" fill="#73726C">大半能</text>
+        <text x="976" y="314" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="16" fill="#73726C">成稿、排版、分发</text>
+      </svg>
+    </div>
+
+    <div class="s2-quote">
+      <p class="big">AI 可以替你 sense，也可以替你 share，但它不能替你——<em>在意</em>。</p>
+      <p class="eq"><b>读过 ≠ 修养</b> · 能被调用 = 修养</p>
+    </div>
+
+    <footer class="footer">
+      <span>ewen / reading-pkm</span>
+      <span class="center">AI 时代如何阅读 · 背景 / 哲学 / 实现 / 成果</span>
+      <span>02 / 04</span>
+    </footer>
+  </section>
+
+  <!-- ================= 03 · 实现 ================= -->
+  <section class="slide" data-slide="3" id="s3" aria-label="实现：一条流水线，九个 skill">
+    <div class="top">
+      <span>READING PKM · 03 / 实现</span>
+      <span>PIPELINE / NINE SKILLS</span>
+    </div>
+    <div class="rule"></div>
+    <h1>一条流水线，<em>九个 skill</em></h1>
+    <p class="sub">每一步只做一件事，产物落到文件里；下一步读的，是上一步留下的文件。</p>
+
+    <div class="diagram s3-diagram">
+      <svg viewBox="0 0 1400 360" role="img" aria-label="阅读流水线：找书、读透、沉淀、调用、分享，rsi-reading 从分享回流到找书">
+        <defs>
+          <marker id="arrow3" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#9C9A92"/>
+          </marker>
+          <marker id="arrow3Accent" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#D97757"/>
+          </marker>
+        </defs>
+
+        <g font-family="'PingFang SC','Hiragino Sans GB',sans-serif" text-anchor="middle">
+          <rect x="50" y="14" width="220" height="176" rx="6" fill="#FAF9F5" stroke="#DEDCD1"/>
+          <text x="160" y="54" font-size="13" letter-spacing="3" fill="#87867F">SEEK</text>
+          <text x="160" y="106" font-family="'Songti SC','STSong',serif" font-size="28" font-weight="600" fill="#141413">找书</text>
+          <text x="160" y="140" font-size="15" fill="#73726C">book-fetch</text>
+          <text x="160" y="166" font-size="14" fill="#9C9A92">检索 · 评分 · 下载</text>
+          <text x="160" y="216" font-size="14" fill="#9C9A92">→ 一本书</text>
+
+          <rect x="320" y="14" width="220" height="176" rx="6" fill="#FAF9F5" stroke="#DEDCD1"/>
+          <text x="430" y="54" font-size="13" letter-spacing="3" fill="#87867F">READ</text>
+          <text x="430" y="106" font-family="'Songti SC','STSong',serif" font-size="28" font-weight="600" fill="#141413">读透</text>
+          <text x="430" y="140" font-size="15" fill="#73726C">read-a-book</text>
+          <text x="430" y="166" font-size="14" fill="#9C9A92">检视 · 分析 · 主题</text>
+          <text x="430" y="216" font-size="14" fill="#9C9A92">→ 一份笔记</text>
+
+          <rect x="590" y="14" width="220" height="176" rx="6" fill="#FAF9F5" stroke="#DEDCD1"/>
+          <text x="700" y="54" font-size="13" letter-spacing="3" fill="#87867F">SEDIMENT</text>
+          <text x="700" y="106" font-family="'Songti SC','STSong',serif" font-size="28" font-weight="600" fill="#141413">沉淀</text>
+          <text x="700" y="140" font-size="15" fill="#73726C">second-brain</text>
+          <text x="700" y="166" font-size="14" fill="#9C9A92">一卡一书 · 26 维</text>
+          <text x="700" y="216" font-size="14" fill="#9C9A92">→ 一张卡</text>
+
+          <rect x="860" y="14" width="220" height="176" rx="6" fill="#FBF0EA" stroke="#D97757" stroke-width="1.5"/>
+          <text x="970" y="54" font-size="13" letter-spacing="3" fill="#D97757">RECALL</text>
+          <text x="970" y="106" font-family="'Songti SC','STSong',serif" font-size="28" font-weight="600" fill="#141413">调用</text>
+          <text x="970" y="140" font-size="15" fill="#73726C">second-brain</text>
+          <text x="970" y="166" font-size="14" fill="#D97757">按需取 1–2 张</text>
+          <text x="970" y="216" font-size="14" fill="#D97757">→ 一个判断</text>
+
+          <rect x="1130" y="14" width="220" height="176" rx="6" fill="#FAF9F5" stroke="#DEDCD1"/>
+          <text x="1240" y="54" font-size="13" letter-spacing="3" fill="#87867F">SHARE</text>
+          <text x="1240" y="106" font-family="'Songti SC','STSong',serif" font-size="28" font-weight="600" fill="#141413">分享</text>
+          <text x="1240" y="140" font-size="15" fill="#73726C">rednote-post</text>
+          <text x="1240" y="166" font-size="14" fill="#9C9A92">卡片 · 发布 · 回读</text>
+          <text x="1240" y="216" font-size="14" fill="#9C9A92">→ 一篇笔记</text>
+        </g>
+
+        <g stroke="#9C9A92" stroke-width="1.5" fill="none" marker-end="url(#arrow3)">
+          <line x1="270" y1="100" x2="315" y2="100"/>
+          <line x1="540" y1="100" x2="585" y2="100"/>
+          <line x1="810" y1="100" x2="855" y2="100"/>
+          <line x1="1080" y1="100" x2="1125" y2="100"/>
+        </g>
+
+        <path d="M 1240 238 L 1240 300 Q 1240 312 1228 312 L 172 312 Q 160 312 160 300 L 160 244" stroke="#9C9A92" stroke-width="1.5" fill="none" stroke-dasharray="5,4" marker-end="url(#arrow3)"/>
+        <text x="700" y="342" text-anchor="middle" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="15" fill="#73726C">rsi-reading · 量整条环，一次只改一处</text>
+      </svg>
+    </div>
+
+    <p class="s3-label">另外四个 skill：管成品与互动</p>
+    <div class="s3-skills">
+      <div class="s3-skill"><b>scandinavian-style</b><span>版式与一页纸</span></div>
+      <div class="s3-skill"><b>human-writing</b><span>口吻与去 AI 味</span></div>
+      <div class="s3-skill"><b>rednote-assistant</b><span>排期与节奏</span></div>
+      <div class="s3-skill"><b>rednote-reply</b><span>私信只读</span></div>
+    </div>
+    <p class="s3-note">九个 skill 打成一个 Codex plugin：装一次，全部就位。</p>
+
+    <footer class="footer">
+      <span>ewen / reading-pkm</span>
+      <span class="center">AI 时代如何阅读 · 背景 / 哲学 / 实现 / 成果</span>
+      <span>03 / 04</span>
+    </footer>
+  </section>
+
+  <!-- ================= 04 · 成果 ================= -->
+  <section class="slide" data-slide="4" id="s4" aria-label="成果：跑起来长什么样">
+    <div class="top">
+      <span>READING PKM · 04 / 成果</span>
+      <span>EVIDENCE</span>
+    </div>
+    <div class="rule"></div>
+    <h1>跑起来，<em>长这样</em></h1>
+    <p class="sub">一本书进来，五张卡出去；一套模板，所有选题共用。</p>
+
+    <div class="evidence">
+      <figure class="figure">
+        <img src="../assets/case-post.png" alt="Rick Rubin《The Creative Act》一套五张小红书卡片：封面、核心机制、五条可带走的判断、上游、下游">
+        <figcaption class="cap">
+          <span class="fig-no">图 01</span>
+          <span><b>一本书 → 五张卡。</b>封面 / 机制 / 五条 / 上游 / 下游。</span>
+        </figcaption>
+      </figure>
+
+      <div>
+        <figure class="figure">
+          <img src="../assets/covers.png" alt="六本书的封面卡片：纳瓦尔宝典、暗淡蓝点、The Creative Act、苏格拉底的申辩、通往奴役之路、历史性的体制">
+          <figcaption class="cap">
+            <span class="fig-no">图 02</span>
+            <span><b>一套模板 → 不同选题。</b>题材在变，版式不变。</span>
+          </figcaption>
+        </figure>
+        <div class="stats">
+          <div class="stat"><div class="n">262</div><div class="l">篇笔记</div></div>
+          <div class="stat"><div class="n">2405</div><div class="l">粉丝</div></div>
+          <div class="stat"><div class="n">2.2 万</div><div class="l">获赞与收藏</div></div>
+        </div>
+        <p class="stat-note">截至 2026-10-07 · 小红书 @司马读书</p>
+      </div>
+    </div>
+
+    <div class="facts">
+      <span><b>1–2 张卡</b> / 次</span>
+      <span><b>3–5K tokens</b> / 次</span>
+      <span><b>0</b> 向量库 · <b>0</b> 数据库</span>
+    </div>
+
+    <div class="dark-band">
+      <div class="closing">读过的书，成为下一次判断时<em>会被调用</em>的视角。</div>
+
+      <footer class="footer">
+        <span>ewen / reading-pkm</span>
+        <span class="center">AI 时代如何阅读 · 背景 / 哲学 / 实现 / 成果</span>
+        <span>04 / 04</span>
+      </footer>
+    </div>
+  </section>
+
+</main>
+
+<nav class="nav" aria-label="翻页">
+  <button id="prev" type="button" aria-label="上一页">←</button>
+  <span id="count">01 / 04</span>
+  <button id="next" type="button" aria-label="下一页">→</button>
+  <span class="idea">← → 翻页</span>
+</nav>
+
+<script>
+const slides = [...document.querySelectorAll('.slide')];
+const count = document.getElementById('count');
+const nav = document.querySelector('.nav');
+let current = 0;
+let navTimer;
+
+function revealNav() {
+  nav.classList.add('visible');
+  clearTimeout(navTimer);
+  navTimer = setTimeout(() => nav.classList.remove('visible'), 2600);
+}
+
+function show(index) {
+  current = (index + slides.length) % slides.length;
+  slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+  count.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+  history.replaceState(null, '', '#' + (current + 1));
+}
+
+document.getElementById('prev').addEventListener('click', () => show(current - 1));
+document.getElementById('next').addEventListener('click', () => show(current + 1));
+
+window.addEventListener('keydown', (event) => {
+  revealNav();
+  if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
+    event.preventDefault();
+    show(current + 1);
+  }
+  if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+    event.preventDefault();
+    show(current - 1);
+  }
+  if (event.key === 'Home') show(0);
+  if (event.key === 'End') show(slides.length - 1);
+});
+
+let startX = null;
+window.addEventListener('touchstart', (event) => {
+  startX = event.touches[0].clientX;
+}, { passive: true });
+window.addEventListener('mousemove', revealNav, { passive: true });
+window.addEventListener('touchend', (event) => {
+  if (startX === null) return;
+  const delta = event.changedTouches[0].clientX - startX;
+  if (Math.abs(delta) > 50) show(current + (delta < 0 ? 1 : -1));
+  startX = null;
+}, { passive: true });
+
+const hash = parseInt(location.hash.replace('#', ''), 10);
+if (hash >= 1 && hash <= slides.length) show(hash - 1);
+revealNav();
+</script>
+</body>
+</html>

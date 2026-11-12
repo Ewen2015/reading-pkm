@@ -60,8 +60,8 @@ export SECOND_BRAIN_HOME="/path/to/library"
 
 配置都在仓库外——**仓库里不含任何凭据或书源信息**：
 
-- `book-fetch`：书源适配器，见 [`../skills/book-fetch/SKILL.md`](../skills/book-fetch/SKILL.md)
-- `rednote-post`：浏览器桥接与扩展，见 [`../skills/rednote-post/references/publishing.md`](../skills/rednote-post/references/publishing.md)
+- `book-fetch`：书源适配器，见 [`../../skills/book-fetch/SKILL.md`](../../skills/book-fetch/SKILL.md)
+- `rednote-post`：浏览器桥接与扩展，见 [`../../skills/rednote-post/references/publishing.md`](../../skills/rednote-post/references/publishing.md)
 
 ## 6. 分发：整包安装（可选）
 

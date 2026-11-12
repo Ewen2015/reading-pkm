@@ -195,7 +195,7 @@ def parse_post_time(text: str | None) -> datetime | None:
 def _skill_roots() -> list[Path]:
     """跨 skill 找东西的约定顺序：兄弟目录 → $CODEX_HOME/skills → ~/.codex/skills → ~/.agents/skills。
     三个 skill 各有一份**语义相同**的副本（skill 要能单独安装，不能共享一个模块）。
-    口径见 docs/ARCHITECTURE.md「跨 skill 调用」。"""
+    口径见 docs/guides/ARCHITECTURE.md「跨 skill 调用」。"""
     here = Path(__file__).resolve()
     roots = []
     if len(here.parents) > 1:
