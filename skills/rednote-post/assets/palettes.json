@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "default": "emerald-signal",
+  "palettes": {
+    "emerald-signal": {
+      "name": "祖母绿信号",
+      "temperament": "organic, grounded, high-contrast",
+      "use_for": [
+        "成长与自我发展",
+        "领导力与组织",
+        "商业与长期主义",
+        "自然、生态、韧性",
+        "需要强系列识别度的书"
+      ],
+      "avoid_for": [
+        "已经高度依赖其他品牌色的书",
+        "需要冷静技术图纸感的主题"
+      ],
+      "colors": {
+        "paper": "#FFF8EB",
+        "card": "#FFF1D4",
+        "ink": "#18351E",
+        "ink2": "#3D4A3E",
+        "muted": "#6B5A34",
+        "rule": "#C9B898",
+        "accent": "#CC4B24",
+        "accent2": "#317039",
+        "accent3": "#F1BE49"
+      }
+    },
+    "nordic-functional": {
+      "name": "北欧功能主义",
+      "temperament": "cool, analytical, restrained",
+      "use_for": [
+        "科学、技术与工程",
+        "经济、制度与公共议题",
+        "战略、方法与效率",
+        "哲学、认知与严肃非虚构"
+      ],
+      "avoid_for": [
+        "需要强情绪和派对感的轻内容",
+        "封面本身是高饱和荧光色"
+      ],
+      "colors": {
+        "paper": "#E6ECE8",
+        "card": "#F8F9F6",
+        "ink": "#17211D",
+        "ink2": "#35423C",
+        "muted": "#5B6861",
+        "rule": "#AFBBB4",
+        "accent": "#D64B33",
+        "accent2": "#2C665E",
+        "accent3": "#A7B8AF"
+      }
+    },
+    "dopamine-pop": {
+      "name": "多巴胺波普",
+      "temperament": "energetic, playful, attention-seeking",
+      "use_for": [
+        "创造力与表达",
+        "心理、行为与习惯",
+        "文化、潮流与媒介",
+        "青年、转折与反常识主题"
+      ],
+      "avoid_for": [
+        "战争、灾难、死亡与创伤",
+        "金融危机等需要克制可信度的严肃议题",
+        "密集五张都承载长解释的书"
+      ],
+      "colors": {
+        "paper": "#FFF8EB",
+        "card": "#FFFFFF",
+        "ink": "#111111",
+        "ink2": "#343434",
+        "muted": "#696969",
+        "rule": "#B7B7B7",
+        "accent": "#FF5A9D",
+        "accent2": "#3158FF",
+        "accent3": "#FFE45C"
+      }
+    }
+  }
+}

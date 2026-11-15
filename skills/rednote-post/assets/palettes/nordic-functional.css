@@ -1,0 +1,25 @@
+/* 北欧功能主义：科学、技术、经济、制度、方法与严肃非虚构。 */
+:root{
+  --paper:#E6ECE8;
+  --card:#F8F9F6;
+  --ink:#17211D;
+  --ink2:#35423C;
+  --muted:#5B6861;
+  --rule:#AFBBB4;
+  --accent:#D64B33;
+  --accent-wash:rgba(214,75,51,.08);
+  --accent2:#2C665E;
+  --accent3:#A7B8AF;
+  --heading:"Avenir Next","Avenir","PingFang SC","Hiragino Sans GB",sans-serif;
+  --glow:rgba(255,255,255,.44);
+  --glow-edge:rgba(230,236,232,0);
+  --stage-glow-1:rgba(248,249,246,.82);
+  --stage-glow-2:rgba(230,236,232,.72);
+  --stage-glow-3:rgba(230,236,232,0);
+  --deco-line:#17211D;
+  --deco-terra:#D64B33;
+  --deco-olive:#2C665E;
+  --deco-gold:#A7B8AF;
+  --deco-rose:#C9D3CD;
+  --deco-cream:#F8F9F6;
+}

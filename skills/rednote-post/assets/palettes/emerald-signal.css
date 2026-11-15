@@ -1,0 +1,25 @@
+/* 祖母绿信号：成长、组织、商业、自然与长期主义。 */
+:root{
+  --paper:#FFF8EB;
+  --card:#FFF1D4;
+  --ink:#18351E;
+  --ink2:#3D4A3E;
+  --muted:#6B5A34;
+  --rule:#C9B898;
+  --accent:#CC4B24;
+  --accent-wash:rgba(204,75,36,.09);
+  --accent2:#317039;
+  --accent3:#F1BE49;
+  --heading:"Avenir Next","Avenir","PingFang SC","Hiragino Sans GB",sans-serif;
+  --glow:rgba(255,255,255,.48);
+  --glow-edge:rgba(255,241,212,0);
+  --stage-glow-1:rgba(241,190,73,.26);
+  --stage-glow-2:rgba(255,241,212,.82);
+  --stage-glow-3:rgba(255,248,235,0);
+  --deco-line:#18351E;
+  --deco-terra:#CC4B24;
+  --deco-olive:#317039;
+  --deco-gold:#F1BE49;
+  --deco-rose:#E4A98F;
+  --deco-cream:#FFF8EB;
+}

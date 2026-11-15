@@ -1,0 +1,25 @@
+/* 多巴胺波普：创造力、行为心理、文化、潮流与反常识主题。 */
+:root{
+  --paper:#FFF8EB;
+  --card:#FFFFFF;
+  --ink:#111111;
+  --ink2:#343434;
+  --muted:#696969;
+  --rule:#B7B7B7;
+  --accent:#FF5A9D;
+  --accent-wash:rgba(255,90,157,.12);
+  --accent2:#3158FF;
+  --accent3:#FFE45C;
+  --heading:"Avenir Next","Avenir","PingFang SC","Hiragino Sans GB",sans-serif;
+  --glow:rgba(255,255,255,.55);
+  --glow-edge:rgba(255,248,235,0);
+  --stage-glow-1:rgba(255,228,92,.32);
+  --stage-glow-2:rgba(255,248,235,.82);
+  --stage-glow-3:rgba(255,248,235,0);
+  --deco-line:#111111;
+  --deco-terra:#FF5A9D;
+  --deco-olive:#3158FF;
+  --deco-gold:#FFE45C;
+  --deco-rose:#FF9BC4;
+  --deco-cream:#FFFFFF;
+}

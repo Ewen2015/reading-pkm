@@ -12,7 +12,8 @@ machine-checkable subset of those rules into a gate that exits non-zero.
 Rules checked (source: references/cards.md, references/copywriting.md, SKILL.md):
     1. 成品里没有半成品标记（待核实／需查证／据称…），正文与卡片一起查
     2. 正文没有 Markdown 加粗（`**字**` 在平台上会原样显示）
-    3. 强调色一号是 Volvo Safety Orange #FD6408
+    3. 书主题色板与 manifest 一致；2026-11-16 起新稿必须声明 palette，
+       旧稿的暖纸安全橙 #FD6408 继续兼容
     4. 封面素材存在、是 RGB、宽度达到交付画布下限
     5. 成品目录里只有一个标题／正文版本（没有 body-v2.txt 这类并行版本）
     6. 正文没有人设的"反面清单"词，也没有"把条目做成模板"的结构信号——AI 味连接词与行话、
@@ -42,7 +43,9 @@ from pathlib import Path
 HALF_BAKED = ["需查证", "待核实", "待考", "据称", "据传", "未经核对", "未逐条核对",
               "存疑", "待补", "待确认", "待定", "TODO", "TBD", "FIXME"]
 
-ACCENT_WANT = "FD6408"
+LEGACY_ACCENT = "FD6408"
+PALETTE_REQUIRED_FROM = "2026-11-16"
+PALETTES_FILE = Path(__file__).resolve().parents[1] / "assets" / "palettes.json"
 COVER_FLOOR = 900
 
 # 封面的主题装饰层（references/cards.md「封面改造」）。默认每本都加，主题必须从书里来。
@@ -170,7 +173,15 @@ def scan_bold(post: Path) -> tuple[bool, str]:
     return True, ""
 
 
-def scan_accent(post: Path) -> tuple[bool, str]:
+def palette_config() -> dict:
+    try:
+        cfg = json.loads(read(PALETTES_FILE))
+    except json.JSONDecodeError:
+        return {}
+    return cfg if isinstance(cfg, dict) else {}
+
+
+def scan_accent(post: Path, manifest: dict) -> tuple[bool, str]:
     build = post / "build"
     css = [p for p in ([build / "card.css"] if build.is_dir() else [])
            + (sorted(build.glob("*.css")) if build.is_dir() else [])]
@@ -183,10 +194,56 @@ def scan_accent(post: Path) -> tuple[bool, str]:
             seen.append((f.name, m.group(1).lstrip("#").upper()))
     if not seen:
         return False, "build/ 里找不到 --accent 定义，强调色没验过"
-    bad = [f"{n}={v}" for n, v in seen if v != ACCENT_WANT]
+
+    palette = manifest.get("palette") if isinstance(manifest, dict) else None
+    if isinstance(palette, dict) and str(palette.get("id") or "").strip():
+        pid = str(palette["id"]).strip()
+        cfg = palette_config()
+        item = (cfg.get("palettes") or {}).get(pid)
+        if not isinstance(item, dict):
+            return False, f"manifest.palette.id={pid} 不在 assets/palettes.json 里"
+        if not str(palette.get("reason") or "").strip():
+            return False, "manifest.palette.reason 为空——要写清这本书的主题为什么适合这套色板"
+        palette_css = build / "palette.css"
+        if not palette_css.is_file():
+            return False, "缺少 build/palette.css——用 scripts/apply_palette.py 落地色板"
+        linked = [p.name for p in sorted(build.glob("*.html"))
+                  if re.search(r'href=["\']palette\.css["\']', read(p), re.I)]
+        unlinked = [p.name for p in sorted(build.glob("*.html")) if p.name not in linked]
+        if unlinked:
+            return False, "这些 HTML 没在 card.css 后接 palette.css：" + "、".join(unlinked)
+        target = str(((item.get("colors") or {}).get("accent") or "")).lstrip("#").upper()
+        if not target:
+            return False, f"色板 {pid} 没有 colors.accent"
+        seen_palette = []
+        for m in re.finditer(
+            r"--accent\s*:\s*(#[0-9A-Fa-f]{6}|#[0-9A-Fa-f]{3})", read(palette_css)
+        ):
+            seen_palette.append(m.group(1).lstrip("#").upper())
+        bad = [v for v in seen_palette if v != target]
+        if not seen_palette or bad:
+            return False, (
+                f"palette.css 的 --accent 必须是 #{target}"
+                f"（读到：{', '.join(seen_palette) or '无'}）"
+            )
+        return True, f"#{target} · {item.get('name') or pid}（{pid}）"
+
+    read_at = ""
+    sv = manifest.get("source_verification") if isinstance(manifest, dict) else None
+    if isinstance(sv, dict):
+        read_at = str(sv.get("read_at") or "")
+    bad = [f"{n}={v}" for n, v in seen if v != LEGACY_ACCENT]
     if bad:
-        return False, f"强调色不是 #{ACCENT_WANT}（{'、'.join(bad)}）——不要用绿色或别的色"
-    return True, f"# {ACCENT_WANT}（{seen[0][0]}）"
+        return False, (
+            f"没有声明 palette，而旧版兼容色应为 #{LEGACY_ACCENT}（{'、'.join(bad)}）；"
+            "新稿先选书主题色板并跑 apply_palette.py"
+        )
+    if read_at >= PALETTE_REQUIRED_FROM:
+        return False, (
+            f"这篇 read_at={read_at}，属于 {PALETTE_REQUIRED_FROM} 后的新稿；"
+            "必须声明 manifest.palette 并接 build/palette.css"
+        )
+    return True, f"#{LEGACY_ACCENT}（旧版暖纸编辑色板；新稿请声明 palette）"
 
 
 def png_size(path: Path) -> tuple[int, int, str] | None:
@@ -422,7 +479,7 @@ def main() -> int:
 
     add("成品无半成品标记", *scan_tokens(post))
     add("正文无 Markdown 加粗", *scan_bold(post))
-    add("强调色是 #FD6408", *scan_accent(post))
+    add("书主题色板与 manifest 一致", *scan_accent(post, manifest))
     ok, detail, notes = scan_cover(post, manifest)
     add("封面素材可用（RGB／宽度）", ok, detail)
     warns.extend(notes)

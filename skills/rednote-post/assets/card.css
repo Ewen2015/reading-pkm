@@ -4,23 +4,30 @@
  * 1 × (屏宽 / 1080)。正文低于 24px 在手机上就吃力了。改这套令牌，
  * 不要逐处改字号——也不要用缩字号来解决放不下的问题（放不下就删内容）。
  *
- * 换配色只改下面这一组颜色变量（在 :root 里）。
- * 强调色 1 沿用 Volvo Cars 的 Safety Orange（见 volvo-cars-powerpoint skill，accent4）；
- * 改 --accent 时必须同步改 --accent-wash，两者是同一色的字与底。
+ * 新 post 不要手动改这里的配色。先读 references/palettes.md，用
+ * scripts/apply_palette.py 把书主题色板写成 build/palette.css，并在 card.css 后覆盖。
+ * 这里的祖母绿令牌只是默认兜底；旧 post 若没有 palette.css，仍按这一套渲染。
  */
 
 :root{
-  --paper:#F3EEE5;      /* 页面底色：暖纸 */
-  --card:#FBF8F3;       /* 卡片面 */
-  --ink:#17140E;        /* 主文字：深墨 */
-  --ink2:#332E25;       /* 次文字 */
-  --muted:#6B6459;      /* 弱文字 */
-  --rule:#DAD2C3;       /* 分割线 */
-  --accent:#FD6408;     /* 强调色 1：Volvo Safety Orange，做信号 */
-  --accent-wash:rgba(253,100,8,.06);  /* 强调色的极淡底，用于引用块/信息块 */
-  --accent2:#9A7B45;    /* 强调色 2：金 */
+  --paper:#FFF8EB;      /* 默认：祖母绿信号 */
+  --card:#FFF1D4;
+  --ink:#18351E;
+  --ink2:#3D4A3E;
+  --muted:#6B5A34;
+  --rule:#C9B898;
+  --accent:#CC4B24;
+  --accent-wash:rgba(204,75,36,.09);
+  --accent2:#317039;
+  --accent3:#F1BE49;
+  --heading:"Avenir Next","Avenir","PingFang SC","Hiragino Sans GB",sans-serif;
   --serif:"Songti SC","STSong","Source Han Serif SC",serif;
   --sans:"PingFang SC","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;
+  --glow:rgba(255,255,255,.48);
+  --glow-edge:rgba(255,241,212,0);
+  --stage-glow-1:rgba(241,190,73,.26);
+  --stage-glow-2:rgba(255,241,212,.82);
+  --stage-glow-3:rgba(255,248,235,0);
 }
 
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -33,44 +40,44 @@ body{font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased
 }
 .card::after{
   content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(120% 70% at 50% 0%,rgba(255,255,255,.5),rgba(233,225,212,0) 62%);
+  background:radial-gradient(120% 70% at 50% 0%,var(--glow),var(--glow-edge) 62%);
 }
 
 /* ---- 卡片 chrome：眉标 → 分割线 → 栏目标签 → 标题 -------------------- */
 .top{display:flex;justify-content:space-between;align-items:baseline;
   position:relative;z-index:2;}
-.kicker{font-size:17px;letter-spacing:.22em;color:#968D7E;}
+.kicker{font-size:17px;letter-spacing:.22em;color:var(--muted);}
 .rule{height:1px;background:var(--rule);margin:20px 0 0;position:relative;z-index:2;}
 .rlab{margin-top:44px;font-size:19px;letter-spacing:.20em;color:var(--accent2);
   position:relative;z-index:2;}
-h1{font-family:var(--serif);font-weight:600;font-size:74px;line-height:1.24;
+h1{font-family:var(--heading);font-weight:700;font-size:74px;line-height:1.18;
   margin-top:14px;letter-spacing:.005em;position:relative;z-index:2;}
 .hsub{margin-top:16px;font-size:24px;line-height:1.55;color:var(--muted);
   position:relative;z-index:2;}
 .foot{position:absolute;left:84px;right:84px;bottom:60px;display:flex;
   justify-content:space-between;padding-top:20px;border-top:1px solid var(--rule);
-  font-size:18px;color:#968D7E;letter-spacing:.10em;z-index:2;}
+  font-size:18px;color:var(--muted);letter-spacing:.10em;z-index:2;}
 
 /* ---- 编号条目：核心机制 / 观点列表 ------------------------------------ */
 .rows{margin-top:46px;position:relative;z-index:2;}
 .row{display:flex;gap:28px;padding:26px 0;border-top:1px solid var(--rule);}
 .row:last-of-type{border-bottom:1px solid var(--rule);}
-.num{font-family:var(--serif);font-size:44px;color:var(--accent2);line-height:1;
+.num{font-family:var(--heading);font-size:44px;color:var(--accent2);line-height:1;
   min-width:64px;}
 .rt{font-size:38px;font-weight:600;line-height:1.28;}
-.rt span{font-weight:400;font-size:23px;color:#968D7E;letter-spacing:.04em;
+.rt span{font-weight:400;font-size:23px;color:var(--muted);letter-spacing:.04em;
   margin-left:10px;}
 .rd{margin-top:10px;font-size:28px;line-height:1.58;color:var(--ink2);}
-.rd em{font-style:normal;color:#968D7E;font-size:24px;}
+.rd em{font-style:normal;color:var(--muted);font-size:24px;}
 
 /* ---- 紧凑列表：条目 + 一句「所以怎么用」 ------------------------------ */
 .list{margin-top:26px;position:relative;z-index:2;}
 .item{display:flex;gap:24px;padding:11px 0;border-top:1px solid var(--rule);}
 .item:last-of-type{border-bottom:1px solid var(--rule);}
-.k2{font-family:var(--serif);font-size:34px;color:var(--accent2);line-height:1;
+.k2{font-family:var(--heading);font-size:34px;color:var(--accent2);line-height:1;
   min-width:50px;}
 .tt{font-size:33px;font-weight:600;line-height:1.26;}
-.tt span{font-weight:400;font-size:20px;color:#968D7E;margin-left:8px;}
+.tt span{font-weight:400;font-size:20px;color:var(--muted);margin-left:8px;}
 .td{margin-top:6px;font-size:24px;line-height:1.44;color:var(--ink2);}
 .use{margin-top:6px;font-size:24px;line-height:1.44;color:var(--accent);}
 
@@ -84,7 +91,7 @@ h1{font-family:var(--serif);font-weight:600;font-size:74px;line-height:1.24;
 
 .quote{margin-top:40px;padding:30px 36px;background:var(--accent-wash);
   border-left:4px solid var(--accent);position:relative;z-index:2;}
-.quote b{display:block;font-family:var(--serif);font-size:50px;color:var(--accent);
+.quote b{display:block;font-family:var(--heading);font-size:50px;color:var(--accent);
   line-height:1.25;}
 .quote i{display:block;margin-top:12px;font-style:normal;font-size:27px;
   color:var(--muted);letter-spacing:.02em;}
@@ -115,9 +122,9 @@ h1{font-family:var(--serif);font-weight:600;font-size:74px;line-height:1.24;
 }
 
 .stage{position:relative;height:845px;margin:30px -84px 0;}   /* -84：让装饰出血到卡片边 */
-.stage::before{content:"";position:absolute;inset:0;          /* 书周围一层极淡的暖晕，没有硬边 */
-  background:radial-gradient(78% 62% at 50% 51%,rgba(224,211,188,.95) 0%,
-    rgba(228,217,197,.78) 44%,rgba(234,225,208,.38) 72%,rgba(243,238,229,0) 100%);}
+.stage::before{content:"";position:absolute;inset:0;          /* 书周围一层极淡的主题晕，没有硬边 */
+  background:radial-gradient(78% 62% at 50% 51%,var(--stage-glow-1) 0%,
+    var(--stage-glow-2) 54%,var(--stage-glow-3) 100%);}
 .deco{position:absolute;inset:0;width:1080px;height:845px;display:block;}
 .deco .inked{filter:url(#ink);}        /* 一点点手抖，去掉"纯矢量"味；滤镜定义写在 cover.html 里 */
 .book{position:absolute;left:50%;top:29px;transform:translateX(-50%);width:500px;z-index:2;}

@@ -100,8 +100,18 @@ metadata:
 尺寸固定 1080×1440（3:4，小红书信息流原生比例）。字号下限、卡片类型和素材处理见
 [`references/cards.md`](references/cards.md)。
 
-**强调色用 Volvo Safety Orange `#FD6408`（`--accent`），不要用绿色**；它是信号色，
-只点短句与关键词，成段正文走 `--ink2`（橙色在暖纸底上只有约 2.6:1 对比度）。
+**先按书的主题选色板，再写卡片 HTML。** 不要默认沿用旧的暖纸 + 橙字编辑风。
+先读 [`references/palettes.md`](references/palettes.md)，从 `emerald-signal` /
+`nordic-functional` / `dopamine-pop` 里选一套，用：
+
+```bash
+python3 <skill>/scripts/apply_palette.py <post-dir> <palette-id> \
+  --reason "这本书的主题为什么适合这套色板"
+```
+
+脚本会把色板写成 `build/palette.css` 并接到 `card.css` 后，同时写进 `manifest.json.palette`。
+一套色板贯穿整篇，不在五张里混搭。`--accent` 只点短句、关键词、序号和引用边线；
+成段正文一律走 `--ink2`。
 
 **源素材要转成 RGB PNG 并确认方向**——手机拍的 HEIC 常带 EXIF 旋转，直接 `Image.open()` 会歪。
 
@@ -116,7 +126,7 @@ metadata:
 [`references/cards.md`](references/cards.md#本账号实测封面是唯一被平台判有待提升的一环2026-10-11)。
 
 手边有实物就自己拍（自带"我真读过"的证据，最不像广告）；没有实物就用电子封面，
-但要靠版式做"软"——铺在暖纸底上、压一点饱和、加一层柔和阴影，别做成电商白底商品图；
+但要靠版式做"软"——铺在所选色板的 `--paper` 上、压一点饱和、加一层柔和阴影，别做成电商白底商品图；
 带水印或促销角标的一律不能用。实拍先用 [`scripts/prep_cover.py`](scripts/prep_cover.py) 摊平
 （`grid` 读四角 → `flat` 校正），电子封面只需**转 RGB PNG 并确认宽度 ≥1600px**。
 处理完**贴给用户看一眼**再排版。选材判据与退路见
@@ -145,7 +155,7 @@ python3 <skill>/scripts/render_cards.py <post-dir>
 python3 <skill>/scripts/check_content.py <post-dir>
 ```
 
-它查的是 `render_cards.py` 看不见的"意思"——半成品标记、正文加粗、强调色 `#FD6408`、
+它查的是 `render_cards.py` 看不见的"意思"——半成品标记、正文加粗、书主题色板与 manifest 是否一致、
 封面素材是否可用、有没有并存的第二版本文案、**正文有没有编出来的故事**、封面装饰层。规则写在
 [`references/copywriting.md`](references/copywriting.md) 和
 [`references/cards.md`](references/cards.md) 里，但**判据落在脚本里**，
@@ -258,7 +268,7 @@ python3 <skill>/scripts/xhs.py check-published "<标题>"
 
 ```
 <post-dir>/
-|-- manifest.json      图片清单与渲染参数（render_cards.py 读）；建议带 cover.source 声明封面出处
+|-- manifest.json      图片清单与渲染参数；带 cover.source、palette.id/reason
 |-- title.txt          标题，≤20 字
 |-- body.txt           正文，≤1000 字
 |-- build/             卡片 HTML + 复制的 card.css
@@ -286,9 +296,11 @@ python3 <skill>/scripts/xhs.py status
   可摆动的部分、反面清单、写完自查、怎么更新）
 - [`references/copywriting.md`](references/copywriting.md)——标题公式、正文骨架、字数与标签规则
 - [`references/cards.md`](references/cards.md)——1080×1440 卡片系统、字号下限、素材处理
+- [`references/palettes.md`](references/palettes.md)——按书主题选色板、manifest 声明与落地命令
 - [`references/publishing.md`](references/publishing.md)——桥接环境、选择器、故障排查、发布后核验
 - [`scripts/prep_cover.py`](scripts/prep_cover.py)——把手机拍的实体书封面摊平成卡片可用图（`grid` / `flat`）
 - [`scripts/analytics.py`](scripts/analytics.py)——读平台数据看板：`fetch` 落快照、`report` 出表
   （曝光／封面点击率／收藏率／同类诊断／观看来源）。定角度和做封面前先看一眼最新快照
+- [`scripts/apply_palette.py`](scripts/apply_palette.py)——把选中的书主题色板写入 post
 - [`../human-writing/SKILL.md`](../human-writing/SKILL.md)——**写这一步调它**：去 AI 味 +
   贴人设（声音指纹、人设文件合约、可以直接跑的 `human_check.py`）
