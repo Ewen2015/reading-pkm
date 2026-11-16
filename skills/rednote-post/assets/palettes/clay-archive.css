@@ -1,0 +1,25 @@
+/* 陶土档案：历史、记忆、人文研究、身份与边疆。 */
+:root{
+  --paper:#EFE5D6;
+  --card:#FAF3E8;
+  --ink:#261E18;
+  --ink2:#4B3F34;
+  --muted:#756656;
+  --rule:#C7B59D;
+  --accent:#B4492F;
+  --accent-wash:rgba(180,73,47,.09);
+  --accent2:#3F5B49;
+  --accent3:#C39A4A;
+  --heading:"Avenir Next","Avenir","PingFang SC","Hiragino Sans GB",sans-serif;
+  --glow:rgba(255,255,255,.44);
+  --glow-edge:rgba(239,229,214,0);
+  --stage-glow-1:rgba(195,154,74,.24);
+  --stage-glow-2:rgba(250,243,232,.82);
+  --stage-glow-3:rgba(239,229,214,0);
+  --deco-line:#261E18;
+  --deco-terra:#B4492F;
+  --deco-olive:#3F5B49;
+  --deco-gold:#C39A4A;
+  --deco-rose:#C88B76;
+  --deco-cream:#FAF3E8;
+}

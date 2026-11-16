@@ -1,9 +1,15 @@
 {
-  "version": 1,
+  "version": 2,
   "default": "emerald-signal",
+  "selection": {
+    "mode": "random_within_theme_candidates",
+    "avoid_recent_posts": 1,
+    "minimum_candidates": 2
+  },
   "palettes": {
     "emerald-signal": {
       "name": "祖母绿信号",
+      "family": "organic / grounded",
       "temperament": "organic, grounded, high-contrast",
       "use_for": [
         "成长与自我发展",
@@ -30,6 +36,7 @@
     },
     "nordic-functional": {
       "name": "北欧功能主义",
+      "family": "cool / analytical",
       "temperament": "cool, analytical, restrained",
       "use_for": [
         "科学、技术与工程",
@@ -55,6 +62,7 @@
     },
     "dopamine-pop": {
       "name": "多巴胺波普",
+      "family": "energetic / pop",
       "temperament": "energetic, playful, attention-seeking",
       "use_for": [
         "创造力与表达",
@@ -77,6 +85,84 @@
         "accent": "#FF5A9D",
         "accent2": "#3158FF",
         "accent3": "#FFE45C"
+      }
+    },
+    "clay-archive": {
+      "name": "陶土档案",
+      "family": "archival / humanistic",
+      "temperament": "warm, archival, reflective",
+      "use_for": [
+        "历史、记忆与档案",
+        "社会学、人类学与人文随笔",
+        "身份、边疆与文化研究",
+        "需要纸张感但不做旧的内容"
+      ],
+      "avoid_for": [
+        "需要高能传播和派对感的主题",
+        "封面本身已经是大面积荧光色"
+      ],
+      "colors": {
+        "paper": "#EFE5D6",
+        "card": "#FAF3E8",
+        "ink": "#261E18",
+        "ink2": "#4B3F34",
+        "muted": "#756656",
+        "rule": "#C7B59D",
+        "accent": "#B4492F",
+        "accent2": "#3F5B49",
+        "accent3": "#C39A4A"
+      }
+    },
+    "cobalt-editorial": {
+      "name": "钴蓝编辑",
+      "family": "editorial / technological",
+      "temperament": "bright, cerebral, editorial",
+      "use_for": [
+        "互联网、技术与媒介",
+        "创新、商业与未来趋势",
+        "设计、传播与知识生产",
+        "需要现代编辑感的方法论"
+      ],
+      "avoid_for": [
+        "需要古典档案气质的史学主题",
+        "以暖色情绪为主的回忆录"
+      ],
+      "colors": {
+        "paper": "#F2EEE4",
+        "card": "#FFFDF7",
+        "ink": "#131A24",
+        "ink2": "#34404C",
+        "muted": "#66717B",
+        "rule": "#B5BEC5",
+        "accent": "#2456D8",
+        "accent2": "#E76035",
+        "accent3": "#B9CF4A"
+      }
+    },
+    "citrus-noir": {
+      "name": "柑橘黑标",
+      "family": "attention / cultural",
+      "temperament": "sharp, witty, high-contrast",
+      "use_for": [
+        "注意力、平台与互联网文化",
+        "反常识、行为与消费观察",
+        "创意、传播与青年文化",
+        "短句密度高的观点稿"
+      ],
+      "avoid_for": [
+        "战争、灾难、死亡与创伤",
+        "需要长篇制度分析的主题"
+      ],
+      "colors": {
+        "paper": "#F6F0C9",
+        "card": "#FFFDF3",
+        "ink": "#171713",
+        "ink2": "#3C3C32",
+        "muted": "#6B6756",
+        "rule": "#C6BD90",
+        "accent": "#EA5A2A",
+        "accent2": "#151515",
+        "accent3": "#B8D432"
       }
     }
   }

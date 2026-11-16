@@ -1,0 +1,25 @@
+/* 钴蓝编辑：互联网、技术、创新、媒介与知识生产。 */
+:root{
+  --paper:#F2EEE4;
+  --card:#FFFDF7;
+  --ink:#131A24;
+  --ink2:#34404C;
+  --muted:#66717B;
+  --rule:#B5BEC5;
+  --accent:#2456D8;
+  --accent-wash:rgba(36,86,216,.08);
+  --accent2:#E76035;
+  --accent3:#B9CF4A;
+  --heading:"Avenir Next","Avenir","PingFang SC","Hiragino Sans GB",sans-serif;
+  --glow:rgba(255,255,255,.52);
+  --glow-edge:rgba(242,238,228,0);
+  --stage-glow-1:rgba(36,86,216,.18);
+  --stage-glow-2:rgba(255,253,247,.82);
+  --stage-glow-3:rgba(242,238,228,0);
+  --deco-line:#131A24;
+  --deco-terra:#2456D8;
+  --deco-olive:#E76035;
+  --deco-gold:#B9CF4A;
+  --deco-rose:#8FA6BF;
+  --deco-cream:#FFFDF7;
+}

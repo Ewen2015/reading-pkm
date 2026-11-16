@@ -24,6 +24,7 @@ Rules checked (source: references/cards.md, references/copywriting.md, SKILL.md)
     9. 正文没编故事——第一人称的他人故事（"我朋友…"）、编出来的对话、亲身经历（"上个月我…"）。
        具体必须是真的：书里写的、公开可查的、或读者的处境。要写真的第一人称素材，
        在 manifest.json 里写一句 real_material 说明来路；见 references/persona.md 第 3 节第 1 条
+   10. 连续两篇不使用同一个色板——读取同工作区里排期最近的一篇；旧稿未启用 anti_repeat 时跳过
 
 Not machine-checkable here, only warned about: 封面"是不是这本书真实存在的封面"——那需要
 一条声明字段，见 manifest.json 的 cover.source；以及 cover.hypothesis——封面点击率是本号
@@ -39,6 +40,8 @@ import os
 import re
 import sys
 from pathlib import Path
+
+from palette_utils import most_recent_other_palette
 
 HALF_BAKED = ["需查证", "待核实", "待考", "据称", "据传", "未经核对", "未逐条核对",
               "存疑", "待补", "待确认", "待定", "TODO", "TBD", "FIXME"]
@@ -244,6 +247,30 @@ def scan_accent(post: Path, manifest: dict) -> tuple[bool, str]:
             "必须声明 manifest.palette 并接 build/palette.css"
         )
     return True, f"#{LEGACY_ACCENT}（旧版暖纸编辑色板；新稿请声明 palette）"
+
+
+def scan_palette_repeat(post: Path, manifest: dict) -> tuple[bool, str]:
+    """Adjacent posts must not reuse the same palette.
+
+    Only posts created with the new selector are enforced, so legacy posts whose
+    palette predates this rule are not retroactively failed.
+    """
+    palette = manifest.get("palette") if isinstance(manifest, dict) else None
+    if not isinstance(palette, dict):
+        return True, ""
+    selection = palette.get("selection")
+    if not isinstance(selection, dict) or not selection.get("anti_repeat"):
+        return True, "旧稿未启用 anti_repeat"
+    current = str(palette.get("id") or "").strip()
+    previous = most_recent_other_palette(post)
+    if previous and previous["id"] == current:
+        return False, (
+            f"连续两篇都用了 {current}；上一篇是《{previous['name_label']}》"
+            f"（{previous['scheduled_for'] or '无排期'}）"
+        )
+    if previous:
+        return True, f"{current} ≠ 上一篇 {previous['id']}"
+    return True, f"{current}（没有上一篇可比）"
 
 
 def png_size(path: Path) -> tuple[int, int, str] | None:
@@ -480,6 +507,7 @@ def main() -> int:
     add("成品无半成品标记", *scan_tokens(post))
     add("正文无 Markdown 加粗", *scan_bold(post))
     add("书主题色板与 manifest 一致", *scan_accent(post, manifest))
+    add("连续两篇色板不重复", *scan_palette_repeat(post, manifest))
     ok, detail, notes = scan_cover(post, manifest)
     add("封面素材可用（RGB／宽度）", ok, detail)
     warns.extend(notes)

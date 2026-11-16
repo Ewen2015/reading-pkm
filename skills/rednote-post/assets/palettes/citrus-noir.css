@@ -1,0 +1,25 @@
+/* 柑橘黑标：注意力、平台文化、反常识与传播观察。 */
+:root{
+  --paper:#F6F0C9;
+  --card:#FFFDF3;
+  --ink:#171713;
+  --ink2:#3C3C32;
+  --muted:#6B6756;
+  --rule:#C6BD90;
+  --accent:#EA5A2A;
+  --accent-wash:rgba(234,90,42,.10);
+  --accent2:#151515;
+  --accent3:#B8D432;
+  --heading:"Avenir Next","Avenir","PingFang SC","Hiragino Sans GB",sans-serif;
+  --glow:rgba(255,255,255,.50);
+  --glow-edge:rgba(246,240,201,0);
+  --stage-glow-1:rgba(184,212,50,.22);
+  --stage-glow-2:rgba(255,253,243,.78);
+  --stage-glow-3:rgba(246,240,201,0);
+  --deco-line:#171713;
+  --deco-terra:#EA5A2A;
+  --deco-olive:#B8D432;
+  --deco-gold:#D7B74D;
+  --deco-rose:#F1A57C;
+  --deco-cream:#FFFDF3;
+}

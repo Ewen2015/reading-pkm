@@ -100,16 +100,18 @@ metadata:
 尺寸固定 1080×1440（3:4，小红书信息流原生比例）。字号下限、卡片类型和素材处理见
 [`references/cards.md`](references/cards.md)。
 
-**先按书的主题选色板，再写卡片 HTML。** 不要默认沿用旧的暖纸 + 橙字编辑风。
-先读 [`references/palettes.md`](references/palettes.md)，从 `emerald-signal` /
-`nordic-functional` / `dopamine-pop` 里选一套，用：
+**先按书的主题选色板，再写卡片 HTML。** 不要默认沿用旧的暖纸 + 橙字编辑风，
+也不要每次都拿北欧功能主义。先读 [`references/palettes.md`](references/palettes.md)，
+列出 2–3 套主题上都能接受的候选，再随机选一套；连续两篇不能同色：
 
 ```bash
-python3 <skill>/scripts/apply_palette.py <post-dir> <palette-id> \
-  --reason "这本书的主题为什么适合这套色板"
+python3 <skill>/scripts/apply_palette.py <post-dir> auto \
+  --candidates clay-archive,cobalt-editorial,dopamine-pop \
+  --reason "这本书的主题为什么适合这些候选"
 ```
 
-脚本会把色板写成 `build/palette.css` 并接到 `card.css` 后，同时写进 `manifest.json.palette`。
+脚本会读取同工作区最近一篇的排期并排除同色，把色板写成 `build/palette.css`、
+接到 `card.css` 后，同时写进 `manifest.json.palette`。手选某个色板也会做同样的防重复检查。
 一套色板贯穿整篇，不在五张里混搭。`--accent` 只点短句、关键词、序号和引用边线；
 成段正文一律走 `--ink2`。
 

@@ -296,15 +296,18 @@ python3 <skill>/scripts/cover_deco.py --preset garland > /tmp/deco.svg
 [`assets/cover.html`](../assets/cover.html)（封面）和 [`assets/card.html`](../assets/card.html)
 （内容卡，编号条目与紧凑列表两种区块任选）改内容。
 
-配色不要从旧模板默认值开始。先按 [`palettes.md`](palettes.md) 判断书的主题，再跑：
+配色不要从旧模板默认值开始，也不要每次都用 `nordic-functional`。先按
+[`palettes.md`](palettes.md) 判断书的主题，列出 2–3 套可接受候选，再跑：
 
 ```bash
-python3 <skill>/scripts/apply_palette.py <post-dir> <palette-id> \
-  --reason "这本书的主题为什么适合这套色板"
+python3 <skill>/scripts/apply_palette.py <post-dir> auto \
+  --candidates clay-archive,cobalt-editorial,dopamine-pop \
+  --reason "这本书的主题为什么适合这些候选"
 ```
 
-`apply_palette.py` 会生成 `build/palette.css`，并在每个 HTML 的 `card.css` 后接入。
-不要手改多份散色值；`check_content.py` 会核对 manifest、palette.css 和页面引用。
+`apply_palette.py` 会排除上一篇用过的色板，生成 `build/palette.css`，并在每个 HTML 的
+`card.css` 后接入。不要手改多份散色值；`check_content.py` 会核对 manifest、palette.css、
+页面引用和连续两篇是否同色。
 
 **CSS 必须和 HTML 同目录**，用相对路径引用。渲染器测量时会生成一个同目录的临时副本；
 相对路径断了的话量到的是没有样式的页面（整版 16px），会被误读成"设计太差"。
@@ -312,7 +315,7 @@ python3 <skill>/scripts/apply_palette.py <post-dir> <palette-id> \
 ## 版式约定
 
 所有卡片共用一套 chrome：顶部左右眉标 → 1px 分割线 → 栏目标签 → 大标题 → 内容区 → 底部页脚。
-分割线只做**分区**，不做装饰。标题走色板里的 `--heading`，当前三套都是系统无衬线；
+分割线只做**分区**，不做装饰。标题走色板里的 `--heading`，当前六套都是系统无衬线；
 正文继续走 `--sans`。不要再默认回到暖纸 + 宋体 + 橙色这一套 Anthropic 风。
 
 内容区就从 [`assets/card.css`](../assets/card.css) 里这几个块里挑，别自己另起一套：
@@ -337,11 +340,14 @@ python3 <skill>/scripts/apply_palette.py <post-dir> <palette-id> \
 出处行只写「第几首/第几章 + 一句话主题」，不要把整段原文的来源注脚抄进卡片。
 译文按人设走——平视、不用书面腔；原文里的斜体、引号照原样保留（那是作者的重音）。
 
-三套书主题色板与选择规则见 [`palettes.md`](palettes.md)：
+六套书主题色板与选择规则见 [`palettes.md`](palettes.md)：
 
-- `emerald-signal`：成长、组织、商业、自然、长期主义，默认。
+- `emerald-signal`：成长、组织、商业、自然、长期主义。
 - `nordic-functional`：科学、技术、经济、制度、战略、哲学、认知。
 - `dopamine-pop`：创造力、行为心理、文化、潮流、青年、反常识；不用于灾难与创伤。
+- `clay-archive`：历史、档案、社会学、人类学、身份与边疆研究。
+- `cobalt-editorial`：互联网、技术、创新、媒介、设计与知识生产。
+- `citrus-noir`：平台文化、行为观察、传播、青年文化、短句观点；不用于灾难与创伤。
 
 强调色**只做信号**（序号、关键词、引用块边线），不铺面积。高亮字走 `--accent`，
 淡底走同色系 `--accent-wash`，成段正文一律退回 `--ink2`。单篇只选一套，不混搭。
